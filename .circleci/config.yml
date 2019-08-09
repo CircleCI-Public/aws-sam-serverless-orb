@@ -20,7 +20,7 @@ orbs:
   orb-tools: circleci/orb-tools@8.27.3
 
 jobs:
-  test-build:
+  test_build:
     executor: default
     steps:
       - checkout
