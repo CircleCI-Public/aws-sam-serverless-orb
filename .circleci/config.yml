@@ -7,6 +7,15 @@ orbs:
   aws-serverless: circleci/aws-serverless@dev:alpha
   orb-tools: circleci/orb-tools@8.27.3
 
+jobs:
+  test-build:
+    executor: default
+    steps:
+      - checkout
+      - build:
+          s3-bucket: "orb-testing"
+          template: "./sample_test/sam_app"
+
 workflows:
   # this `lint-pack_validate_publish-dev` workflow will run on any commit
   lint-pack_validate_publish-dev:
@@ -56,59 +65,6 @@ workflows:
             branches:
               only: master
 
-  # this `integration-tests_prod-release` workflow will ignore commits
-  # it is only triggered by git tags, which are created in the job above
-  # integration-tests_prod-release:
-  #   jobs:
-  #     # - your integration test jobs go here
-  #     # - you will want to call each integration testing job twice,
-  #     # - each under a different name:
-  #     # - once, for integration tests triggered by non-master-branch commits
-  #     # - and again, for tests triggered by commits to master
-  #     # - only commits to master should potentially trigger a prod release
-
-  #     # patch, minor, or major publishing
-  #     - orb-tools/dev-promote-prod:
-  #         name: dev-promote-patch
-  #         orb-name: circleci/orb-tools
-  #         ssh-fingerprints: # your SSH key fingerprint
-  #         cleanup-tags: true
-  #         requires:
-  #           # - your integration testing jobs go here
-  #         filters:
-  #           branches:
-  #             ignore: /.*/
-  #           tags:
-  #             only: /master-patch.*/
-
-  #     - orb-tools/dev-promote-prod:
-  #         name: dev-promote-minor
-  #         release: minor
-  #         orb-name: circleci/orb-tools
-  #         ssh-fingerprints: # your SSH key fingerprint
-  #         cleanup-tags: true
-  #         requires:
-  #           # - your integration testing jobs go here
-  #         filters:
-  #           branches:
-  #             ignore: /.*/
-  #           tags:
-  #             only: /master-minor.*/
-
-  #     - orb-tools/dev-promote-prod:
-  #         name: dev-promote-major
-  #         release: major
-  #         orb-name: circleci/orb-tools
-  #         ssh-fingerprints: # your SSH key fingerprint
-  #         cleanup-tags: true
-  #         requires:
-  #           # - your integration testing jobs go here
-  #         filters:
-  #           branches:
-  #             ignore: /.*/
-  #           tags:
-  #             only: /master-major.*/
-
 # yaml anchor filters
 integration-dev_filters: &integration-dev_filters
   branches:
@@ -121,3 +77,64 @@ integration-master_filters: &integration-master_filters
     ignore: /.*/
   tags:
     only: /master-.*/
+
+
+  # this `integration-tests_prod-release` workflow will ignore commits
+  # it is only triggered by git tags, which are created in the job above
+  integration-tests_prod-release:
+    jobs:
+      # - your integration test jobs go here
+      # - you will want to call each integration testing job twice,
+      # - each under a different name:
+      # - once, for integration tests triggered by non-master-branch commits
+      # - and again, for tests triggered by commits to master
+      # - only commits to master should potentially trigger a prod release
+      - test-build:
+          name: test-build-master
+          filters: *integration-master_filters
+
+      - test-build:
+          name: test-build-integration
+          filters: *integration-dev_filters
+
+      # patch, minor, or major publishing
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-patch
+          orb-name: circleci/orb-tools
+          ssh-fingerprints: # your SSH key fingerprint
+          cleanup-tags: true
+          requires:
+            # - your integration testing jobs go here
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-patch.*/
+
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-minor
+          release: minor
+          orb-name: circleci/orb-tools
+          ssh-fingerprints: # your SSH key fingerprint
+          cleanup-tags: true
+          requires:
+            # - your integration testing jobs go here
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-minor.*/
+
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-major
+          release: major
+          orb-name: circleci/orb-tools
+          ssh-fingerprints: # your SSH key fingerprint
+          cleanup-tags: true
+          requires:
+            # - your integration testing jobs go here
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-major.*/

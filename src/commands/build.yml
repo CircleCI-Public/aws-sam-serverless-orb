@@ -9,7 +9,6 @@ parameters:
   build-dir :
     type: string
     description: The path to a folder where the built artifacts are stored.
-    default: "./"
   base-dir :
     type: string
     description: Resolves relative paths to the function's source code with respect to this folder. Use this if the AWS SAM template and your source code aren't in the same enclosing folder. By default, relative paths are resolved with respect to the template's location.
@@ -42,7 +41,7 @@ steps:
   - run:
     command: |
       sam build \
-        <<# parameters.base-dir >>--base-dir<< parameters.base-dir >><</ parameters.base-dir >>
+        <<# parameters.base_dir >>--base_dir<< parameters.base_dir >><</ parameters.base_dir >>
         --build-dir << parameters.build-dir >> \
         <<# parameters.use-container >>--use-container<< parameters.use-container >><</ parameters.use-container >> \
         <<# parameters.template >>--template<< parameters.template >><</ parameters.template >> \
