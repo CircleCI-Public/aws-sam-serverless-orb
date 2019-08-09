@@ -1,0 +1,52 @@
+description: >
+  build your Lambda source code and generate deployment artifacts that target Lambda's execution environment.
+  The sam build command iterates through the functions in your application, looks for a manifest file (such as requirements.txt) that contains the dependencies, and automatically creates deployment artifacts that you can deploy to Lambda using the sam package and sam deploy commands. You that can also use sam build in combination with other commands like sam local invoke to test your application locally.
+
+  Optionally package for s3 or run locally
+
+
+parameters:
+  build-dir :
+    type: string
+    description: The path to a folder where the built artifacts are stored.
+    default: "./"
+  base-dir :
+    type: string
+    description: Resolves relative paths to the function's source code with respect to this folder. Use this if the AWS SAM template and your source code aren't in the same enclosing folder. By default, relative paths are resolved with respect to the template's location.
+    default: ""
+  template:
+    type: string
+    description: The AWS SAM template file
+  s3-bucket :
+    type: string
+    description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the sam package command will be ran automatically.
+    default: ""
+  profile:
+    type: string
+    description: Select a specific profile from your credential file to get AWS credentials.
+  use-container:
+    type: boolean
+    description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
+    default: true
+  region:
+    type: string
+    description: Sets the AWS Region of the service (for example, us-east-1).
+    default: "" # set this to aws install region
+  debug:
+    type: boolean
+    description: Turns on debug logging.
+    default: false
+
+steps:
+  - install # reminder to pass parameters
+  - run:
+    command: |
+      sam build \
+        <<# parameters.base-dir >>--base-dir<< parameters.base-dir >><</ parameters.base-dir >>
+        --build-dir << parameters.build-dir >> \
+        <<# parameters.use-container >>--use-container<< parameters.use-container >><</ parameters.use-container >> \
+        <<# parameters.template >>--template<< parameters.template >><</ parameters.template >> \
+        --profile << parameters.profile >> \
+        --region << parameters.region >> \
+        <<# parameters.debug >>--debug<< parameters.debug >><</ parameters.debug >>
+

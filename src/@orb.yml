@@ -6,4 +6,4 @@ description: >
   # Descriptions should be short, simple, and clear.
 
 orbs:
-  hello: circleci/hello-build@0.0.5 # Sample imported orb
+  aws-cli: circleci/aws-cli@x.y.z

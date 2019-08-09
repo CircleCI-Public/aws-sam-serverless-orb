@@ -1,7 +1,5 @@
 description: >
-  # What will this job do?
-  # Descriptions should be short, simple, and clear.
-  Sample description
+  Deploy serverless
 executor: default
 parameters:
   greeting:

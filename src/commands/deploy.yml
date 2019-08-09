@@ -1,0 +1,33 @@
+description: >
+  Deploys an AWS SAM application.
+parameters:
+  template-file:
+    type: string
+    description: The path where your AWS SAM template file is located.
+    default: "./"
+  stack-name:
+    type: string
+    description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
+  profile:
+    type: string
+    description: Select a specific profile from your credential file to get AWS credentials.
+  region:
+    type: string
+    description: Sets the AWS Region of the service (for example, us-east-1).
+    default: "" # set this to aws install region
+  debug:
+    type: boolean
+    description: Turns on debug logging.
+    default: false
+
+steps:
+  - install # reminder to pass parameters
+  - run:
+    command: |
+      sam deploy \
+        --template-file << parameters.template-file >> \
+        --stack-name << parameters.stack-name >> \
+        <<# parameters.profile >>--profile << parameters.profile >><</ parameters.profile >> \
+        --region << parameters.region >> \
+        <<# parameters.debug >>--debug<< parameters.debug >><</ parameters.debug >>
+
