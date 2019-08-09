@@ -1,4 +1,16 @@
 version: 2.1
+# yaml anchor filters
+integration-dev_filters: &integration-dev_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /integration-.*/
+
+integration-master_filters: &integration-master_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /master-.*/
 
 # add your orb below, to be used in integration tests (note: a @dev:alpha
 # release must exist; you'll need to publish manually at least once)
@@ -65,20 +77,6 @@ workflows:
             branches:
               only: master
 
-# yaml anchor filters
-integration-dev_filters: &integration-dev_filters
-  branches:
-    ignore: /.*/
-  tags:
-    only: /integration-.*/
-
-integration-master_filters: &integration-master_filters
-  branches:
-    ignore: /.*/
-  tags:
-    only: /master-.*/
-
-
   # this `integration-tests_prod-release` workflow will ignore commits
   # it is only triggered by git tags, which are created in the job above
   integration-tests_prod-release:
@@ -89,13 +87,21 @@ integration-master_filters: &integration-master_filters
       # - once, for integration tests triggered by non-master-branch commits
       # - and again, for tests triggered by commits to master
       # - only commits to master should potentially trigger a prod release
-      - test-build:
+      - test_build:
           name: test-build-master
-          filters: *integration-master_filters
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /integration-.*/
 
-      - test-build:
+      - test_build:
           name: test-build-integration
-          filters: *integration-dev_filters
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /integration-.*/
 
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
