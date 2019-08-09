@@ -110,7 +110,7 @@ workflows:
           ssh-fingerprints: # your SSH key fingerprint
           cleanup-tags: true
           requires:
-            # - your integration testing jobs go here
+            - test-build-master
           filters:
             branches:
               ignore: /.*/
@@ -124,7 +124,7 @@ workflows:
           ssh-fingerprints: # your SSH key fingerprint
           cleanup-tags: true
           requires:
-            # - your integration testing jobs go here
+            - test-build-master
           filters:
             branches:
               ignore: /.*/
@@ -138,7 +138,7 @@ workflows:
           ssh-fingerprints: # your SSH key fingerprint
           cleanup-tags: true
           requires:
-            # - your integration testing jobs go here
+            - test-build-master
           filters:
             branches:
               ignore: /.*/
