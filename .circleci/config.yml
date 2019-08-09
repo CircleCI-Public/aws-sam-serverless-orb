@@ -81,28 +81,7 @@ workflows:
   # it is only triggered by git tags, which are created in the job above
   integration-tests_prod-release:
     jobs:
-      # - your integration test jobs go here
-      # - you will want to call each integration testing job twice,
-      # - each under a different name:
-      # - once, for integration tests triggered by non-master-branch commits
-      # - and again, for tests triggered by commits to master
-      # - only commits to master should potentially trigger a prod release
-      - test_build:
-          name: test-build-master
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /integration-.*/
-
-      - test_build:
-          name: test-build-integration
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /integration-.*/
-
+      - test_build
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
