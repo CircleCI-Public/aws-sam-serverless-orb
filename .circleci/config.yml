@@ -84,6 +84,7 @@ workflows:
       - test_build:
           name: test_build-dev
           filters: *integration-dev_filters
+          context: orb-publishing
       - test_build:
           name: test_build-master
           filters: *integration-master_filters
