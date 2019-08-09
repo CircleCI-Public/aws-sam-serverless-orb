@@ -24,7 +24,7 @@ jobs:
     executor: default
     steps:
       - checkout
-      - build:
+      - aws-serverless/build:
           s3-bucket: "orb-testing"
           template: "./sample_test/sam_app"
 
@@ -83,6 +83,10 @@ workflows:
     jobs:
       - test_build:
           name: test-build-master
+          branches:
+            ignore: /.*/
+          tags:
+            only: /integration-.*/
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
