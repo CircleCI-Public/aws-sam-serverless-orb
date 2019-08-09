@@ -82,12 +82,11 @@ workflows:
   integration-tests_prod-release:
     jobs:
       - test_build:
-          name: test-build-master
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /integration-.*/
+          name: test_build-dev
+          filters: *integration-dev_filters
+      - test_build:
+          name: test_build-master
+          filters: *integration-master_filters
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
@@ -95,7 +94,7 @@ workflows:
           ssh-fingerprints: # your SSH key fingerprint
           cleanup-tags: true
           requires:
-            - test-build-master
+            - test_build-master
           filters:
             branches:
               ignore: /.*/
@@ -109,7 +108,7 @@ workflows:
           ssh-fingerprints: # your SSH key fingerprint
           cleanup-tags: true
           requires:
-            - test-build-master
+            - test_build-master
           filters:
             branches:
               ignore: /.*/
@@ -123,7 +122,7 @@ workflows:
           ssh-fingerprints: # your SSH key fingerprint
           cleanup-tags: true
           requires:
-            - test-build-master
+            - test_build-master
           filters:
             branches:
               ignore: /.*/
