@@ -4,11 +4,11 @@ description: >
 
   Optionally package for s3 or run locally
 
-
 parameters:
   build-dir :
     type: string
     description: The path to a folder where the built artifacts are stored.
+    default: ""
   base-dir :
     type: string
     description: Resolves relative paths to the function's source code with respect to this folder. Use this if the AWS SAM template and your source code aren't in the same enclosing folder. By default, relative paths are resolved with respect to the template's location.
@@ -23,14 +23,15 @@ parameters:
   profile:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
+    default: "default"
   use-container:
     type: boolean
     description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
     default: true
   region:
-    type: string
+    type: env_var_name
     description: Sets the AWS Region of the service (for example, us-east-1).
-    default: "" # set this to aws install region
+    default: "AWS_DEFAULT_REGION" # set this to aws install region
   debug:
     type: boolean
     description: Turns on debug logging.
