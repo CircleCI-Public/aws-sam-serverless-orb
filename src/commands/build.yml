@@ -41,6 +41,7 @@ steps:
   - install # reminder to pass parameters
   - run:
       command: |
+        source $BASH_PROFILE
         sam build \
           <<# parameters.base-dir >>--base-dir<< parameters.base-dir >><</ parameters.base-dir >>
           --build-dir << parameters.build-dir >> \
