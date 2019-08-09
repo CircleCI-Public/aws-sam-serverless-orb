@@ -23,11 +23,11 @@ parameters:
 steps:
   - install # reminder to pass parameters
   - run:
-    command: |
-      sam deploy \
-        --template-file << parameters.template-file >> \
-        --stack-name << parameters.stack-name >> \
-        <<# parameters.profile >>--profile << parameters.profile >><</ parameters.profile >> \
-        --region << parameters.region >> \
-        <<# parameters.debug >>--debug<< parameters.debug >><</ parameters.debug >>
+      command: |
+        sam deploy \
+          --template-file << parameters.template-file >> \
+          --stack-name << parameters.stack-name >> \
+          <<# parameters.profile >>--profile << parameters.profile >><</ parameters.profile >> \
+          --region << parameters.region >> \
+          <<# parameters.debug >>--debug<< parameters.debug >><</ parameters.debug >>
 

@@ -1,37 +1,36 @@
 description: >
   Install and configure the AWS CLI and the SAM CLI in one command. Must have IAM credentials set via environment variables.
 parameters:
-  parameters:
-    profile-name:
-      description: Profile name to be configured.
-      type: string
-      default: default
-    aws-access-key-id:
-      description: |
-        AWS access key id for IAM role. Set this to the name of
-        the environment variable you will use to hold this
-        value, i.e. AWS_ACCESS_KEY.
-      type: env_var_name
-      default: AWS_ACCESS_KEY_ID
-    aws-secret-access-key:
-      description: |
-        AWS secret key for IAM role. Set this to the name of
-        the environment variable you will use to hold this
-        value, i.e. $AWS_SECRET_ACCESS_KEY.
-      type: env_var_name
-      default: AWS_SECRET_ACCESS_KEY
-    aws-region:
-      description: |
-        Env var of AWS region to operate in
-        (defaults to AWS_DEFAULT_REGION)
-      type: env_var_name
-      default: AWS_DEFAULT_REGION
-    configure-default-region:
-      description: >
-        Some AWS actions don't require a region; set this to false if you do not
-        want to store a default region in ~/.aws/config
-      type: boolean
-      default: true
+  profile-name:
+    description: Profile name to be configured.
+    type: string
+    default: default
+  aws-access-key-id:
+    description: |
+      AWS access key id for IAM role. Set this to the name of
+      the environment variable you will use to hold this
+      value, i.e. AWS_ACCESS_KEY.
+    type: env_var_name
+    default: AWS_ACCESS_KEY_ID
+  aws-secret-access-key:
+    description: |
+      AWS secret key for IAM role. Set this to the name of
+      the environment variable you will use to hold this
+      value, i.e. $AWS_SECRET_ACCESS_KEY.
+    type: env_var_name
+    default: AWS_SECRET_ACCESS_KEY
+  aws-region:
+    description: |
+      Env var of AWS region to operate in
+      (defaults to AWS_DEFAULT_REGION)
+    type: env_var_name
+    default: AWS_DEFAULT_REGION
+  configure-default-region:
+    description: >
+      Some AWS actions don't require a region; set this to false if you do not
+      want to store a default region in ~/.aws/config
+    type: boolean
+    default: true
 steps:
   - aws-cli/install
   - aws-cli/configure:

@@ -6,4 +6,4 @@ description: >
   # Descriptions should be short, simple, and clear.
 
 orbs:
-  aws-cli: circleci/aws-cli@x.y.z
+  aws-cli: circleci/aws-cli@0.1.13
