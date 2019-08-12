@@ -48,4 +48,5 @@ steps:
       name: Install the AWS SAM CLI
       command: |
         echo "installing Homebrew"
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        pip3 install aws-sam-cli
+        sam --version
