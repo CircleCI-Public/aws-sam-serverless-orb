@@ -49,7 +49,7 @@ steps:
       command: |
         echo "installing Homebrew"
         git clone https://github.com/Homebrew/linuxbrew.git ~/.linuxbrew
-        export PATH="$HOME/.linuxbrew/bin:$PATH" >> $BASH_ENV
-        export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH" >> $BASH_ENV
-        export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH" >> $BASH_ENV
-        cat $BASH_ENV
+        export PATH="$HOME/.linuxbrew/bin:$PATH" >> ~/.bashrc
+        export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH" >> ~/.bashrc
+        export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH" >> ~/.bashrc
+        cat ~/.bashrc
