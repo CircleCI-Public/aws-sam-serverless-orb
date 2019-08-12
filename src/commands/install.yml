@@ -48,12 +48,4 @@ steps:
       name: Install the AWS SAM CLI
       command: |
         echo "installing Homebrew"
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-        echo
-        echo "installed"
-        echo
-        test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-        test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-        test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bashrc
-        sam --version
-        echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bashrc
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
