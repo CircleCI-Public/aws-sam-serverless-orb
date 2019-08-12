@@ -49,6 +49,5 @@ steps:
       command: |
         echo "installing Homebrew"
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-        test -d /home/linuxbrew/.linuxbrew && $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) >> $BASH_ENV
-        test -d ~/.linuxbrew && $(~/.linuxbrew/bin/brew shellenv) >> $BASH_ENV
+        eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
