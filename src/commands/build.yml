@@ -41,6 +41,7 @@ steps:
   - install # reminder to pass parameters
   - run:
       command: |
+        cat ~/.bashrc
         source ~/.bashrc
         sam build \
           <<# parameters.base-dir >>--base-dir<< parameters.base-dir >><</ parameters.base-dir >>
