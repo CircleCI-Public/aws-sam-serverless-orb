@@ -49,7 +49,7 @@ steps:
       command: |
         echo "installing Homebrew"
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-        eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+        eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) >> $BASH_ENV
         echo
         echo "brew installed"
         echo
@@ -58,3 +58,4 @@ steps:
         brew tap aws/tap
         brew install aws-sam-cli
         sam --version
+        cat $BASH_ENV
