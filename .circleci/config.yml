@@ -92,7 +92,7 @@ workflows:
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
           orb-name: circleci/orb-tools
-          ssh-fingerprints: # your SSH key fingerprint
+          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
           cleanup-tags: true
           requires:
             - test_build-master
@@ -106,7 +106,7 @@ workflows:
           name: dev-promote-minor
           release: minor
           orb-name: circleci/orb-tools
-          ssh-fingerprints: # your SSH key fingerprint
+          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
           cleanup-tags: true
           requires:
             - test_build-master
@@ -120,7 +120,7 @@ workflows:
           name: dev-promote-major
           release: major
           orb-name: circleci/orb-tools
-          ssh-fingerprints: # your SSH key fingerprint
+          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
           cleanup-tags: true
           requires:
             - test_build-master
