@@ -40,9 +40,9 @@ steps:
   - aws-cli/install
   - aws-cli/configure:
       profile-name: << parameters.profile-name >>
-      aws-access-key-id: $<< parameters.aws-access-key-id >>
-      aws-secret-access-key: $<< parameters.aws-secret-access-key >>
-      aws-region: $<< parameters.aws-region >>
+      aws-access-key-id: << parameters.aws-access-key-id >>
+      aws-secret-access-key: << parameters.aws-secret-access-key >>
+      aws-region: << parameters.aws-region >>
       configure-default-region: << parameters.configure-default-region >>
   - run:
       name: Install Homebrew (for Linux)
