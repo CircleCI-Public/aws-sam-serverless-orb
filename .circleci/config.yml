@@ -29,7 +29,11 @@ jobs:
     steps:
       - checkout
       - aws-serverless/install
-      - run: sam local start-api -t "./sample_test/sam-app/template.yaml"
+      - run: 
+          name: SAM local start-api
+          no_output_timeout: 30m
+          command: |
+            sam local start-api -t "./sample_test/sam-app/template.yaml" --debug
   test_build:
     executor: aws-serverless/default
     steps:
