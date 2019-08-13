@@ -29,7 +29,7 @@ jobs:
     steps:
       - checkout
       - aws-serverless/install
-      - run: 
+      - run:
           name: SAM local start-api
           no_output_timeout: 30m
           command: |
