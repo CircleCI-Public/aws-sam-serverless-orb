@@ -5,20 +5,28 @@ description: >
   Optionally package for s3 or run locally
 
 parameters:
-  build-dir :
+  validate:
+    type: boolean
+    default: true
+    description: "Validate your template file. This will run unless manually set to false."
+  build-dir:
     type: string
     description: The path to a folder where the built artifacts are stored.
     default: ""
-  base-dir :
+  base-dir:
     type: string
     description: Resolves relative paths to the function's source code with respect to this folder. Use this if the AWS SAM template and your source code aren't in the same enclosing folder. By default, relative paths are resolved with respect to the template's location.
     default: ""
   template:
     type: string
     description: The AWS SAM template file
-  s3-bucket :
+  s3-bucket:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the sam package command will be ran automatically.
+    default: ""
+  output-template-file:
+    type: string
+    description: The path to the file where the command writes the packaged template. If you don't specify a path, the command writes the template to the standard output.
     default: ""
   profile:
     type: string
@@ -39,12 +47,36 @@ parameters:
 
 steps:
   - install # reminder to pass parameters
+  - when:
+      condition: << parameters.validate >>
+      steps:
+        - run:
+            name: "Validating SAM template"
+            command: |
+              sam validate -t << parameters.template >> \
+              --region << parameters.region >> \
+              --profile << parameters.profile >> \
+              <<# parameters.debug >>--debug<</ parameters.debug >>
+
   - run:
+      name: "Building SAM application"
       command: |
         sam build -t << parameters.template >> \
         <<# parameters.build-dir >>--build-dir << parameters.build-dir >> \
         <</ parameters.build-dir >><<# parameters.base-dir >>--base-dir << parameters.base-dir >> \
         <</ parameters.base-dir >>--profile << parameters.profile >> \
         <<# parameters.use-container >>--use-container \
-        <</ parameters.use-container >>--region << parameters.profile >> \
+        <</ parameters.use-container >>--region << parameters.region >> \
         <<# parameters.debug >>--debug<</ parameters.debug >>
+  - when:
+      condition: << parameters.s3-bucket >>
+      steps:
+        - run:
+            name: "Package SAM app for deployment"
+            command: |
+              sam package --template-file << parameters.template >> \
+              --s3-bucket << parameters.s3-bucket >> \
+              <<# parameters.output-template-file >>--output-template-file << parameters.output-template-file >> \
+              <</ parameters.output-template-file >>--profile << parameters.profile >> \
+              --region << parameters.region >> \
+              <<# parameters.debug >>--debug<</ parameters.debug >>
