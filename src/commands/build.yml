@@ -42,9 +42,9 @@ steps:
   - run:
       command: |
         sam build -t << parameters.template >> \
-        <<# parameters.build-dir >>--build-dir << parameters.build-dir >> \<<\ parameters.build-dir >>
-        <<# parameters.base-dir >>--base-dir << parameters.base-dir >> \<<\ parameters.base-dir >>
+        <<# parameters.build-dir >>--build-dir << parameters.build-dir >> \ <<\ parameters.build-dir >>
+        <<# parameters.base-dir >>--base-dir << parameters.base-dir >> \ <<\ parameters.base-dir >>
         --profile << parameters.profile >> \
-        <<# parameters.use-container >>--use-container \<<\ parameters.use-container >>
+        <<# parameters.use-container >>--use-container \ <<\ parameters.use-container >>
         --region << parameters.profile >> \
         <<# parameters.debug >>--debug<<\ parameters.debug >>
