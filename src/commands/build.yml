@@ -46,7 +46,7 @@ parameters:
     default: false
 
 steps:
-  - install # reminder to pass parameters
+  - install
   - when:
       condition: << parameters.validate >>
       steps:
@@ -78,5 +78,5 @@ steps:
               --s3-bucket << parameters.s3-bucket >> \
               <<# parameters.output-template-file >>--output-template-file << parameters.output-template-file >> \
               <</ parameters.output-template-file >>--profile << parameters.profile >> \
-              --region << parameters.region >> \
+              --region $<< parameters.region >> \
               <<# parameters.debug >>--debug<</ parameters.debug >>
