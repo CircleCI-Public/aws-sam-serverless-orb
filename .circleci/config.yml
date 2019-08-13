@@ -11,7 +11,11 @@ integration-master_filters: &integration-master_filters
     ignore: /.*/
   tags:
     only: /master-.*/
-
+prod-deploy_requires: &prod-deploy_requires
+  [
+    test_local_invoke-master,
+    test_build-dev
+  ]
 # add your orb below, to be used in integration tests (note: a @dev:alpha
 # release must exist; you'll need to publish manually at least once)
 # you can use scripts/publish-alpha.sh to publish a @dev:alpha release
@@ -20,6 +24,12 @@ orbs:
   orb-tools: circleci/orb-tools@8.27.3
 
 jobs:
+  test_local_invoke:
+    executor: aws-serverless/default
+    steps:
+      - checkout
+      - aws-serverless/install
+      - run: sam local start-api
   test_build:
     executor: aws-serverless/default
     steps:
@@ -87,6 +97,12 @@ workflows:
           context: orb-publishing
       - test_build:
           name: test_build-master
+          filters: *integration-master_filters
+      - test_local_invoke:
+          name: test_local_invoke-dev
+          filters: *integration-dev_filters
+      - test_local_invoke:
+          name: test_local_invoke-master
           filters: *integration-master_filters
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
