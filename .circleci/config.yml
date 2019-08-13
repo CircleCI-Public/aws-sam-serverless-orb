@@ -26,7 +26,7 @@ jobs:
       - checkout
       - aws-serverless/build:
           s3-bucket: "orb-testing"
-          template: "./sample_test/sam-app/template.yml"
+          template: "./sample_test/sam-app/template.yaml"
 
 workflows:
   # this `lint-pack_validate_publish-dev` workflow will run on any commit
