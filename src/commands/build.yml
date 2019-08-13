@@ -41,12 +41,5 @@ steps:
   - install # reminder to pass parameters
   - run:
       command: |
-        sam build \
-          #<<# parameters.base-dir >>--base-dir << parameters.base-dir >><</ parameters.base-dir >>
-          #--build-dir << parameters.build-dir >> \
-          <<# parameters.use-container >>--use-container<</ parameters.use-container >>
-          -t << parameters.template >> \
-          --profile << parameters.profile >> \
-          --region << parameters.region >> \
-          <<# parameters.debug >>--debug<< parameters.debug >><</ parameters.debug >>
+        sam build -t << parameters.template >>
 
