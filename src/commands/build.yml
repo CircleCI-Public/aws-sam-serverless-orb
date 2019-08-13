@@ -41,13 +41,11 @@ steps:
   - install # reminder to pass parameters
   - run:
       command: |
-        cat ~/.bashrc
-        source ~/.bashrc
         sam build \
           <<# parameters.base-dir >>--base-dir<< parameters.base-dir >><</ parameters.base-dir >>
           --build-dir << parameters.build-dir >> \
           <<# parameters.use-container >>--use-container<< parameters.use-container >><</ parameters.use-container >> \
-          <<# parameters.template >>--template<< parameters.template >><</ parameters.template >> \
+          --template << parameters.template >> \
           --profile << parameters.profile >> \
           --region << parameters.region >> \
           <<# parameters.debug >>--debug<< parameters.debug >><</ parameters.debug >>
