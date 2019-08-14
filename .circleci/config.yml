@@ -41,11 +41,7 @@ jobs:
           s3-bucket: "orb-testing"
           template: "./sample_test/sam-app/template.yaml"
           debug: true
-      - aws-serverless/deploy:
-          template: "./sample_test/sam-app/template.yaml"
-          stack-name: "serverless-dev-env"
-          profile: "default"
-          debug: true
+
 
 
 workflows:
