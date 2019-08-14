@@ -32,5 +32,5 @@ steps:
           --stack-name << parameters.stack-name >> \
           <<# parameters.profile-name >>--profile << parameters.profile-name >><</ parameters.profile-name >> \
           --region << parameters.aws-region >> \
-          <<# parameters.debug >>--debug<< parameters.debug >><</ parameters.debug >>
+          <<# parameters.debug >>--debug<</ parameters.debug >>
 
