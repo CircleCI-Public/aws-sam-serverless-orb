@@ -24,7 +24,6 @@ parameters:
     default: false
 
 steps:
-  - install # reminder to pass parameters
   - run:
       command: |
         sam deploy \

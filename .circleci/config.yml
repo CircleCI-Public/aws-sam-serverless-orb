@@ -5,7 +5,6 @@ integration-dev_filters: &integration-dev_filters
     ignore: /.*/
   tags:
     only: /integration-.*/
-
 integration-master_filters: &integration-master_filters
   branches:
     ignore: /.*/
@@ -51,8 +50,9 @@ jobs:
           s3-bucket: "orb-testing"
           template: "./sample_test/sam-app/template.yaml"
           debug: true
+          output-template-file: "./sample_test/sam-app/template-packaged.yaml"
       - aws-serverless/deploy:
-          template: "./sample_test/sam-app/template.yaml"
+          template: "./sample_test/sam-app/template-packaged.yaml"
           stack-name: "serverless-dev-env"
           debug: true
 

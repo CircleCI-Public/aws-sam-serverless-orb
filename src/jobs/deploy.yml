@@ -24,7 +24,6 @@ parameters:
   s3-bucket:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
-    default: ""
   output-template-file:
     type: string
     description: The path to the file where the command writes the packaged template. If you don't specify a path, the command writes the template to the standard output.
