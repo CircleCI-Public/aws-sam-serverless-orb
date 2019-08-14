@@ -1,0 +1,13 @@
+description: >
+  Install the SAM CLI to interact with the CLI directly.
+usage:
+  version: 2.1
+  orbs:
+    aws-serverless: circleci/aws-serverless@x.y.z
+  jobs:
+    build_and_package:
+      executor: aws-serverless/default # Or your own. Machine recommended
+    steps:
+      - checkout
+      - aws-serverless/install
+      - run: sam build # run SAM CLI commands once the CLI has been installed.
