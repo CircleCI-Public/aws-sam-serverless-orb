@@ -15,7 +15,7 @@ parameters:
     default: "CAPABILITY_IAM"
   profile-name:
     type: string
-    description: Select a specific profile from your credential file to get AWS credentials. 
+    description: Select a specific profile from your credential file to get AWS credentials.
     default: "default"
   aws-region:
     description: |
