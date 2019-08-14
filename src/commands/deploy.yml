@@ -12,10 +12,12 @@ parameters:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
     default: "default"
-  region:
-    type: string
-    description: Sets the AWS Region of the service (for example, us-east-1).
-    default: "" # set this to aws install region
+  aws-region:
+    description: |
+      Env var of AWS region to operate in
+      (defaults to AWS_DEFAULT_REGION)
+    type: env_var_name
+    default: AWS_DEFAULT_REGION
   debug:
     type: boolean
     description: Turns on debug logging.
@@ -29,6 +31,6 @@ steps:
           --template-file << parameters.template >> \
           --stack-name << parameters.stack-name >> \
           <<# parameters.profile-name >>--profile << parameters.profile-name >><</ parameters.profile-name >> \
-          --region << parameters.region >> \
+          --region << parameters.aws-region >> \
           <<# parameters.debug >>--debug<< parameters.debug >><</ parameters.debug >>
 

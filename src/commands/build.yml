@@ -36,7 +36,7 @@ parameters:
     type: boolean
     description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
     default: true
-  region:
+  aws-region:
     type: env_var_name
     description: Sets the AWS Region of the service (for example, us-east-1).
     default: "AWS_DEFAULT_REGION" # set this to aws install region
@@ -66,7 +66,7 @@ steps:
         <</ parameters.build-dir >><<# parameters.base-dir >>--base-dir << parameters.base-dir >> \
         <</ parameters.base-dir >>--profile << parameters.profile-name >> \
         <<# parameters.use-container >>--use-container \
-        <</ parameters.use-container >>--region $<< parameters.region >> \
+        <</ parameters.use-container >>--region $<< parameters.aws-region >> \
         <<# parameters.debug >>--debug<</ parameters.debug >>
   - when:
       condition: << parameters.s3-bucket >>
@@ -78,5 +78,5 @@ steps:
               --s3-bucket << parameters.s3-bucket >> \
               <<# parameters.output-template-file >>--output-template-file << parameters.output-template-file >> \
               <</ parameters.output-template-file >>--profile << parameters.profile-name >> \
-              --region $<< parameters.region >> \
+              --region $<< parameters.aws-region >> \
               <<# parameters.debug >>--debug<</ parameters.debug >>
