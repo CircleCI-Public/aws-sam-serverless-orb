@@ -44,6 +44,7 @@ jobs:
       - aws-serverless/deploy:
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "serverless-dev-env"
+          profile-name: "default"
           debug: true
 
 
