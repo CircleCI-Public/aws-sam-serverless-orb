@@ -1,5 +1,5 @@
 description: >
-  Deploy serverless
+  Deploy serverless applications.
 executor: default
 parameters:
   pre-deploy:
