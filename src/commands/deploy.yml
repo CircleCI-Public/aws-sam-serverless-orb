@@ -27,6 +27,7 @@ steps:
   - run:
       command: |
         sam deploy \
+          --capabilities "CAPABILITY_IAM" \
           --template-file << parameters.template >> \
           --stack-name << parameters.stack-name >> \
           <<# parameters.profile-name >>--profile << parameters.profile-name >><</ parameters.profile-name >> \
