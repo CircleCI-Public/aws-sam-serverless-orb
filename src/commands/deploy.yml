@@ -8,9 +8,10 @@ parameters:
   stack-name:
     type: string
     description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
-  profile:
+  profile-name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
+    default: "default"
   region:
     type: string
     description: Sets the AWS Region of the service (for example, us-east-1).
@@ -27,7 +28,7 @@ steps:
         sam deploy \
           --template-file << parameters.template >> \
           --stack-name << parameters.stack-name >> \
-          <<# parameters.profile >>--profile << parameters.profile >><</ parameters.profile >> \
+          <<# parameters.profile-name >>--profile << parameters.profile-name >><</ parameters.profile-name >> \
           --region << parameters.region >> \
           <<# parameters.debug >>--debug<< parameters.debug >><</ parameters.debug >>
 

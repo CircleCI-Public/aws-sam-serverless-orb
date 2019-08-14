@@ -28,7 +28,7 @@ parameters:
     type: string
     description: The path to the file where the command writes the packaged template. If you don't specify a path, the command writes the template to the standard output.
     default: ""
-  profile:
+  profile-name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
     default: "default"
@@ -55,7 +55,7 @@ steps:
             command: |
               sam validate -t << parameters.template >> \
               --region $<< parameters.region >> \
-              --profile << parameters.profile >> \
+              --profile << parameters.profile-name >> \
               <<# parameters.debug >>--debug<</ parameters.debug >>
 
   - run:
@@ -64,7 +64,7 @@ steps:
         sam build -t << parameters.template >> \
         <<# parameters.build-dir >>--build-dir << parameters.build-dir >> \
         <</ parameters.build-dir >><<# parameters.base-dir >>--base-dir << parameters.base-dir >> \
-        <</ parameters.base-dir >>--profile << parameters.profile >> \
+        <</ parameters.base-dir >>--profile << parameters.profile-name >> \
         <<# parameters.use-container >>--use-container \
         <</ parameters.use-container >>--region $<< parameters.region >> \
         <<# parameters.debug >>--debug<</ parameters.debug >>
@@ -77,6 +77,6 @@ steps:
               sam package --template-file << parameters.template >> \
               --s3-bucket << parameters.s3-bucket >> \
               <<# parameters.output-template-file >>--output-template-file << parameters.output-template-file >> \
-              <</ parameters.output-template-file >>--profile << parameters.profile >> \
+              <</ parameters.output-template-file >>--profile << parameters.profile-name >> \
               --region $<< parameters.region >> \
               <<# parameters.debug >>--debug<</ parameters.debug >>
