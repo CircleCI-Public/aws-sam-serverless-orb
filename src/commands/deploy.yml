@@ -31,6 +31,6 @@ steps:
           --template-file << parameters.template >> \
           --stack-name << parameters.stack-name >> \
           <<# parameters.profile-name >>--profile << parameters.profile-name >><</ parameters.profile-name >> \
-          --region << parameters.aws-region >> \
+          --region $<< parameters.aws-region >> \
           <<# parameters.debug >>--debug<</ parameters.debug >>
 
