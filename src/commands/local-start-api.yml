@@ -27,12 +27,12 @@ parameters:
     type: integer
   dockerize_version:
     description: Dockerize is a utility that will continiously attempt to connect to an endpoint. Used to wait for the API to come online.
-    default: "0.3.0"
+    default: "0.6.1"
     type: string
 steps:
   - run:
           name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/<< parameters.dockerize_version >>/dockerize-linux-amd64-<< parameters.dockerize_version >>.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-<< parameters.dockerize_version >>.tar.gz && rm dockerize-linux-amd64-<< parameters.dockerize_version >>.tar.gz
+          command: wget https://github.com/jwilder/dockerize/releases/download/v<< parameters.dockerize_version >>/dockerize-linux-amd64-v<< parameters.dockerize_version >>.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v<< parameters.dockerize_version >>.tar.gz && rm dockerize-linux-amd64-<< parameters.dockerize_version >>.tar.gz
   - run:
       name: SAM local start-api
       background: true
