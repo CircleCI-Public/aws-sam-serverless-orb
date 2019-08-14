@@ -8,6 +8,10 @@ parameters:
   stack-name:
     type: string
     description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
+  capabilities:
+    type: enum
+    enum: ["CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"]
+    default: "CAPABILITY_IAM"
   profile-name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
@@ -27,7 +31,7 @@ steps:
   - run:
       command: |
         sam deploy \
-          --capabilities "CAPABILITY_IAM" \
+          --capabilities << parameters.capabilities >> \
           --template-file << parameters.template >> \
           --stack-name << parameters.stack-name >> \
           <<# parameters.profile-name >>--profile << parameters.profile-name >><</ parameters.profile-name >> \

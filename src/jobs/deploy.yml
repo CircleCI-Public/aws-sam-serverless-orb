@@ -6,6 +6,10 @@ parameters:
     type: steps
     default: []
     description: "Run thiese steps prior to deploying the application, but after the checkout, install, build, and package steps."
+  capabilities:
+      type: enum
+      enum: ["CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"]
+      default: "CAPABILITY_IAM"
   validate:
     type: boolean
     default: true
@@ -64,6 +68,7 @@ steps:
       debug: << parameters.debug >>
   - steps: << parameters.pre-deploy >>
   - deploy:
+      capabilities: << parameters.capabilities >>
       template: << parameters.template >>
       stack-name: << parameters.stack-name >>
       profile-name: << parameters.profile-name >>
