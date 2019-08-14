@@ -5,13 +5,9 @@ usage:
   orbs:
     aws-serverless: circleci/aws-serverless@x.y.z
   jobs:
-    build_app:
+    build_and_package:
       executor: aws-serverless/default # Or your own. Machine executor recommended.
       steps:
         - checkout
         - aws-serverless/install
-        - run: sam build # run SAM CLI commands once the CLI has been installed.
-  workflows:
-    my-workflow:
-      jobs:
-        - build_app
+        - aws-serverless/local-start-api

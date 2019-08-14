@@ -28,20 +28,9 @@ jobs:
     steps:
       - checkout
       - aws-serverless/install
-      - run:
-          name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          environment:
-            DOCKERIZE_VERSION: v0.3.0
-      - run:
-          name: SAM local start-api
-          background: true
-          command: |
-            sam local start-api -t "./sample_test/sam-app/template.yaml" --debug
-      - run:
-          name: Wait for db
-          command: dockerize -wait http://127.0.0.1:3000/hello -timeout 5m
-      - run: curl http://127.0.0.1:3000/hello
+      - aws-serverless/local-start-api:
+          template: "./sample_test/sam-app/template.yaml"
+          endpoint: "hello"
   test_build_deploy:
     executor: aws-serverless/default
     steps:

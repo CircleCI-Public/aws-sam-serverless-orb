@@ -31,11 +31,6 @@ parameters:
       want to store a default region in ~/.aws/config
     type: boolean
     default: true
-  debug:
-    description: >
-      Enable debug logging
-    type: boolean
-    default: false
 steps:
   - aws-cli/install
   - aws-cli/configure:
