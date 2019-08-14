@@ -10,11 +10,12 @@ parameters:
     description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
   capabilities:
     type: enum
+    description: A list of capabilities that you must specify before AWS Cloudformation can create certain stacks. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.
     enum: ["CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"]
     default: "CAPABILITY_IAM"
   profile-name:
     type: string
-    description: Select a specific profile from your credential file to get AWS credentials.
+    description: Select a specific profile from your credential file to get AWS credentials. 
     default: "default"
   aws-region:
     description: |
