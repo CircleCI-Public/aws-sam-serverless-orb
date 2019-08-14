@@ -2,9 +2,13 @@ description: >
   Deploy serverless
 executor: default
 parameters:
-  greeting:
-    type: string
-    default: "Hello"
-    description: "Select a proper greeting"
+  pre-deploy:
+    type: steps
+    default: []
+    description: "Run thiese steps prior to deploying the application, but after the checkout, install, build, and package steps."
 steps:
-  - run: echo test
+  - checkout
+  - install
+  - build
+  - pre-deploy
+  - deploy
