@@ -54,7 +54,7 @@ steps:
             name: "Validating SAM template"
             command: |
               sam validate -t << parameters.template >> \
-              --region $<< parameters.region >> \
+              --region $<< parameters.aws-region >> \
               --profile << parameters.profile-name >> \
               <<# parameters.debug >>--debug<</ parameters.debug >>
 
