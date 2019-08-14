@@ -6,9 +6,67 @@ parameters:
     type: steps
     default: []
     description: "Run thiese steps prior to deploying the application, but after the checkout, install, build, and package steps."
+  validate:
+    type: boolean
+    default: true
+    description: "Validate your template file. This will run unless manually set to false."
+  build-dir:
+    type: string
+    description: The path to a folder where the built artifacts are stored.
+    default: ""
+  base-dir:
+    type: string
+    description: Resolves relative paths to the function's source code with respect to this folder. Use this if the AWS SAM template and your source code aren't in the same enclosing folder. By default, relative paths are resolved with respect to the template's location.
+    default: ""
+  template:
+    type: string
+    description: The AWS SAM template file
+  s3-bucket:
+    type: string
+    description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
+    default: ""
+  output-template-file:
+    type: string
+    description: The path to the file where the command writes the packaged template. If you don't specify a path, the command writes the template to the standard output.
+    default: ""
+  profile-name:
+    type: string
+    description: Select a specific profile from your credential file to get AWS credentials.
+    default: "default"
+  use-container:
+    type: boolean
+    description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
+    default: true
+  aws-region:
+    type: env_var_name
+    description: Sets the AWS Region of the service (for example, us-east-1).
+    default: "AWS_DEFAULT_REGION" # set this to aws install region
+  stack-name:
+    type: string
+    description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
+  debug:
+    type: boolean
+    description: Turns on debug logging.
+    default: false
 steps:
   - checkout
-  - install
-  - build
-  - pre-deploy
-  - deploy
+  - install:
+      profile-name: << parameters.profile-name >>
+  - build:
+      validate: << parameters.validate >>
+      build-dir: << parameters.build-dir >>
+      base-dir: << parameters.base-dir >>
+      template: << parameters.template >>
+      s3-bucket: << parameters.s3-bucket >>
+      output-template-file: << parameters.output-template-file >>
+      profile-name: << parameters.profile-name >>
+      use-container: << parameters.use-container >>
+      aws-region: << parameters.aws-region >>
+      debug: << parameters.debug >>
+  - steps: << parameters.pre-deploy >>
+  - deploy:
+      template: << parameters.template >>
+      stack-name: << parameters.stack-name >>
+      profile-name: << parameters.profile-name >>
+      aws-region: << parameters.aws-region >>
+      debug: << parameters.debug >>
