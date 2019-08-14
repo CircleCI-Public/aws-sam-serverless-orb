@@ -55,7 +55,7 @@ jobs:
           template: "./sample_test/sam-app/template-packaged.yaml"
           stack-name: "serverless-dev-env"
           debug: true
-          capabilities: CAPABILITY_NAMED_IAM
+          capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
 
 
 workflows:

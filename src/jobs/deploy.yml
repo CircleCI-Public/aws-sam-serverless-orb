@@ -7,8 +7,7 @@ parameters:
     default: []
     description: "Run thiese steps prior to deploying the application, but after the checkout, install, build, and package steps."
   capabilities:
-      type: enum
-      enum: ["CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"]
+      type: string
       default: "CAPABILITY_IAM"
   validate:
     type: boolean
