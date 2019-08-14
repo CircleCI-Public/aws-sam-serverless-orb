@@ -6,7 +6,7 @@ usage:
     aws-serverless: circleci/aws-serverless@x.y.z
   jobs:
     build_and_package:
-      executor: aws-serverless/default # Or your own. Machine recommended
+      executor: aws-serverless/default # Or your own. Machine executor recommended.
     steps:
       - checkout
       - aws-serverless/install
