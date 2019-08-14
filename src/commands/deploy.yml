@@ -1,10 +1,10 @@
 description: >
-  Deploys an AWS SAM application.
+  Deploys an AWS SAM application. It is recommended to create a Workflow to build and deploy your SAM app to a development stack for testing before deploying to a production stack.
 parameters:
-  template-file:
+  template:
     type: string
     description: The path where your AWS SAM template file is located.
-    default: "./"
+    default: ""
   stack-name:
     type: string
     description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
@@ -25,7 +25,7 @@ steps:
   - run:
       command: |
         sam deploy \
-          --template-file << parameters.template-file >> \
+          --template-file << parameters.template >> \
           --stack-name << parameters.stack-name >> \
           <<# parameters.profile >>--profile << parameters.profile >><</ parameters.profile >> \
           --region << parameters.region >> \
