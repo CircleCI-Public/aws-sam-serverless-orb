@@ -48,6 +48,7 @@ jobs:
     steps:
       - checkout
       - aws-serverless/build:
+          region: "default"
           s3-bucket: "orb-testing"
           template: "./sample_test/sam-app/template.yaml"
           debug: true
