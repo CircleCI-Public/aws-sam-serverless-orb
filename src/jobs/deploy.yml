@@ -27,10 +27,6 @@ parameters:
   s3-bucket:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
-  output-template-file:
-    type: string
-    description: The path to the file where the command writes the packaged template. If you don't specify a path, the command writes the template to the standard output.
-    default: ""
   profile-name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
@@ -60,7 +56,7 @@ steps:
       base-dir: << parameters.base-dir >>
       template: << parameters.template >>
       s3-bucket: << parameters.s3-bucket >>
-      output-template-file: << parameters.output-template-file >>
+      output-template-file: "~/packaged_template.yml"
       profile-name: << parameters.profile-name >>
       use-container: << parameters.use-container >>
       aws-region: << parameters.aws-region >>
@@ -68,7 +64,7 @@ steps:
   - steps: << parameters.pre-deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
-      template: << parameters.template >>
+      template: "~/packaged_template.yml"
       stack-name: << parameters.stack-name >>
       profile-name: << parameters.profile-name >>
       aws-region: << parameters.aws-region >>

@@ -13,7 +13,8 @@ integration-master_filters: &integration-master_filters
 prod-deploy_requires: &prod-deploy_requires
   [
     test_local_invoke-master,
-    test_build_deploy-dev
+    deploy-job-test
+    # test_build_deploy-dev
   ]
 # add your orb below, to be used in integration tests (note: a @dev:alpha
 # release must exist; you'll need to publish manually at least once)
@@ -31,20 +32,20 @@ jobs:
       - aws-serverless/local-start-api:
           template: "./sample_test/sam-app/template.yaml"
           endpoint: "hello"
-  test_build_deploy:
-    executor: aws-serverless/default
-    steps:
-      - checkout
-      - aws-serverless/build:
-          s3-bucket: "orb-testing"
-          template: "./sample_test/sam-app/template.yaml"
-          debug: true
-          output-template-file: "./sample_test/sam-app/template-packaged.yaml"
-      - aws-serverless/deploy:
-          template: "./sample_test/sam-app/template-packaged.yaml"
-          stack-name: "serverless-dev-env"
-          debug: true
-          capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
+  # test_build_deploy:
+  #   executor: aws-serverless/default
+  #   steps:
+  #     - checkout
+  #     - aws-serverless/build:
+  #         s3-bucket: "orb-testing"
+  #         template: "./sample_test/sam-app/template.yaml"
+  #         debug: true
+  #         output-template-file: "./sample_test/sam-app/template-packaged.yaml"
+  #     - aws-serverless/deploy:
+  #         template: "./sample_test/sam-app/template-packaged.yaml"
+  #         stack-name: "serverless-dev-env"
+  #         debug: true
+  #         capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
 
 
 workflows:
@@ -100,14 +101,18 @@ workflows:
   # it is only triggered by git tags, which are created in the job above
   integration-tests_prod-release:
     jobs:
-      - test_build_deploy:
-          name: test_build_deploy-dev
-          filters: *integration-dev_filters
-          context: Test-AWS-Delete
-      - test_build_deploy:
-          name: test_build_deploy-master
-          filters: *integration-master_filters
-          context: Test-AWS-Delete
+      # - test_build_deploy:
+      #     name: test_build_deploy-dev
+      #     filters: *integration-dev_filters
+      #     context: Test-AWS-Delete
+      # - test_build_deploy:
+      #     name: test_build_deploy-master
+      #     filters: *integration-master_filters
+      #     context: Test-AWS-Delete
+      - aws-serverless/deploy:
+          name: deploy-job-test
+          template: "./path/to/template.yml"
+          stack-name: "deploy-job-test"
       - test_local_invoke:
           name: test_local_invoke-dev
           filters: *integration-dev_filters
