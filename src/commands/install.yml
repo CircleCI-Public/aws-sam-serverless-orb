@@ -45,11 +45,11 @@ steps:
             git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
             pyenv update
             pyenv install << parameters.python_version >>
-        - run:
-            name: "Switching to Python << parameters.python_version >>"
-            command: |
-              pyenv versions
-              pyenv global << parameters.python_version >>
+      - run:
+          name: "Switching to Python << parameters.python_version >>"
+          command: |
+            pyenv versions
+            pyenv global << parameters.python_version >>
   - aws-cli/install
   - aws-cli/configure:
       profile-name: << parameters.profile-name >>
