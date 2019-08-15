@@ -5,6 +5,10 @@ description: >
   Optionally package for s3 or run locally
 
 parameters:
+  python_version:
+    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0"'
+    type: string
+    default: ""
   validate:
     type: boolean
     default: true
@@ -46,7 +50,9 @@ parameters:
     default: false
 
 steps:
-  - install
+  - install:
+      python_version: << parameters.python_version >>
+      profile-name: << parameters.profile-name >>
   - when:
       condition: << parameters.validate >>
       steps:
