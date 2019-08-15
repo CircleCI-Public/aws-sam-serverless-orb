@@ -13,8 +13,7 @@ integration-master_filters: &integration-master_filters
 prod-deploy_requires: &prod-deploy_requires
   [
     test_local_invoke-master,
-    deploy-job-test
-    # test_build_deploy-dev
+    deploy-job-test-master
   ]
 # add your orb below, to be used in integration tests (note: a @dev:alpha
 # release must exist; you'll need to publish manually at least once)
@@ -110,19 +109,27 @@ workflows:
       #     filters: *integration-master_filters
       #     context: Test-AWS-Delete
       - aws-serverless/deploy:
-          name: deploy-job-test
+          name: deploy-job-test-dev
           template: "./path/to/template.yml"
           stack-name: "deploy-job-test"
           s3-bucket: "orb-testing"
           context: Test-AWS-Delete
+          filters: *integration-dev_filters
+      - aws-serverless/deploy:
+          name: deploy-job-test-master
+          template: "./path/to/template.yml"
+          stack-name: "deploy-job-test"
+          s3-bucket: "orb-testing"
+          context: Test-AWS-Delete
+          filters: *integration-master_filters
       - test_local_invoke:
           name: test_local_invoke-dev
           filters: *integration-dev_filters
-          context: Test-AWS-Delete
+          context: "Test-AWS-Delete"
       - test_local_invoke:
           name: test_local_invoke-master
           filters: *integration-master_filters
-          context: Test-AWS-Delete
+          context: "Test-AWS-Delete"
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
