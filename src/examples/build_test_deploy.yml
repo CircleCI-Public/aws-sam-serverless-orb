@@ -18,7 +18,7 @@ usage:
             template: "./path/to/template.yml"
             stack-name: "staging-stack"
         - test_my_api:
-            requires: 
+            requires:
               - deploy-staging
         - aws-serverless/deploy:
             name: deploy-production
