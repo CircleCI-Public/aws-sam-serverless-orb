@@ -103,19 +103,19 @@ workflows:
       - test_build_deploy:
           name: test_build_deploy-dev
           filters: *integration-dev_filters
-          context: orb-publishing
+          context: Test-AWS-Delete
       - test_build_deploy:
           name: test_build_deploy-master
           filters: *integration-master_filters
-          context: orb-publishing
+          context: Test-AWS-Delete
       - test_local_invoke:
           name: test_local_invoke-dev
           filters: *integration-dev_filters
-          context: orb-publishing
+          context: Test-AWS-Delete
       - test_local_invoke:
           name: test_local_invoke-master
           filters: *integration-master_filters
-          context: orb-publishing
+          context: Test-AWS-Delete
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
