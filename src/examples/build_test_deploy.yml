@@ -7,9 +7,9 @@ usage:
   jobs:
     test_my_api:
       docker:
-        - image: < your image >
+        - image: cimg/node:latest
       steps:
-        - run: < testing scripts / orbs >
+        - run: echo "Run your tests here"
   workflows:
     test_and_deploy:
       jobs:
