@@ -113,6 +113,7 @@ workflows:
           name: deploy-job-test
           template: "./path/to/template.yml"
           stack-name: "deploy-job-test"
+          s3-bucket: "orb-testing"
       - test_local_invoke:
           name: test_local_invoke-dev
           filters: *integration-dev_filters
