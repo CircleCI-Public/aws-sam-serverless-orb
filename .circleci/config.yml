@@ -114,6 +114,7 @@ workflows:
           template: "./path/to/template.yml"
           stack-name: "deploy-job-test"
           s3-bucket: "orb-testing"
+          context: Test-AWS-Delete
       - test_local_invoke:
           name: test_local_invoke-dev
           filters: *integration-dev_filters
