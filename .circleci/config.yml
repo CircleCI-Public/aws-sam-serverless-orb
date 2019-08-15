@@ -110,14 +110,14 @@ workflows:
       #     context: Test-AWS-Delete
       - aws-serverless/deploy:
           name: deploy-job-test-dev
-          template: "./path/to/template.yml"
+          template: "./sample_test/sam-app/template.yaml"
           stack-name: "deploy-job-test"
           s3-bucket: "orb-testing"
           context: Test-AWS-Delete
           filters: *integration-dev_filters
       - aws-serverless/deploy:
           name: deploy-job-test-master
-          template: "./path/to/template.yml"
+          template: "./sample_test/sam-app/template.yaml"
           stack-name: "deploy-job-test"
           s3-bucket: "orb-testing"
           context: Test-AWS-Delete
