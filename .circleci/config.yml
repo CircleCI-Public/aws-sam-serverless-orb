@@ -141,8 +141,7 @@ workflows:
           orb-name: circleci/orb-tools
           ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
           cleanup-tags: true
-          requires:
-            - test_build_deploy-master
+          requires: *prod-deploy_requires
           filters:
             branches:
               ignore: /.*/
@@ -155,8 +154,7 @@ workflows:
           orb-name: circleci/orb-tools
           ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
           cleanup-tags: true
-          requires:
-            - test_build_deploy-master
+          requires: *prod-deploy_requires
           filters:
             branches:
               ignore: /.*/
