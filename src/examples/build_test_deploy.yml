@@ -24,5 +24,5 @@ usage:
             name: deploy-production
             template: "./path/to/template.yml"
             stack-name: "production-stack"
-            requires: 
+            requires:
               - test_my_api
