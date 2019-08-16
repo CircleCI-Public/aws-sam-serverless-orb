@@ -17,7 +17,6 @@ usage:
             name: deploy-staging
             template: "./path/to/template.yml"
             stack-name: "staging-stack"
-            python_version: "3.7.0"
         - test_my_api:
             requires:
               - deploy-staging
@@ -25,6 +24,5 @@ usage:
             name: deploy-production
             template: "./path/to/template.yml"
             stack-name: "production-stack"
-            python_version: "3.7.0"
             requires:
               - test_my_api
