@@ -114,14 +114,14 @@ workflows:
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test"
           s3-bucket: "orb-testing"
-          python_version: "3.7.0"
+          # python_version: "3.7.0" not used in container builds, adds significant time to job
           filters: *integration-dev_filters
       - aws-serverless/deploy:
           name: deploy-job-test-master
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test"
           s3-bucket: "orb-testing"
-          python_version: "3.7.0"
+           # python_version: "3.7.0" not used in container builds, adds significant time to job
           filters: *integration-master_filters
       - test_local_invoke:
           name: test_local_invoke-dev
