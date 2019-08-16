@@ -106,17 +106,14 @@ workflows:
       # - test_build_deploy:
       #     name: test_build_deploy-dev
       #     filters: *integration-dev_filters
-      #     context: Test-AWS-Delete
       # - test_build_deploy:
       #     name: test_build_deploy-master
       #     filters: *integration-master_filters
-      #     context: Test-AWS-Delete
       - aws-serverless/deploy:
           name: deploy-job-test-dev
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test"
           s3-bucket: "orb-testing"
-          context: Test-AWS-Delete
           python_version: "3.7.0"
           filters: *integration-dev_filters
       - aws-serverless/deploy:
@@ -124,17 +121,14 @@ workflows:
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test"
           s3-bucket: "orb-testing"
-          context: Test-AWS-Delete
           python_version: "3.7.0"
           filters: *integration-master_filters
       - test_local_invoke:
           name: test_local_invoke-dev
           filters: *integration-dev_filters
-          context: "Test-AWS-Delete"
       - test_local_invoke:
           name: test_local_invoke-master
           filters: *integration-master_filters
-          context: "Test-AWS-Delete"
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
