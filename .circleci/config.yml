@@ -110,6 +110,7 @@ workflows:
       #     name: test_build_deploy-master
       #     filters: *integration-master_filters
       - aws-serverless/deploy:
+          capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
           name: deploy-job-test-dev
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test"
@@ -117,6 +118,7 @@ workflows:
           # python_version: "3.7.0" not used in container builds, adds significant time to job
           filters: *integration-dev_filters
       - aws-serverless/deploy:
+          capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
           name: deploy-job-test-master
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test"
