@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-# Load in functions
+# Load in partial functions
 for PARTIAL in ./_init/*.sh; do
     . "$PARTIAL"
 done
