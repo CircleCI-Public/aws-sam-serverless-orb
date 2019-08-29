@@ -1,24 +1,171 @@
 version: 2.1
-
+# yaml anchor filters
+integration-dev_filters: &integration-dev_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /integration-.*/
+integration-master_filters: &integration-master_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /master-.*/
+prod-deploy_requires: &prod-deploy_requires
+  [
+    test_local_invoke-master,
+    deploy-job-test-master
+  ]
+# add your orb below, to be used in integration tests (note: a @dev:alpha
+# release must exist; you'll need to publish manually at least once)
+# you can use scripts/publish-alpha.sh to publish a @dev:alpha release
 orbs:
+  aws-serverless: circleci/aws-serverless@dev:alpha
   orb-tools: circleci/orb-tools@8.27.3
-  shellcheck: circleci/shellcheck@1.3.14
 
 jobs:
-  getting-started:
-    docker:
-      - image: circleci/node
+  test_local_invoke:
+    executor: aws-serverless/default
     steps:
-      - run:
-          name: Getting Started
-          command: |
-            echo "Your orb is now building on CircleCI"
-            echo "This is a temporary configuration file. Continue with the orb-init.sh script and follow the README.md to publish your orb."
-workflows:
-  setup:
-    jobs:
-      - getting-started
-      - orb-tools/lint
-      - shellcheck/check:
-          ignore: 'SC1090,SC2034,SC2059,SC2001'
+      - checkout
+      - aws-serverless/install
+      - aws-serverless/local-start-api:
+          template: "./sample_test/sam-app/template.yaml"
+          endpoint: "hello"
+  #
+  # No need to test the build and deploy command as they are a part of the deploy job.
+  #
+  # test_build_deploy:
+  #   executor: aws-serverless/default
+  #   steps:
+  #     - checkout
+  #     - aws-serverless/build:
+  #         s3-bucket: "orb-testing"
+  #         template: "./sample_test/sam-app/template.yaml"
+  #         debug: true
+  #         output-template-file: "./sample_test/sam-app/template-packaged.yaml"
+  #     - aws-serverless/deploy:
+  #         template: "./sample_test/sam-app/template-packaged.yaml"
+  #         stack-name: "orb-serverless-dev-env"
+  #         debug: true
+  #         capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
 
+
+workflows:
+  # this `lint-pack_validate_publish-dev` workflow will run on any commit
+  lint-pack_validate_publish-dev:
+    jobs:
+      # lint your destructured orb YAML files
+      - orb-tools/lint
+
+      # pack your orb YAML files to a single orb.yml
+      # validate the orb.yml file to ensure it is well-formed
+      - orb-tools/pack:
+          requires:
+            - orb-tools/lint
+
+      # release dev version of orb, for testing & possible publishing
+      # requires a CircleCI API token to be stored as CIRCLE_TOKEN (default)
+      # https://circleci.com/docs/2.0/managing-api-tokens
+      # store CIRCLE_TOKEN as a project env var or Contexts resource
+      # if using Contexts, add your context below
+      - orb-tools/publish-dev:
+          orb-name: circleci/aws-serverless
+          requires:
+            - orb-tools/pack
+
+      # trigger an integration workflow to test the dev version of your orb
+      # an SSH key must be stored in your orb's repository and in CircleCI
+      # (add the public key as a read/write key on GitHub; add the private
+      # key in CircleCI via SSH Permissions, with github.com as Hostname)
+      - orb-tools/trigger-integration-workflow:
+          name: trigger-integration-dev
+          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              ignore: master
+
+      # by default, the 1st job (above) will trigger only integration tests;
+      # the 2nd job (below) may also publish a production orb version
+      - orb-tools/trigger-integration-workflow:
+          name: trigger-integration-master
+          cleanup-tags: true
+          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
+          tag: master
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              only: master
+
+  # this `integration-tests_prod-release` workflow will ignore commits
+  # it is only triggered by git tags, which are created in the job above
+  integration-tests_prod-release:
+    jobs:
+      # - test_build_deploy:
+      #     name: test_build_deploy-dev
+      #     filters: *integration-dev_filters
+      # - test_build_deploy:
+      #     name: test_build_deploy-master
+      #     filters: *integration-master_filters
+      - aws-serverless/deploy:
+          capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
+          name: deploy-job-test-dev
+          template: "./sample_test/sam-app/template.yaml"
+          stack-name: "orb-deploy-job-test"
+          s3-bucket: "orb-testing"
+          # python_version: "3.7.0" not used in container builds, adds significant time to job
+          filters: *integration-dev_filters
+      - aws-serverless/deploy:
+          capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
+          name: deploy-job-test-master
+          template: "./sample_test/sam-app/template.yaml"
+          stack-name: "orb-deploy-job-test"
+          s3-bucket: "orb-testing"
+           # python_version: "3.7.0" not used in container builds, adds significant time to job
+          filters: *integration-master_filters
+      - test_local_invoke:
+          name: test_local_invoke-dev
+          filters: *integration-dev_filters
+      - test_local_invoke:
+          name: test_local_invoke-master
+          filters: *integration-master_filters
+      # patch, minor, or major publishing
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-patch
+          orb-name: circleci/orb-tools
+          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
+          cleanup-tags: true
+          requires: *prod-deploy_requires
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-patch.*/
+
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-minor
+          release: minor
+          orb-name: circleci/orb-tools
+          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
+          cleanup-tags: true
+          requires: *prod-deploy_requires
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-minor.*/
+
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-major
+          release: major
+          orb-name: circleci/orb-tools
+          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
+          cleanup-tags: true
+          requires: *prod-deploy_requires
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-major.*/

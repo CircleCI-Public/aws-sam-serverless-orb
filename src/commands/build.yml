@@ -1,0 +1,88 @@
+description: >
+  build your Lambda source code and generate deployment artifacts that target Lambda's execution environment.
+  The sam build command iterates through the functions in your application, looks for a manifest file (such as requirements.txt) that contains the dependencies, and automatically creates deployment artifacts that you can deploy to Lambda using the sam package and sam deploy commands. You that can also use sam build in combination with other commands like sam local invoke to test your application locally.
+
+  Optionally package for s3 or run locally
+
+parameters:
+  python_version:
+    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use-container is enabled.'
+    type: string
+    default: ""
+  validate:
+    type: boolean
+    default: true
+    description: "Validate your template file. This will run unless manually set to false."
+  build-dir:
+    type: string
+    description: The path to a folder where the built artifacts are stored.
+    default: ""
+  base-dir:
+    type: string
+    description: Resolves relative paths to the function's source code with respect to this folder. Use this if the AWS SAM template and your source code aren't in the same enclosing folder. By default, relative paths are resolved with respect to the template's location.
+    default: ""
+  template:
+    type: string
+    description: The AWS SAM template file
+  s3-bucket:
+    type: string
+    description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
+    default: ""
+  output-template-file:
+    type: string
+    description: The path to the file where the command writes the packaged template. If you don't specify a path, the command writes the template to the standard output.
+    default: ""
+  profile-name:
+    type: string
+    description: Select a specific profile from your credential file to get AWS credentials.
+    default: "default"
+  use-container:
+    type: boolean
+    description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
+    default: true
+  aws-region:
+    type: env_var_name
+    description: Sets the AWS Region of the service (for example, us-east-1).
+    default: "AWS_DEFAULT_REGION" # set this to aws install region
+  debug:
+    type: boolean
+    description: Turns on debug logging.
+    default: false
+
+steps:
+  - install:
+      python_version: << parameters.python_version >>
+      profile-name: << parameters.profile-name >>
+  - when:
+      condition: << parameters.validate >>
+      steps:
+        - run:
+            name: "Validating SAM template"
+            command: |
+              sam validate -t << parameters.template >> \
+              --region $<< parameters.aws-region >> \
+              --profile << parameters.profile-name >> \
+              <<# parameters.debug >>--debug<</ parameters.debug >>
+
+  - run:
+      name: "Building SAM application"
+      command: |
+        sam build -t << parameters.template >> \
+        <<# parameters.build-dir >>--build-dir << parameters.build-dir >> \
+        <</ parameters.build-dir >><<# parameters.base-dir >>--base-dir << parameters.base-dir >> \
+        <</ parameters.base-dir >>--profile << parameters.profile-name >> \
+        <<# parameters.use-container >>--use-container \
+        <</ parameters.use-container >>--region $<< parameters.aws-region >> \
+        <<# parameters.debug >>--debug<</ parameters.debug >>
+  - when:
+      condition: << parameters.s3-bucket >>
+      steps:
+        - run:
+            name: "Package SAM app for deployment"
+            command: |
+              sam package --template-file << parameters.template >> \
+              --s3-bucket << parameters.s3-bucket >> \
+              <<# parameters.output-template-file >>--output-template-file << parameters.output-template-file >> \
+              <</ parameters.output-template-file >>--profile << parameters.profile-name >> \
+              --region $<< parameters.aws-region >> \
+              <<# parameters.debug >>--debug<</ parameters.debug >>

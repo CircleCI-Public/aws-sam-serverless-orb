@@ -1,0 +1,70 @@
+description: >
+  Install and configure the AWS CLI and the SAM CLI in one command. Must have IAM credentials set via environment variables.
+parameters:
+  python_version:
+    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use-container is enabled.'
+    type: string
+    default: ""
+  profile-name:
+    description: Profile name to be configured.
+    type: string
+    default: default
+  aws-access-key-id:
+    description: |
+      AWS access key id for IAM role. Set this to the name of
+      the environment variable you will use to hold this
+      value, i.e. AWS_ACCESS_KEY.
+    type: env_var_name
+    default: AWS_ACCESS_KEY_ID
+  aws-secret-access-key:
+    description: |
+      AWS secret key for IAM role. Set this to the name of
+      the environment variable you will use to hold this
+      value, i.e. $AWS_SECRET_ACCESS_KEY.
+    type: env_var_name
+    default: AWS_SECRET_ACCESS_KEY
+  aws-region:
+    description: |
+      Env var of AWS region to operate in
+      (defaults to AWS_DEFAULT_REGION)
+    type: env_var_name
+    default: AWS_DEFAULT_REGION
+  configure-default-region:
+    description: >
+      Some AWS actions don't require a region; set this to false if you do not
+      want to store a default region in ~/.aws/config
+    type: boolean
+    default: true
+steps:
+  - when:
+      condition: << parameters.python_version >>
+      steps:
+      - run:
+          name: "Installing Python << parameters.python_version >>"
+          command: |
+            git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
+            pyenv update
+            pyenv install << parameters.python_version >>
+      - run:
+          name: "Switching to Python << parameters.python_version >>"
+          command: |
+            pyenv versions
+            pyenv global << parameters.python_version >>
+  - aws-cli/install
+  - aws-cli/configure:
+      profile-name: << parameters.profile-name >>
+      aws-access-key-id: << parameters.aws-access-key-id >>
+      aws-secret-access-key: << parameters.aws-secret-access-key >>
+      aws-region: << parameters.aws-region >>
+      configure-default-region: << parameters.configure-default-region >>
+  - run:
+      name: Install Homebrew (for Linux)
+      command: |
+        curl -fsSL "https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh" | bash
+        /home/linuxbrew/.linuxbrew/bin/brew shellenv >> $BASH_ENV
+  - run:
+      name: Install the AWS SAM CLI
+      command: |
+        brew tap aws/tap
+        brew install aws-sam-cli
+        sam --version

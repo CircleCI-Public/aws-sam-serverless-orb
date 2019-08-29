@@ -1,0 +1,48 @@
+description: >
+  Run your SAM app locally in the background and wait until the server is online. This is an alias to the SAM CLI.
+parameters:
+  template:
+    type: string
+    description: The path where your AWS SAM template file is located.
+    default: ""
+  port:
+    type: integer
+    description: "The local port number to listen on"
+    default: 3000
+  env-vars:
+    type: string
+    description: The JSON file that contains values for the Lambda function's environment variables.
+    default: ""
+  debug:
+    description: >
+      Enable debug logging
+    type: boolean
+    default: false
+  endpoint:
+    description: After invoking the local-api this endpoint will be tested against until it is online before allowing the job to continue.
+    type: string
+  timeout:
+    description: The number in minutes to wait for the API to come online.
+    default: 5
+    type: integer
+  dockerize_version:
+    description: Dockerize is a utility that will continiously attempt to connect to an endpoint. Used to wait for the API to come online.
+    default: "0.6.1"
+    type: string
+steps:
+  - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/v<< parameters.dockerize_version >>/dockerize-linux-amd64-v<< parameters.dockerize_version >>.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v<< parameters.dockerize_version >>.tar.gz && rm dockerize-linux-amd64-v<< parameters.dockerize_version >>.tar.gz
+  - run:
+      name: SAM local start-api
+      background: true
+      command: |
+        sam local start-api \
+        <<# parameters.template >>-t << parameters.template >> \
+        <</ parameters.template >>-p << parameters.port >> \
+        <<# parameters.env-vars >>-n << parameters.env-vars >> \
+        <</ parameters.env-vars >>
+        <<# parameters.debug >>--debug<</ parameters.debug >>
+  - run:
+      name: Wait for API
+      command: dockerize -wait http://127.0.0.1:3000/<< parameters.endpoint >> -timeout << parameters.timeout >>m
