@@ -6,8 +6,7 @@ usage:
     aws-serverless: circleci/aws-serverless@x.y.z
   jobs:
     test_my_api:
-      docker:
-        - image: cimg/node:latest
+      executor: aws-servlerless/default
       steps:
         - run: echo "Run your tests here"
   workflows:
