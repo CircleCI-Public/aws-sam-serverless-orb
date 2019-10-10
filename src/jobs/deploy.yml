@@ -9,7 +9,7 @@ parameters:
   pre-deploy:
     type: steps
     default: []
-    description: "Run thiese steps prior to deploying the application, but after the checkout, install, build, and package steps."
+    description: "Run these steps prior to deploying the application, but after the checkout, install, build, and package steps."
   capabilities:
       type: string
       default: "CAPABILITY_IAM"
