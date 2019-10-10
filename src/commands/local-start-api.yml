@@ -26,7 +26,7 @@ parameters:
     default: 5
     type: integer
   dockerize_version:
-    description: Dockerize is a utility that will continiously attempt to connect to an endpoint. Used to wait for the API to come online.
+    description: Dockerize is a utility that will continuously attempt to connect to an endpoint. Used to wait for the API to come online.
     default: "0.6.1"
     type: string
 steps:
