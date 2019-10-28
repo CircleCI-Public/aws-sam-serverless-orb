@@ -9,7 +9,7 @@ This is a sample template for sam-app - Below is a brief explanation of what we 
 ├── hello_world                 <-- Source code for a lambda function
 │   ├── __init__.py
 │   ├── app.py                  <-- Lambda function code
-│   ├── requirements.txt        <-- Lambda function code
+│   ├── requirements.txt        <-- Requirements file with Python dependencies for lambda function code
 ├── template.yaml               <-- SAM Template
 └── tests                       <-- Unit tests
     └── unit
