@@ -1,6 +1,6 @@
 description: >
   build your Lambda source code and generate deployment artifacts that target Lambda's execution environment.
-  The sam build command iterates through the functions in your application, looks for a manifest file (such as requirements.txt) that contains the dependencies, and automatically creates deployment artifacts that you can deploy to Lambda using the sam package and sam deploy commands. You that can also use sam build in combination with other commands like sam local invoke to test your application locally.
+  The sam build command iterates through the functions in your application, looks for a manifest file (such as requirements.txt) that contains the dependencies, and automatically creates deployment artifacts that you can deploy to Lambda using the sam package and sam deploy commands. You can also use sam build in combination with other commands like sam local invoke to test your application locally.
 
   Optionally package for s3 or run locally
 
