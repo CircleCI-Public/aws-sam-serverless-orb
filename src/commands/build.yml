@@ -1,14 +1,12 @@
 description: >
-  build your Lambda source code and generate deployment artifacts that target Lambda's execution environment.
+  Build your Lambda source code and generate deployment artifacts that target Lambda's execution environment.
   The sam build command iterates through the functions in your application, looks for a manifest file (such as requirements.txt) that contains the dependencies, and automatically creates deployment artifacts that you can deploy to Lambda using the sam package and sam deploy commands. You can also use sam build in combination with other commands like sam local invoke to test your application locally.
 
-  Optionally package for s3 or run locally
+  Optionally package for s3 or run locally.
+
+  Ensure CLI has been installed before utilizing.
 
 parameters:
-  python_version:
-    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use-container is enabled.'
-    type: string
-    default: ""
   validate:
     type: boolean
     default: true
@@ -50,9 +48,6 @@ parameters:
     default: false
 
 steps:
-  - install:
-      python_version: << parameters.python_version >>
-      profile-name: << parameters.profile-name >>
   - when:
       condition: << parameters.validate >>
       steps:
