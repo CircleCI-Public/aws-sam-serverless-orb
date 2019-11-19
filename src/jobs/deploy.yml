@@ -54,6 +54,7 @@ steps:
   - checkout
   - install:
       profile-name: << parameters.profile-name >>
+      python_version: << parameters.python_version >>
   - build:
       validate: << parameters.validate >>
       build-dir: << parameters.build-dir >>
@@ -65,7 +66,6 @@ steps:
       use-container: << parameters.use-container >>
       aws-region: << parameters.aws-region >>
       debug: << parameters.debug >>
-      python_version: << parameters.python_version >>
   - steps: << parameters.pre-deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
