@@ -6,7 +6,7 @@ usage:
     sam: circleci/aws-sam-serverless@x.y.z
   jobs:
     test_my_api:
-      executor: aws-servlerless/default
+      executor: sam/default
       steps:
         - run: echo "Run your tests here"
   workflows:
