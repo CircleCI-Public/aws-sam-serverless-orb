@@ -3,7 +3,7 @@ description: >
 usage:
   version: 2.1
   orbs:
-    aws-serverless: circleci/aws-serverless@x.y.z
+    sam: circleci/aws-sam-serverless@x.y.z
   jobs:
     test_my_api:
       executor: aws-servlerless/default
@@ -12,14 +12,14 @@ usage:
   workflows:
     test_and_deploy:
       jobs:
-        - aws-serverless/deploy:
+        - sam/deploy:
             name: deploy-staging
             template: "./path/to/template.yml"
             stack-name: "staging-stack"
         - test_my_api:
             requires:
               - deploy-staging
-        - aws-serverless/deploy:
+        - sam/deploy:
             name: deploy-production
             template: "./path/to/template.yml"
             stack-name: "production-stack"

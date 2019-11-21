@@ -19,36 +19,18 @@ prod-deploy_requires: &prod-deploy_requires
 # release must exist; you'll need to publish manually at least once)
 # you can use scripts/publish-alpha.sh to publish a @dev:alpha release
 orbs:
-  aws-serverless: circleci/aws-serverless@dev:alpha
+  sam: circleci/aws-sam-serverless@dev:alpha
   orb-tools: circleci/orb-tools@8.27.3
 
 jobs:
   test_local_invoke:
-    executor: aws-serverless/default
+    executor: aws-sam-serverless/default
     steps:
       - checkout
-      - aws-serverless/install
-      - aws-serverless/local-start-api:
+      - aws-sam-serverless/install
+      - sam/local-start-api:
           template: "./sample_test/sam-app/template.yaml"
           endpoint: "hello"
-  #
-  # No need to test the build and deploy command as they are a part of the deploy job.
-  #
-  # test_build_deploy:
-  #   executor: aws-serverless/default
-  #   steps:
-  #     - checkout
-  #     - aws-serverless/build:
-  #         s3-bucket: "orb-testing"
-  #         template: "./sample_test/sam-app/template.yaml"
-  #         debug: true
-  #         output-template-file: "./sample_test/sam-app/template-packaged.yaml"
-  #     - aws-serverless/deploy:
-  #         template: "./sample_test/sam-app/template-packaged.yaml"
-  #         stack-name: "orb-serverless-dev-env"
-  #         debug: true
-  #         capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
-
 
 workflows:
   # this `lint-pack_validate_publish-dev` workflow will run on any commit
@@ -69,7 +51,7 @@ workflows:
       # store CIRCLE_TOKEN as a project env var or Contexts resource
       # if using Contexts, add your context below
       - orb-tools/publish-dev:
-          orb-name: circleci/aws-serverless
+          orb-name: circleci/aws-sam-serverless
           requires:
             - orb-tools/pack
 
@@ -109,7 +91,7 @@ workflows:
       # - test_build_deploy:
       #     name: test_build_deploy-master
       #     filters: *integration-master_filters
-      - aws-serverless/deploy:
+      - sam/deploy:
           capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
           name: deploy-job-test-dev
           template: "./sample_test/sam-app/template.yaml"
@@ -117,7 +99,7 @@ workflows:
           s3-bucket: "orb-testing"
           # python_version: "3.7.0" not used in container builds, adds significant time to job
           filters: *integration-dev_filters
-      - aws-serverless/deploy:
+      - sam/deploy:
           capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
           name: deploy-job-test-master
           template: "./sample_test/sam-app/template.yaml"
