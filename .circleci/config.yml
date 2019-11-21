@@ -24,10 +24,10 @@ orbs:
 
 jobs:
   test_local_invoke:
-    executor: aws-sam-serverless/default
+    executor: sam/default
     steps:
       - checkout
-      - aws-sam-serverless/install
+      - sam/install
       - sam/local-start-api:
           template: "./sample_test/sam-app/template.yaml"
           endpoint: "hello"
