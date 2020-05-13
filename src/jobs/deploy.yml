@@ -50,6 +50,10 @@ parameters:
     type: boolean
     description: Turns on debug logging.
     default: false
+  parameter-overrides:
+    type: string
+    description: AWS CloudFormation parameter overrides encoded as key=value pairs. Use the same format as the AWS CLI.
+    default: ""
 steps:
   - checkout
   - install:
@@ -74,3 +78,4 @@ steps:
       profile-name: << parameters.profile-name >>
       aws-region: << parameters.aws-region >>
       debug: << parameters.debug >>
+      parameter-overrides: << parameters.parameter-overrides >>
