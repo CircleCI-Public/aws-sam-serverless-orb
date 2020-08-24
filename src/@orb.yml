@@ -1,5 +1,5 @@
-description: |
-  "Build, Test, and Deploy your AWS serverless applications on CircleCI utilizing the AWS Serverless Application Model. Learn More: https://aws.amazon.com/serverless/sam/ Repo: https://github.com/CircleCI-Public/aws-serverless-orb"
+description: >
+  Build, Test, and Deploy your AWS serverless applications on CircleCI utilizing the AWS Serverless Application Model. Learn More: https://aws.amazon.com/serverless/sam/
 display:
   source_url: https://github.com/circleci-public/aws-sam-serverless-orb
 orbs:
