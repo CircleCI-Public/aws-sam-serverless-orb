@@ -50,8 +50,7 @@ steps:
           command: |
             pyenv versions
             pyenv global << parameters.python_version >>
-  - aws-cli/install
-  - aws-cli/configure:
+  - aws-cli/setup:
       profile-name: << parameters.profile-name >>
       aws-access-key-id: << parameters.aws-access-key-id >>
       aws-secret-access-key: << parameters.aws-secret-access-key >>
@@ -65,6 +64,5 @@ steps:
   - run:
       name: Install the AWS SAM CLI
       command: |
-        brew tap aws/tap
-        brew install aws-sam-cli
+        brew install aws/tap/aws-sam-cli
         sam --version
