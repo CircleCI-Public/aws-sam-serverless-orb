@@ -77,7 +77,8 @@ workflows:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
       # Run any integration tests defined within the `jobs` key.
-      - test_local_invoke
+      - test_local_invoke:
+          context: serverless-framework-orb-testing
       - sam/deploy:
           capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
           name: deploy-job-test-dev
