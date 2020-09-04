@@ -57,12 +57,5 @@ steps:
       aws-region: << parameters.aws-region >>
       configure-default-region: << parameters.configure-default-region >>
   - run:
-      name: Install Homebrew (for Linux)
-      command: |
-        curl -fsSL "https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh" | bash
-        /home/linuxbrew/.linuxbrew/bin/brew shellenv >> $BASH_ENV
-  - run:
-      name: Install the AWS SAM CLI
-      command: |
-        brew install aws/tap/aws-sam-cli
-        sam --version
+      name: Install SAM CLI
+      command: <<include(scripts/install.sh)>>
