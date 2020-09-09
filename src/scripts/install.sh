@@ -12,7 +12,7 @@ fi
 brew tap aws/tap
 brew install aws-sam-cli
 echo "Second install for bug patch"
-brew install aws-sam-cli
 echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> $BASH_ENV
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+brew install aws-sam-cli
 sam --version
