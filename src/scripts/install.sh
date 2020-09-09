@@ -8,7 +8,9 @@ elif  grep Debian /etc/issue > /dev/null 2>&1 || grep Ubuntu /etc/issue > /dev/n
     fi
     echo "Brew is installed"
 fi
-brew install aws/tap/aws-sam-cli
 # Install twice as bug patch. See https://github.com/CircleCI-Public/aws-sam-serverless-orb/issues/20
-brew install aws/tap/aws-sam-cli
+brew tap aws/tap
+brew install aws-sam-cli
+echo "Second install for bug patch"
+brew install aws-sam-cli
 sam --version
