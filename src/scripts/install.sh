@@ -9,4 +9,5 @@ elif  grep Debian /etc/issue > /dev/null 2>&1 || grep Ubuntu /etc/issue > /dev/n
     echo "Brew is installed"
 fi
 brew install aws/tap/aws-sam-cli
+brew install aws/tap/aws-sam-cli
 sam --version
