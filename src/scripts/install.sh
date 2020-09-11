@@ -9,9 +9,7 @@ elif  grep Debian /etc/issue > /dev/null 2>&1 || grep Ubuntu /etc/issue > /dev/n
     echo "Brew is installed"
 fi
 # Install twice as bug patch. See https://github.com/CircleCI-Public/aws-sam-serverless-orb/issues/20
-if ! command -v python >/dev/null 2>&1; then
-    brew install python
-fi
+brew install python
 pip3 install aws-sam-cli
 
 sam --version
