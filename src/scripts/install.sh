@@ -5,6 +5,7 @@ elif  grep Debian /etc/issue > /dev/null 2>&1 || grep Ubuntu /etc/issue > /dev/n
     if ! command -v brew >/dev/null 2>&1; then
         curl -fsSL "https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh" | bash
         /home/linuxbrew/.linuxbrew/bin/brew shellenv >> "$BASH_ENV"
+        source $BASH_ENV
     fi
     echo "Brew is installed"
 fi
