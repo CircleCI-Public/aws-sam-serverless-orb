@@ -1,0 +1,5 @@
+description: >
+  Machine executor provided by CircleCI. Needed for privileged access to Docker
+  for the SAM CLI.
+machine:
+  image: ubuntu-1604:202007-01
