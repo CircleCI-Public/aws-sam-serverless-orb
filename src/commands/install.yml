@@ -65,6 +65,7 @@ steps:
   - run:
       name: Install the AWS SAM CLI
       command: |
-        brew tap aws/tap
-        brew install aws-sam-cli
+        brew install python
+        pip3 install --user awscli
+        pip3 install aws-sam-cli
         sam --version
