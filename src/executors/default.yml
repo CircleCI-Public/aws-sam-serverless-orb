@@ -1,4 +1,4 @@
 description: >
-  the default execution environment for the deploy job. A Python based CircleCI Convenience image with optional Remote Docker service.
-docker:
-  - image: cimg/python:3.8.5
+  The default execution environment for the deploy job.
+machine:
+  image: cimg/base:2020.07-20.04
