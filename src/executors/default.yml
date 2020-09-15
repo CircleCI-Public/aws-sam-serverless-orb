@@ -3,4 +3,3 @@ description: >
   for the SAM CLI.
 machine:
   image: ubuntu-2004:202008-01
-  
