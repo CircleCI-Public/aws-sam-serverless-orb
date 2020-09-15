@@ -83,7 +83,7 @@ workflows:
           capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
           name: deploy-job-test-dev
           template: "./sample_test/sam-app/template.yaml"
-          stack-name: "orb-deploy-job-test"
+          stack-name: "orb-deploy-job-test-1"
           s3-bucket: "orb-testing"
           context: serverless-framework-orb-testing
           # python_version: "3.7.0" not used in container builds, adds significant time to job
@@ -91,7 +91,7 @@ workflows:
           capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
           name: deploy-job-test-master
           template: "./sample_test/sam-app/template.yaml"
-          stack-name: "orb-deploy-job-test"
+          stack-name: "orb-deploy-job-test-2"
           s3-bucket: "orb-testing"
           context: serverless-framework-orb-testing
           # python_version: "3.7.0" not used in container builds, adds significant time to job
