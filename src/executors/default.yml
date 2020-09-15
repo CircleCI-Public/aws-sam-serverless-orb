@@ -1,4 +1,4 @@
 description: >
   The default execution environment for the deploy job.
 machine:
-  image: cimg/base:2020.07-20.04
+  image: ubuntu-2004:202008-01
