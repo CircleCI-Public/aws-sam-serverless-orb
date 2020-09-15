@@ -50,21 +50,12 @@ steps:
           command: |
             pyenv versions
             pyenv global << parameters.python_version >>
-  - aws-cli/install
-  - aws-cli/configure:
+  - aws-cli/setup:
       profile-name: << parameters.profile-name >>
       aws-access-key-id: << parameters.aws-access-key-id >>
       aws-secret-access-key: << parameters.aws-secret-access-key >>
       aws-region: << parameters.aws-region >>
       configure-default-region: << parameters.configure-default-region >>
   - run:
-      name: Install Homebrew (for Linux)
-      command: |
-        curl -fsSL "https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh" | bash
-        /home/linuxbrew/.linuxbrew/bin/brew shellenv >> $BASH_ENV
-  - run:
-      name: Install the AWS SAM CLI
-      command: |
-        brew tap aws/tap
-        brew install aws-sam-cli
-        sam --version
+      name: Install SAM CLI
+      command: <<include(scripts/install.sh)>>
