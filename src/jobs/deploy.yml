@@ -56,7 +56,6 @@ parameters:
     default: ""
 steps:
   - checkout
-  - setup_remote_docker
   - install:
       profile-name: << parameters.profile-name >>
       python_version: << parameters.python_version >>
