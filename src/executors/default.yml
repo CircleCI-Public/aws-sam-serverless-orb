@@ -1,5 +1,4 @@
 description: >
-  Machine executor provided by CircleCI. Needed for privileged access to Docker
-  for the SAM CLI.
-machine:
-  image: ubuntu-1604:202007-01
+  the default execution environment for the deploy job. A Python based CircleCI Convenience image with optional Remote Docker service.
+docker:
+  - image: cimg/python:3.8.5
