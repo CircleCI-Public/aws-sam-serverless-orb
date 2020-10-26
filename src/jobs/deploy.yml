@@ -54,6 +54,10 @@ parameters:
     type: string
     description: AWS CloudFormation parameter overrides encoded as key=value pairs. Use the same format as the AWS CLI.
     default: ""
+  no-fail-on-empty-changeset:
+    type: boolean
+    description: Specify if deploy command hould return a zero exit code if there are no changes to be made to the stack.
+    default: true
 steps:
   - checkout
   - install:
@@ -79,3 +83,4 @@ steps:
       aws-region: << parameters.aws-region >>
       debug: << parameters.debug >>
       parameter-overrides: << parameters.parameter-overrides >>
+      no-fail-on-empty-changeset: << parameters.no-fail-on-empty-changeset >>
