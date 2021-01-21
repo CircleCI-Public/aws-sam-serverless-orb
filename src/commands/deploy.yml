@@ -36,14 +36,13 @@ parameters:
     default: true
 steps:
   - run:
-      command: |
-        sam deploy \
-          --capabilities << parameters.capabilities >> \
-          --template-file << parameters.template >> \
-          --stack-name << parameters.stack-name >> \
-          <<# parameters.profile-name >>--profile << parameters.profile-name >><</ parameters.profile-name >> \
-          --region $<< parameters.aws-region >> \
-          <<# parameters.debug >>--debug<</ parameters.debug >> \
-          <<# parameters.no-fail-on-empty-changeset >>--no-fail-on-empty-changeset<</ parameters.no-fail-on-empty-changeset >> \
-          <<# parameters.parameter-overrides >>--parameter-overrides << parameters.parameter-overrides >><</ parameters.parameter-overrides >>
-
+      environment:
+        SAM_PARAM_CAPABILITIES: <<parameters.capabilities>>
+        SAM_PARAM_TEMPLATE: <<parameters.template>>
+        SAM_PARAM_STACK_NAME: <<parameters.stack-name>>
+        SAM_PARAM_PROFILE_NAME: <<parameters.profile-name>>
+        SAM_PARAM_AWS_REGION: <<parameters.aws-region>>
+        SAM_PARAM_DEBUG: <<parameters.debug>>
+        SAM_PARAM_PARAMETER_OVERRIDES: <<parameters.parameter-overrides>>
+        SAM_PARAM_PARAMETER_NOFAIL: <<parameters.no-fail-on-empty-changeset>>
+      command: <<include(scripts/deploy.sh)>>
