@@ -1,7 +1,10 @@
-echo $SAM_PARAM_TEMPLATE
 set -o noglob
-set -- "$@" --capabilities "$SAM_PARAM_CAPABILITIES"
+echo "$SAM_PARAM_CAPABILITIES"
+echo "$(eval "echo $SAM_PARAM_CAPABILITIES")"
+
+set -- "$@" --capabilities "$(eval "echo $SAM_PARAM_CAPABILITIES")"
 set -- "$@" --stack-name "$SAM_PARAM_STACK_NAME"
+
 TEMP_REGION="\$"$(echo $SAM_PARAM_AWS_REGION)""
 set -- "$@" --region "$(eval "echo $TEMP_REGION")"
 
