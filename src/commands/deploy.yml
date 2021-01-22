@@ -10,7 +10,7 @@ parameters:
     description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
   capabilities:
     type: string
-    description: A list of capabilities that you must specify before AWS Cloudformation can create certain stacks. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.
+    description: Comma separated list of capabilities for AWS Cloudformation to create stacks. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.
     default: "CAPABILITY_IAM"
   profile-name:
     type: string
@@ -36,6 +36,7 @@ parameters:
     default: true
 steps:
   - run:
+      name: Deploy SAM application
       environment:
         SAM_PARAM_CAPABILITIES: <<parameters.capabilities>>
         SAM_PARAM_TEMPLATE: <<parameters.template>>

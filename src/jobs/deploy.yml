@@ -12,6 +12,7 @@ parameters:
     description: "Run these steps prior to deploying the application, but after the checkout, install, build, and package steps."
   capabilities:
       type: string
+      description: Comma separated list of capabilities for AWS Cloudformation to create stacks. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.
       default: "CAPABILITY_IAM"
   validate:
     type: boolean
