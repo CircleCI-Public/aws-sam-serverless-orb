@@ -1,6 +1,6 @@
 set -o noglob
 
-set -- "$@" --profile "$X"
+set -- "$@" --profile "$SAM_PARAM_PROFILE"
 set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
 
 TEMP_REGION="\$"$(echo $SAM_PARAM_AWS_REGION)""
