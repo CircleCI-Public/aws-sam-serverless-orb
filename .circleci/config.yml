@@ -90,7 +90,7 @@ workflows:
       - sam/deploy:
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           name: deploy-job-test-container
-          template: "./sample_test/sam-app/template.yaml"
+          template: "./sample_test/sam-container/template.yaml"
           stack-name: "orb-deploy-job-test-2"
           image-repository: $DEMO_IMG_URI
           context: serverless-framework-orb-testing

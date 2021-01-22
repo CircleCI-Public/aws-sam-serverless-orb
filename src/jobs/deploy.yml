@@ -32,6 +32,11 @@ parameters:
   s3-bucket:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
+    default: ""
+  image-repository:
+    type: string
+    description: The name of the ECR image repository to push the Lamda container. If this option is set, the SAM package command will be run automatically.
+    default: ""
   profile-name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
@@ -70,6 +75,7 @@ steps:
       base-dir: << parameters.base-dir >>
       template: << parameters.template >>
       s3-bucket: << parameters.s3-bucket >>
+      image-repository: << parameters.image-repository >>
       output-template-file: "~/packaged_template.yml"
       profile-name: << parameters.profile-name >>
       use-container: << parameters.use-container >>
