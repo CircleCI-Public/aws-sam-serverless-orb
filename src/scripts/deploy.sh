@@ -1,8 +1,7 @@
 set -o noglob
-
-TEMP_CAPABILITIES=("$SAM_PARAM_CAPABILITIES")
-
-set -- "$@" --capabilities "${TEMP_CAPABILITIES[@]}"
+IFS=', ' read -r -a ARRAY_CAPABILITIES <<< "$SAM_PARAM_CAPABILITIES"
+echo "${ARRAY_CAPABILITIES[@]}"
+set -- "$@" --capabilities "${ARRAY_CAPABILITIES[@]}"
 set -- "$@" --stack-name "$SAM_PARAM_STACK_NAME"
 
 TEMP_REGION="\$"$(echo $SAM_PARAM_AWS_REGION)""
