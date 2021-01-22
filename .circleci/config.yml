@@ -92,7 +92,7 @@ workflows:
           name: deploy-job-test-container
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test-2"
-          s3-bucket: "orb-testing"
+          image-repository: $DEMO_IMG_URI
           context: serverless-framework-orb-testing
           # python_version: "3.7.0" not used in container builds, adds significant time to job
       # Publish a semver version of the orb. relies on
