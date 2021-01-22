@@ -8,7 +8,7 @@ if [ -n "$SAM_PARAM_PROFILE_NAME" ]; then
     set -- "$@" --profile "$SAM_PARAM_PROFILE_NAME"
 fi
 if [ -n "$SAM_PARAM_TEMPLATE" ]; then
-    set -- "$@" --template-file $SAM_PARAM_TEMPLATE
+    set -- "$@" --template-file $(eval "$SAM_PARAM_TEMPLATE")
 fi
 if [ "$SAM_PARAM_DEBUG" = 1 ]; then
     set -- "$@" --debug
