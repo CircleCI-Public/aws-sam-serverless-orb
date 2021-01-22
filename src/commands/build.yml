@@ -84,4 +84,4 @@ steps:
         SAM_PARAM_S3_BUCKET: << parameters.s3-bucket >>
         SAM_PARAM_OUTPUT_TEMPLATE: << parameters.output-template-file >>
         SAM_PARAM_IMAGE_REPO: << parameters.image-repository >>
-      command: <<include(package.sh)>>
+      command: <<include(scripts/package.sh)>>
