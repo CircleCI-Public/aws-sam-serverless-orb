@@ -1,4 +1,5 @@
 echo $SAM_PARAM_TEMPLATE
+set -o noglob
 set -- "$@" --capabilities "$SAM_PARAM_CAPABILITIES"
 set -- "$@" --stack-name "$SAM_PARAM_STACK_NAME"
 set -- "$@" --region "$SAM_PARAM_AWS_REGION"
