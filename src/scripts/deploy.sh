@@ -1,6 +1,8 @@
 set -o noglob
 
-set -- "$@" --capabilities $SAM_PARAM_CAPABILITIES
+TEMP_CAPABILITIES=("$SAM_PARAM_CAPABILITIES")
+
+set -- "$@" --capabilities "${TEMP_CAPABILITIES[@]}"
 set -- "$@" --stack-name "$SAM_PARAM_STACK_NAME"
 
 TEMP_REGION="\$"$(echo $SAM_PARAM_AWS_REGION)""
