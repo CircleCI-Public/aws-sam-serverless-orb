@@ -2,7 +2,8 @@ echo $SAM_PARAM_TEMPLATE
 set -o noglob
 set -- "$@" --capabilities "$SAM_PARAM_CAPABILITIES"
 set -- "$@" --stack-name "$SAM_PARAM_STACK_NAME"
-set -- "$@" --region "$(eval "echo $SAM_PARAM_AWS_REGION")"
+TEMP_REGION="\$"$(echo $SAM_PARAM_AWS_REGION)""
+set -- "$@" --region "$(eval "echo $TEMP_REGION")"
 
 if [ -n "$SAM_PARAM_PROFILE_NAME" ]; then
     set -- "$@" --profile "$SAM_PARAM_PROFILE_NAME"
