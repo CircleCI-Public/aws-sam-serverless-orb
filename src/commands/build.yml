@@ -26,6 +26,10 @@ parameters:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
     default: ""
+  image-repository:
+    type: string
+    description: The name of the ECR image repository to push the Lamda container. If this option is set, the SAM package command will be run automatically.
+    default: ""
   output-template-file:
     type: string
     description: The path to the file where the command writes the packaged template. If you don't specify a path, the command writes the template to the standard output.
@@ -70,15 +74,14 @@ steps:
         SAM_PARAM_AWS_REGION: << parameters.aws-region >>
         SAM_PARAM_DEBUG: << parameters.debug >>
       command: <<include(scripts/build.sh)>>
-  - when:
-      condition: << parameters.s3-bucket >>
-      steps:
-        - run:
-            name: "Package SAM app for deployment"
-            command: |
-              sam package --template-file << parameters.template >> \
-              --s3-bucket << parameters.s3-bucket >> \
-              <<# parameters.output-template-file >>--output-template-file << parameters.output-template-file >> \
-              <</ parameters.output-template-file >>--profile << parameters.profile-name >> \
-              --region $<< parameters.aws-region >> \
-              <<# parameters.debug >>--debug<</ parameters.debug >>
+  - run:
+      name: "Package SAM app for deployment"
+      environment:
+        SAM_PARAM_TEMPLATE: << parameters.template >>
+        SAM_PARAM_PROFILE: << parameters.profile-name >>
+        SAM_PARAM_AWS_REGION: << parameters.aws-region >>
+        SAM_PARAM_DEBUG: << parameters.debug >>
+        SAM_PARAM_S3_BUCKET: << parameters.s3-bucket >>
+        SAM_PARAM_OUTPUT_TEMPLATE: << parameters.output-template-file >>
+        SAM_PARAM_IMAGE_REPO: << parameters.image-repository >>
+      command: <<include(package.sh)>>
