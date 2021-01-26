@@ -21,10 +21,10 @@ if [ -n "$SAM_PARAM_S3_BUCKET" ] || [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
         IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$SAM_PARAM_CAPABILITIES"
         REPOARRYLEN=${#ARRAY_REPOSITORIES[@]}
         if [ "$REPOARRYLEN" = 1 ]; then
-            set -- "$@" --image-repository "${ARRAY_REPOSITORIES[0]}"
+            set -- "$@" --image-repository "$(eval "echo ${ARRAY_REPOSITORIES[0]}")"
         else
             for image in "${!ARRAY_REPOSITORIES[@]}"; do
-                set -- "$@" --image-repositories "${ARRAY_REPOSITORIES[image]}"
+                set -- "$@" --image-repositories "$(eval "echo ${ARRAY_REPOSITORIES[image]}")"
             done
         fi
     fi

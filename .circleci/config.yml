@@ -92,7 +92,7 @@ workflows:
           name: deploy-job-test-container
           template: "./sample_test/sam-container/template.yaml"
           stack-name: "orb-deploy-job-test-2"
-          image-repository: $DEMO_IMG_URI
+          image-repositories: $DEMO_IMG_URI
           context: serverless-framework-orb-testing
           validate: false
           # python_version: "3.7.0" not used in container builds, adds significant time to job
