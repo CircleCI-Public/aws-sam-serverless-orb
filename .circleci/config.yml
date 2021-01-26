@@ -94,6 +94,7 @@ workflows:
           stack-name: "orb-deploy-job-test-2"
           image-repository: $DEMO_IMG_URI
           context: serverless-framework-orb-testing
+          validate: false
           # python_version: "3.7.0" not used in container builds, adds significant time to job
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"

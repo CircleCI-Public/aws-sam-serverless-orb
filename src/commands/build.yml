@@ -26,9 +26,9 @@ parameters:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
     default: ""
-  image-repository:
+  image-repositories:
     type: string
-    description: The name of the ECR image repository to push the Lamda container. If this option is set, the SAM package command will be run automatically.
+    description: Comma separated list of the ECR image repositories to push the Lambda container. If this option is set, the SAM package command will be run automatically.
     default: ""
   output-template-file:
     type: string
@@ -83,5 +83,5 @@ steps:
         SAM_PARAM_DEBUG: << parameters.debug >>
         SAM_PARAM_S3_BUCKET: << parameters.s3-bucket >>
         SAM_PARAM_OUTPUT_TEMPLATE: << parameters.output-template-file >>
-        SAM_PARAM_IMAGE_REPO: << parameters.image-repository >>
+        SAM_PARAM_IMAGE_REPO: << parameters.image-repositories >>
       command: <<include(scripts/package.sh)>>
