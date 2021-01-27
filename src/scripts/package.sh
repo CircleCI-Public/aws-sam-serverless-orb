@@ -19,7 +19,7 @@ if [ -n "$SAM_PARAM_S3_BUCKET" ] || [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
         if [ -n "$SAM_PARAM_S3_BUCKET" ]; then
             echo " parameters.s3-bucket cannot be set if parameters.image-repository is also configured. Remove one of these options."
         fi
-        IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$SAM_PARAM_CAPABILITIES"
+        IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$SAM_PARAM_IMAGE_REPO"
         REPOARRYLEN=${#ARRAY_REPOSITORIES[@]}
         echo "DEBUG: $REPOARRYLEN"
         if [ "$REPOARRYLEN" = 1 ]; then
