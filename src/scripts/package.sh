@@ -1,4 +1,5 @@
-
+echo "DEBUG: $SAM_PARAM_IMAGE_REPO"
+echo "DEBUG: $(eval "$SAM_PARAM_IMAGE_REPO")"
 if [ -n "$SAM_PARAM_S3_BUCKET" ] || [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
     set -o noglob
     set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
