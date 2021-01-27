@@ -1,4 +1,4 @@
-echo "DEBUG: $(echo "$SAM_PARAM_IMAGE_REPO")"
+echo "DEBUG: $(eval echo "$SAM_PARAM_IMAGE_REPO")"
 if [ -n "$SAM_PARAM_S3_BUCKET" ] || [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
     set -o noglob
     set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
@@ -24,11 +24,11 @@ if [ -n "$SAM_PARAM_S3_BUCKET" ] || [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
         echo "DEBUG: $REPOARRYLEN"
         if [ "$REPOARRYLEN" = 1 ]; then
             echo "DEBUG: ${ARRAY_REPOSITORIES[0]}"
-            set -- "$@" --image-repository "$(echo "${ARRAY_REPOSITORIES[0]}")"
+            set -- "$@" --image-repository "$(eval echo "${ARRAY_REPOSITORIES[0]}")"
         else
             for image in "${!ARRAY_REPOSITORIES[@]}"; do
                 echo "DEBUG: ${ARRAY_REPOSITORIES[image]}"
-                set -- "$@" --image-repositories "$(echo "${ARRAY_REPOSITORIES[image]}")"
+                set -- "$@" --image-repositories "$(eval echo "${ARRAY_REPOSITORIES[image]}")"
             done
         fi
     fi
