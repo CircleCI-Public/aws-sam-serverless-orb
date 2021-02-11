@@ -34,6 +34,10 @@ parameters:
     type: boolean
     description: Specify if deploy command hould return a zero exit code if there are no changes to be made to the stack.
     default: true
+  image-repositories:
+    type: string
+    description: Comma separated list of the ECR image repositories to push the Lambda container. If this option is set, the SAM package command will be run automatically.
+    default: ""
 steps:
   - run:
       name: Deploy SAM application
@@ -46,4 +50,5 @@ steps:
         SAM_PARAM_DEBUG: <<parameters.debug>>
         SAM_PARAM_PARAMETER_OVERRIDES: <<parameters.parameter-overrides>>
         SAM_PARAM_PARAMETER_NOFAIL: <<parameters.no-fail-on-empty-changeset>>
+        SAM_PARAM_IMAGE_REPO: << parameters.image-repositories >>
       command: <<include(scripts/deploy.sh)>>

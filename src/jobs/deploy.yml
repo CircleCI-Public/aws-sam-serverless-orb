@@ -89,3 +89,4 @@ steps:
       debug: << parameters.debug >>
       parameter-overrides: << parameters.parameter-overrides >>
       no-fail-on-empty-changeset: << parameters.no-fail-on-empty-changeset >>
+      image-repositories: << parameters.image-repositories >>
