@@ -1,6 +1,7 @@
 set -o noglob
 set_image_repos () {
-    echo "DEBUG: " "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
+    set -o noglob
+    echo "DEBUG: set_image_repos called" "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
     IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
     REPOARRYLEN=${#ARRAY_REPOSITORIES[@]}
     if [ "$REPOARRYLEN" = 1 ]; then
@@ -43,5 +44,5 @@ fi
 if [ -n "$SAM_PARAM_PARAMETER_OVERRIDES" ]; then
     set -- "$@" --parameter-overrides "$SAM_PARAM_PARAMETER_OVERRIDES"
 fi
-
+echo "DEBUG: settings" "$@"
 sam deploy "$@"

@@ -1,6 +1,7 @@
 set -o noglob
 set_image_repos () {
-    echo "DEBUG: " "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
+    set -o noglob
+    echo "DEBUG: set_image_repos called" "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
     IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
     REPOARRYLEN=${#ARRAY_REPOSITORIES[@]}
     if [ "$REPOARRYLEN" = 1 ]; then
@@ -16,7 +17,6 @@ set_image_repos () {
         done
     fi
 }
-echo "DEBUG: $(eval echo "$SAM_PARAM_IMAGE_REPO")"
 if [ -n "$SAM_PARAM_S3_BUCKET" ] || [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
     set -- "$@" --profile "$SAM_PARAM_PROFILE"
 
@@ -43,7 +43,7 @@ if [ -n "$SAM_PARAM_S3_BUCKET" ] || [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
     if [ "$SAM_PARAM_DEBUG" = 1 ]; then
         set -- "$@" --debug
     fi
-
+    echo "DEBUG: settings" "$@"
     sam package "$@"
 else
     echo "No S3 Bucket or Image repo provided."
