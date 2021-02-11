@@ -1,5 +1,6 @@
 set -o noglob
-set_image_repos() {
+set_image_repos () {
+    echo "DEBUG: " "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
     IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
     REPOARRYLEN=${#ARRAY_REPOSITORIES[@]}
     if [ "$REPOARRYLEN" = 1 ]; then
