@@ -76,7 +76,6 @@ steps:
       template: << parameters.template >>
       s3-bucket: << parameters.s3-bucket >>
       image-repositories: << parameters.image-repositories >>
-      output-template-file: "~/packaged_template.yml"
       profile-name: << parameters.profile-name >>
       use-container: << parameters.use-container >>
       aws-region: << parameters.aws-region >>
@@ -84,7 +83,6 @@ steps:
   - steps: << parameters.pre-deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
-      template: "~/packaged_template.yml"
       stack-name: << parameters.stack-name >>
       profile-name: << parameters.profile-name >>
       aws-region: << parameters.aws-region >>

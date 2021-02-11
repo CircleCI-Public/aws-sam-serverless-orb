@@ -2,12 +2,7 @@ set -o noglob
 
 set -- "$@" --profile "$SAM_PARAM_PROFILE"
 
-if [ -f ".aws-sam/build/template.yaml" ]; then
-  echo "Debug: Loading previously built template file"
-  set -- "$@" --template-file .aws-sam/build/template.yaml
-else
-  set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
-fi
+set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
 
 TEMP_REGION="\$"$(echo $SAM_PARAM_AWS_REGION)""
 set -- "$@" --region "$(eval "echo $TEMP_REGION")"
