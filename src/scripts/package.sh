@@ -1,22 +1,4 @@
 set -o noglob
-set_image_repos () {
-    set -o noglob
-    echo "DEBUG: set_image_repos called" "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
-    IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
-    REPOARRYLEN=${#ARRAY_REPOSITORIES[@]}
-    if [ "$REPOARRYLEN" = 1 ]; then
-        echo "DEBUG: Single image repo"
-        echo "DEBUG: ${ARRAY_REPOSITORIES[0]}"
-        set -- "$@" --image-repository "$(eval echo "${ARRAY_REPOSITORIES[0]}")"
-    else
-        for image in "${!ARRAY_REPOSITORIES[@]}"; do
-            echo "DEBUG: Multi image repo"
-            echo "Images: ${#ARRAY_REPOSITORIES[@]}"
-            echo "DEBUG: ${ARRAY_REPOSITORIES[image]}"
-            set -- "$@" --image-repositories "$(eval echo "${ARRAY_REPOSITORIES[image]}")"
-        done
-    fi
-}
 if [ -n "$SAM_PARAM_S3_BUCKET" ] || [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
     set -- "$@" --profile "$SAM_PARAM_PROFILE"
 
@@ -35,7 +17,22 @@ if [ -n "$SAM_PARAM_S3_BUCKET" ] || [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
             echo " parameters.s3-bucket cannot be set if parameters.image-repository is also configured. Remove one of these options."
             exit 1
         fi
-        set_image_repos
+        # Set Image Repos
+        echo "DEBUG: set_image_repos called" "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
+        IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
+        REPOARRYLEN=${#ARRAY_REPOSITORIES[@]}
+        if [ "$REPOARRYLEN" = 1 ]; then
+            echo "DEBUG: Single image repo"
+            echo "DEBUG: ${ARRAY_REPOSITORIES[0]}"
+            set -- "$@" --image-repository "$(eval echo "${ARRAY_REPOSITORIES[0]}")"
+        else
+            for image in "${!ARRAY_REPOSITORIES[@]}"; do
+                echo "DEBUG: Multi image repo"
+                echo "Images: ${#ARRAY_REPOSITORIES[@]}"
+                echo "DEBUG: ${ARRAY_REPOSITORIES[image]}"
+                set -- "$@" --image-repositories "$(eval echo "${ARRAY_REPOSITORIES[image]}")"
+            done
+        fi
     else
         set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
     fi
