@@ -90,3 +90,4 @@ steps:
       parameter-overrides: << parameters.parameter-overrides >>
       no-fail-on-empty-changeset: << parameters.no-fail-on-empty-changeset >>
       image-repositories: << parameters.image-repositories >>
+      s3-bucket: << parameters.s3-bucket >>
