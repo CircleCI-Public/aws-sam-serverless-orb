@@ -74,8 +74,6 @@ steps:
       build-dir: << parameters.build-dir >>
       base-dir: << parameters.base-dir >>
       template: << parameters.template >>
-      s3-bucket: << parameters.s3-bucket >>
-      image-repositories: << parameters.image-repositories >>
       profile-name: << parameters.profile-name >>
       use-container: << parameters.use-container >>
       aws-region: << parameters.aws-region >>

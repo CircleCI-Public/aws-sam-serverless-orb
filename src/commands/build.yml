@@ -1,8 +1,6 @@
 description: >
-  Build your Lambda source code and generate deployment artifacts that target Lambda's execution environment.
+  Build your Lambda source.
   The sam build command iterates through the functions in your application, looks for a manifest file (such as requirements.txt) that contains the dependencies, and automatically creates deployment artifacts that you can deploy to Lambda using the sam package and sam deploy commands. You can also use sam build in combination with other commands like sam local invoke to test your application locally.
-
-  Optionally package for s3 or run locally.
 
   Ensure CLI has been installed before utilizing.
 
@@ -22,18 +20,6 @@ parameters:
   template:
     type: string
     description: The AWS SAM template file
-  s3-bucket:
-    type: string
-    description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
-    default: ""
-  image-repositories:
-    type: string
-    description: Comma separated list of the ECR image repositories to push the Lambda container. If this option is set, the SAM package command will be run automatically.
-    default: ""
-  output-template-file:
-    type: string
-    description: The path to the file where the command writes the packaged template. If you don't specify a path, the command writes the template to the standard output.
-    default: ""
   profile-name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
@@ -74,14 +60,3 @@ steps:
         SAM_PARAM_AWS_REGION: << parameters.aws-region >>
         SAM_PARAM_DEBUG: << parameters.debug >>
       command: <<include(scripts/build.sh)>>
-  - run:
-      name: "Package SAM app for deployment"
-      environment:
-        SAM_PARAM_TEMPLATE: << parameters.template >>
-        SAM_PARAM_PROFILE: << parameters.profile-name >>
-        SAM_PARAM_AWS_REGION: << parameters.aws-region >>
-        SAM_PARAM_DEBUG: << parameters.debug >>
-        SAM_PARAM_S3_BUCKET: << parameters.s3-bucket >>
-        SAM_PARAM_OUTPUT_TEMPLATE: << parameters.output-template-file >>
-        SAM_PARAM_IMAGE_REPO: << parameters.image-repositories >>
-      command: <<include(scripts/package.sh)>>
