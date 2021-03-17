@@ -22,7 +22,8 @@ parameters:
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   test_local_invoke:
-    executor: sam/default
+    machine:
+      image: ubuntu-2004:202010-01
     steps:
       - checkout
       - sam/install
