@@ -1,0 +1,21 @@
+description: >
+  Deploy a Lambda Docker container via SAM
+usage:
+  version: 2.1
+  orbs:
+    sam: circleci/aws-sam-serverless@3.0
+  jobs:
+    test_my_api:
+      docker:
+        - image: cimg/node:lts
+      steps:
+        - run: echo "Run your API tests here"
+  workflows:
+    deploy_image:
+      jobs:
+        - sam/deploy:
+            template: ./path/to/template.yml
+            stack-name: staging-stack
+            image-repositories: $IMG_URI
+            # Store AWS credentials in context
+            context: aws-credentials-context

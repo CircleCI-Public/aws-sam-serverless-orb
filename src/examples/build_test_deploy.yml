@@ -18,6 +18,7 @@ usage:
             template: ./path/to/template.yml
             stack-name: staging-stack
             s3-bucket: my-s3-bucket
+            # Store AWS credentials in context
             context: aws-credentials-context
         - test_my_api:
             requires:
@@ -26,5 +27,7 @@ usage:
             name: deploy-production
             template: "./path/to/template.yml"
             stack-name: "production-stack"
+            # Store AWS credentials in context
+            context: aws-credentials-context
             requires:
               - test_my_api
