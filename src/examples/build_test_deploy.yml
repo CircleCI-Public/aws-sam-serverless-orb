@@ -1,21 +1,24 @@
 description: >
-  Test application in a staging environment in Cloudformation before deploying to production.
+  Test your Lambda functions in a staging environement before deploying to production with the "deploy" job.
 usage:
   version: 2.1
   orbs:
-    sam: circleci/aws-sam-serverless@x.y.z
+    sam: circleci/aws-sam-serverless@3.0
   jobs:
     test_my_api:
-      executor: sam/default
+      docker:
+        - image: cimg/node:lts
       steps:
-        - run: echo "Run your tests here"
+        - run: echo "Run your API tests here"
   workflows:
     test_and_deploy:
       jobs:
         - sam/deploy:
             name: deploy-staging
-            template: "./path/to/template.yml"
-            stack-name: "staging-stack"
+            template: ./path/to/template.yml
+            stack-name: staging-stack
+            s3-bucket: my-s3-bucket
+            context: aws-credentials-context
         - test_my_api:
             requires:
               - deploy-staging

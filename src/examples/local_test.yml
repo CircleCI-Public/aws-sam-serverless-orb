@@ -3,7 +3,7 @@ description: >
 usage:
   version: 2.1
   orbs:
-    sam: circleci/aws-sam-serverless@x.y.z
+    sam: circleci/aws-sam-serverless@3.0.0
   jobs:
     build_and_package:
       executor: sam/default # Or your own. Machine executor recommended.

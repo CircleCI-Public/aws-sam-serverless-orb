@@ -3,10 +3,12 @@ description: >
 usage:
   version: 2.1
   orbs:
-    sam: circleci/aws-sam-serverless@x.y.z
+    sam: circleci/aws-sam-serverless@3.0
   jobs:
     build_app:
-      executor: sam/default # Or your own. Machine executor recommended.
+      # The Linux Machine executor is recommended.
+      machine:
+        image: ubuntu-2004:202010-01
       steps:
         - checkout
         - sam/install
