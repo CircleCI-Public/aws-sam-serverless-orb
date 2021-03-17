@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   sam: circleci/aws-sam-serverless@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
-  shellcheck: circleci/shellcheck@2.0
 
 # Pipeline Parameters
 ## These parameters are used internally by orb-tools. Skip to the Jobs section.
@@ -39,9 +38,6 @@ workflows:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
-      - shellcheck/check:
-          dir: ./src/scripts
-          exclude: SC2148
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: circleci/aws-sam-serverless
@@ -49,7 +45,6 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - shellcheck/check
       # Trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
