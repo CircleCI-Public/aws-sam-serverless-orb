@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   sam: circleci/aws-sam-serverless@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
-  bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
 
 # Pipeline Parameters
@@ -40,27 +39,17 @@ workflows:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
-      # - shellcheck/check:
-      #     dir: ./src/scripts
-      #     exclude: SC2148
-      # optional: Run BATS tests against your scripts
-      # - bats/run:
-      #     path: ./src/tests
-      # If you accept building open source forks, protect your secrects behind a restricted context.
-      # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
-      # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
-      - hold-for-dev-publish:
-          type: approval
-          requires:
-            - orb-tools/lint
-            - orb-tools/pack
-            # - bats/run
-            # - shellcheck/check
+      - shellcheck/check:
+          dir: ./src/scripts
+          exclude: SC2148
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: circleci/aws-sam-serverless
           context: orb-publishing # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
-          requires: [hold-for-dev-publish]
+          requires:
+            - orb-tools/lint
+            - orb-tools/pack
+            - shellcheck/check
       # Trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
