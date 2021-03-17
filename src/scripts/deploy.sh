@@ -51,5 +51,4 @@ fi
 if [ -n "$SAM_PARAM_PARAMETER_OVERRIDES" ]; then
     set -- "$@" --parameter-overrides "$SAM_PARAM_PARAMETER_OVERRIDES"
 fi
-echo "DEBUG: settings" "$@"
 sam deploy "$@"
