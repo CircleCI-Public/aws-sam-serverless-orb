@@ -7,7 +7,7 @@ usage:
   jobs:
     build_and_package:
       machine:
-        image: ubuntu-2004:202010-01
+        image: ubuntu-2004:202101-01
       steps:
         - checkout
         - sam/install

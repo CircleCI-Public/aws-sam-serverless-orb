@@ -1,5 +1,5 @@
 description: >
-  Test your Lambda functions in a staging environement before deploying to production with the "deploy" job.
+  Test your Lambda functions in a staging environment before deploying to production with the "deploy" job.
 usage:
   version: 2.1
   orbs:

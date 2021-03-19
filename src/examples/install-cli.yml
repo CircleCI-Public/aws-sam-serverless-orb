@@ -8,7 +8,7 @@ usage:
     build_app:
       # The Linux Machine executor is recommended.
       machine:
-        image: ubuntu-2004:202010-01
+        image: ubuntu-2004:202101-01
       steps:
         - checkout
         - sam/install
