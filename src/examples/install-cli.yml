@@ -6,9 +6,7 @@ usage:
     sam: circleci/aws-sam-serverless@3.0
   jobs:
     build_app:
-      # The Linux Machine executor is recommended.
-      machine:
-        image: ubuntu-2004:202101-01
+      executor: sam/default
       steps:
         - checkout
         - sam/install
