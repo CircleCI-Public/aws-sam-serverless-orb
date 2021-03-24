@@ -39,17 +39,17 @@ steps:
   - when:
       condition: << parameters.python_version >>
       steps:
-      - run:
-          name: "Installing Python << parameters.python_version >>"
-          command: |
-            git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
-            pyenv update
-            pyenv install << parameters.python_version >>
-      - run:
-          name: "Switching to Python << parameters.python_version >>"
-          command: |
-            pyenv versions
-            pyenv global << parameters.python_version >>
+        - run:
+            name: "Installing Python << parameters.python_version >>"
+            command: |
+              git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
+              pyenv update
+              pyenv install << parameters.python_version >>
+        - run:
+            name: "Switching to Python << parameters.python_version >>"
+            command: |
+              pyenv versions
+              pyenv global << parameters.python_version >>
   - aws-cli/setup:
       profile-name: << parameters.profile-name >>
       aws-access-key-id: << parameters.aws-access-key-id >>
