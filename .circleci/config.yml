@@ -3,8 +3,6 @@ version: 2.1
 orbs:
   sam: circleci/aws-sam-serverless@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
-  bats: circleci/bats@1.0
-  shellcheck: circleci/shellcheck@2.0
 
 # Pipeline Parameters
 ## These parameters are used internally by orb-tools. Skip to the Jobs section.
@@ -24,7 +22,8 @@ parameters:
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   test_local_invoke:
-    executor: sam/default
+    machine:
+      image: ubuntu-2004:202101-01
     steps:
       - checkout
       - sam/install
@@ -40,27 +39,13 @@ workflows:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
-      # - shellcheck/check:
-      #     dir: ./src/scripts
-      #     exclude: SC2148
-      # optional: Run BATS tests against your scripts
-      # - bats/run:
-      #     path: ./src/tests
-      # If you accept building open source forks, protect your secrects behind a restricted context.
-      # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
-      # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
-      - hold-for-dev-publish:
-          type: approval
-          requires:
-            - orb-tools/lint
-            - orb-tools/pack
-            # - bats/run
-            # - shellcheck/check
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: circleci/aws-sam-serverless
           context: orb-publishing # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
-          requires: [hold-for-dev-publish]
+          requires:
+            - orb-tools/lint
+            - orb-tools/pack
       # Trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
@@ -80,20 +65,21 @@ workflows:
       - test_local_invoke:
           context: serverless-framework-orb-testing
       - sam/deploy:
-          capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
-          name: deploy-job-test-dev
+          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
+          name: deploy-job-test-app
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test-1"
           s3-bucket: "orb-testing"
           context: serverless-framework-orb-testing
           # python_version: "3.7.0" not used in container builds, adds significant time to job
       - sam/deploy:
-          capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
-          name: deploy-job-test-master
-          template: "./sample_test/sam-app/template.yaml"
+          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
+          name: deploy-job-test-container
+          template: "./sample_test/sam-container/template.yaml"
           stack-name: "orb-deploy-job-test-2"
-          s3-bucket: "orb-testing"
+          image-repositories: $DEMO_IMG_URI
           context: serverless-framework-orb-testing
+          validate: false
           # python_version: "3.7.0" not used in container builds, adds significant time to job
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"

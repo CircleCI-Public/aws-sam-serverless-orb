@@ -1,8 +1,6 @@
 description: >
-  Build your Lambda source code and generate deployment artifacts that target Lambda's execution environment.
+  Build your Lambda source.
   The sam build command iterates through the functions in your application, looks for a manifest file (such as requirements.txt) that contains the dependencies, and automatically creates deployment artifacts that you can deploy to Lambda using the sam package and sam deploy commands. You can also use sam build in combination with other commands like sam local invoke to test your application locally.
-
-  Optionally package for s3 or run locally.
 
   Ensure CLI has been installed before utilizing.
 
@@ -22,14 +20,6 @@ parameters:
   template:
     type: string
     description: The AWS SAM template file
-  s3-bucket:
-    type: string
-    description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
-    default: ""
-  output-template-file:
-    type: string
-    description: The path to the file where the command writes the packaged template. If you don't specify a path, the command writes the template to the standard output.
-    default: ""
   profile-name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
@@ -61,23 +51,12 @@ steps:
 
   - run:
       name: "Building SAM application"
-      command: |
-        sam build -t << parameters.template >> \
-        <<# parameters.build-dir >>--build-dir << parameters.build-dir >> \
-        <</ parameters.build-dir >><<# parameters.base-dir >>--base-dir << parameters.base-dir >> \
-        <</ parameters.base-dir >>--profile << parameters.profile-name >> \
-        <<# parameters.use-container >>--use-container \
-        <</ parameters.use-container >>--region $<< parameters.aws-region >> \
-        <<# parameters.debug >>--debug<</ parameters.debug >>
-  - when:
-      condition: << parameters.s3-bucket >>
-      steps:
-        - run:
-            name: "Package SAM app for deployment"
-            command: |
-              sam package --template-file << parameters.template >> \
-              --s3-bucket << parameters.s3-bucket >> \
-              <<# parameters.output-template-file >>--output-template-file << parameters.output-template-file >> \
-              <</ parameters.output-template-file >>--profile << parameters.profile-name >> \
-              --region $<< parameters.aws-region >> \
-              <<# parameters.debug >>--debug<</ parameters.debug >>
+      environment:
+        SAM_PARAM_TEMPLATE: << parameters.template >>
+        SAM_PARAM_BUILD_DIR: << parameters.build-dir >>
+        SAM_PARAM_BASE_DIR: << parameters.base-dir >>
+        SAM_PARAM_PROFILE: << parameters.profile-name >>
+        SAM_PARAM_CONTAINER: << parameters.use-container >>
+        SAM_PARAM_AWS_REGION: << parameters.aws-region >>
+        SAM_PARAM_DEBUG: << parameters.debug >>
+      command: <<include(scripts/build.sh)>>

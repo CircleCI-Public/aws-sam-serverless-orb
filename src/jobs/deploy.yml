@@ -1,6 +1,8 @@
 description: >
   Deploy serverless applications.
-executor: default
+executor:
+  name: default
+  machine-image: <<parameters.machine-image>>
 parameters:
   python_version:
     description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use-container is enabled.9'
@@ -11,8 +13,9 @@ parameters:
     default: []
     description: "Run these steps prior to deploying the application, but after the checkout, install, build, and package steps."
   capabilities:
-      type: string
-      default: "CAPABILITY_IAM"
+    type: string
+    description: Comma separated list of capabilities for AWS Cloudformation to create stacks. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.
+    default: "CAPABILITY_IAM"
   validate:
     type: boolean
     default: true
@@ -31,6 +34,11 @@ parameters:
   s3-bucket:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
+    default: ""
+  image-repositories:
+    type: string
+    description: Comma separated list of the ECR image repositories to push the Lambda container. If this option is set, the SAM package command will be run automatically.
+    default: ""
   profile-name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
@@ -58,6 +66,11 @@ parameters:
     type: boolean
     description: Specify if deploy command hould return a zero exit code if there are no changes to be made to the stack.
     default: true
+  machine-image:
+    default: ubuntu-2004:202010-01
+    type: string
+    description: >
+      The CircleCI Linux Machine VM Image for this job. Find other available machine images here: https://circleci.com/docs/2.0/configuration-reference/#available-machine-images
 steps:
   - checkout
   - install:
@@ -68,8 +81,6 @@ steps:
       build-dir: << parameters.build-dir >>
       base-dir: << parameters.base-dir >>
       template: << parameters.template >>
-      s3-bucket: << parameters.s3-bucket >>
-      output-template-file: "~/packaged_template.yml"
       profile-name: << parameters.profile-name >>
       use-container: << parameters.use-container >>
       aws-region: << parameters.aws-region >>
@@ -77,10 +88,11 @@ steps:
   - steps: << parameters.pre-deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
-      template: "~/packaged_template.yml"
       stack-name: << parameters.stack-name >>
       profile-name: << parameters.profile-name >>
       aws-region: << parameters.aws-region >>
       debug: << parameters.debug >>
       parameter-overrides: << parameters.parameter-overrides >>
       no-fail-on-empty-changeset: << parameters.no-fail-on-empty-changeset >>
+      image-repositories: << parameters.image-repositories >>
+      s3-bucket: << parameters.s3-bucket >>
