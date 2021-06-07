@@ -26,7 +26,8 @@ jobs:
       image: ubuntu-2004:202101-01
     steps:
       - checkout
-      - sam/install
+      - sam/install:
+          version: v1.23.0 # Fixed until sam-cli issue is resolved https://github.com/aws/aws-sam-cli/issues/2927
       - sam/local-start-api:
           template: "./sample_test/sam-app/template.yaml"
           endpoint: "hello"
