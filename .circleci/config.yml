@@ -70,7 +70,7 @@ workflows:
           name: deploy-job-test-app
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test-1"
-          s3-bucket: "orb-testing"
+          s3-bucket: "orb-testing-1"
           context: CPE_ORBS_AWS
           # python_version: "3.7.0" not used in container builds, adds significant time to job
       - sam/deploy:
