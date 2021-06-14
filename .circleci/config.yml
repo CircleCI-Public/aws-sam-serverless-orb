@@ -43,7 +43,7 @@ workflows:
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: circleci/aws-sam-serverless
-          context: orb-publishing # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
+          context: orb-publisher # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
           requires:
             - orb-tools/lint
             - orb-tools/pack
@@ -51,7 +51,7 @@ workflows:
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger-integration-dev
-          context: orb-publishing
+          context: orb-publisher
           requires:
             - orb-tools/publish-dev
 
@@ -64,14 +64,14 @@ workflows:
     jobs:
       # Run any integration tests defined within the `jobs` key.
       - test_local_invoke:
-          context: serverless-framework-orb-testing
+          context: CPE_ORBS_AWS
       - sam/deploy:
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           name: deploy-job-test-app
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test-1"
           s3-bucket: "orb-testing"
-          context: serverless-framework-orb-testing
+          context: CPE_ORBS_AWS
           # python_version: "3.7.0" not used in container builds, adds significant time to job
       - sam/deploy:
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
@@ -79,7 +79,7 @@ workflows:
           template: "./sample_test/sam-container/template.yaml"
           stack-name: "orb-deploy-job-test-2"
           image-repositories: $DEMO_IMG_URI
-          context: serverless-framework-orb-testing
+          context: CPE_ORBS_AWS
           validate: false
           # python_version: "3.7.0" not used in container builds, adds significant time to job
       # Publish a semver version of the orb. relies on
@@ -92,7 +92,7 @@ workflows:
           orb-name: circleci/aws-sam-serverless
           bot-token-variable: GHI_TOKEN
           bot-user: cpe-bot
-          context: orb-publishing
+          context: orb-publisher
           add-pr-comment: false
           ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
           fail-if-semver-not-indicated: true
