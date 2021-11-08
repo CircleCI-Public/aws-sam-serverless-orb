@@ -35,6 +35,10 @@ parameters:
   template:
     type: string
     description: The AWS SAM template file
+  config-toml:
+    type: string
+    description: The path where your AWS SAM config.toml file is located.
+    default: ""
   s3-bucket:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
@@ -101,3 +105,4 @@ steps:
       no-fail-on-empty-changeset: << parameters.no-fail-on-empty-changeset >>
       image-repositories: << parameters.image-repositories >>
       s3-bucket: << parameters.s3-bucket >>
+      config-toml: << parameters.config-toml >>

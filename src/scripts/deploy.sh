@@ -42,6 +42,9 @@ fi
 if [ -n "$SAM_PARAM_TEMPLATE" ]; then
     set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
 fi
+if [ -n "$SAM_PARAM_CONFIG_TOML" ]; then
+    set -- "$@" --config-file "$(eval "echo $SAM_PARAM_CONFIG_TOML")"
+fi
 if [ "$SAM_PARAM_DEBUG" = 1 ]; then
     set -- "$@" --debug
 fi

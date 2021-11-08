@@ -5,6 +5,10 @@ parameters:
     type: string
     description: The path where your AWS SAM template file is located.
     default: ""
+  config-toml:
+    type: string
+    description: The path where your AWS SAM config.toml file is located.
+    default: ""
   stack-name:
     type: string
     description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
@@ -48,6 +52,7 @@ steps:
       environment:
         SAM_PARAM_CAPABILITIES: <<parameters.capabilities>>
         SAM_PARAM_TEMPLATE: <<parameters.template>>
+        SAM_PARAM_CONFIG_TOML: <<parameters.config-toml>>
         SAM_PARAM_STACK_NAME: <<parameters.stack-name>>
         SAM_PARAM_PROFILE_NAME: <<parameters.profile-name>>
         SAM_PARAM_AWS_REGION: <<parameters.aws-region>>
