@@ -26,7 +26,8 @@ jobs:
       image: ubuntu-2004:202101-01
     steps:
       - checkout
-      - sam/install
+      - sam/install:
+          version: v1.23.0 # Fixed until sam-cli issue is resolved https://github.com/aws/aws-sam-cli/issues/2927
       - sam/local-start-api:
           template: "./sample_test/sam-app/template.yaml"
           endpoint: "hello"
@@ -90,12 +91,10 @@ workflows:
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: circleci/aws-sam-serverless
           bot-token-variable: GHI_TOKEN
-          bot-user: cpe-bot
           context: orb-publisher
           add-pr-comment: false
-          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
           fail-if-semver-not-indicated: true
-          publish-version-tag: true
+          publish-version-tag: false
           requires:
             - test_local_invoke
           filters:
