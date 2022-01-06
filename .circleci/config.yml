@@ -64,14 +64,14 @@ workflows:
     jobs:
       # Run any integration tests defined within the `jobs` key.
       - test_local_invoke:
-          context: CPE_ORBS_AWS
+          context: [CPE_ORBS_AWS]
       - sam/deploy:
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           name: deploy-job-test-app
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test-1"
-          s3-bucket: "orb-testing-1"
-          context: CPE_ORBS_AWS
+          s3-bucket: "sam-orb-testing"
+          context: [CPE_ORBS_AWS]
           # python_version: "3.7.0" not used in container builds, adds significant time to job
       - sam/deploy:
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
@@ -79,7 +79,7 @@ workflows:
           template: "./sample_test/sam-container/template.yaml"
           stack-name: "orb-deploy-job-test-2"
           image-repositories: $DEMO_IMG_URI
-          context: CPE_ORBS_AWS
+          context: [CPE_ORBS_AWS]
           validate: false
           # python_version: "3.7.0" not used in container builds, adds significant time to job
       # Publish a semver version of the orb. relies on
@@ -91,12 +91,10 @@ workflows:
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: circleci/aws-sam-serverless
           bot-token-variable: GHI_TOKEN
-          bot-user: orb-publisher
           context: orb-publisher
           add-pr-comment: false
-          ssh-fingerprints: 12:0a:59:7e:51:fd:ed:24:8b:98:d3:f1:f4:b5:21:a4
           fail-if-semver-not-indicated: true
-          publish-version-tag: true
+          publish-version-tag: false
           requires:
             - test_local_invoke
           filters:

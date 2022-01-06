@@ -1,6 +1,6 @@
 set -o noglob
 
-set -- "$@" --profile "$SAM_PARAM_PROFILE"
+set -- "$@" --profile "$(eval "echo $SAM_PARAM_PROFILE")"
 
 set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
 
