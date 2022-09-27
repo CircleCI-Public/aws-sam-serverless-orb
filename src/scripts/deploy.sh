@@ -1,10 +1,11 @@
+#!/bin/bash
 set -o noglob
 IFS=', ' read -r -a ARRAY_CAPABILITIES <<< "$SAM_PARAM_CAPABILITIES"
 echo "${ARRAY_CAPABILITIES[@]}"
 set -- "$@" --capabilities "${ARRAY_CAPABILITIES[@]}"
 set -- "$@" --stack-name "$(eval echo "$SAM_PARAM_STACK_NAME")"
 
-TEMP_REGION="\$"$(echo $SAM_PARAM_AWS_REGION)""
+TEMP_REGION="$(eval "echo $SAM_PARAM_AWS_REGION")"
 set -- "$@" --region "$(eval "echo $TEMP_REGION")"
 
 
