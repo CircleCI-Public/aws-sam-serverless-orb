@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "https://json.schemastore.org/circleciconfig.json": "file:///Users/kyletryon/Documents/Projects/aws-sam-serverless-orb/src/jobs/deploy.yml"
+  }
+}

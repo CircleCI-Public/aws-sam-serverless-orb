@@ -5,8 +5,7 @@ set -- "$@" --profile "$(eval "echo $SAM_PARAM_PROFILE")"
 
 set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
 
-TEMP_REGION="$(eval "echo $SAM_PARAM_AWS_REGION")"
-set -- "$@" --region "$(eval "echo $TEMP_REGION")"
+set -- "$@" --region "${!SAM_PARAM_AWS_REGION}"
 
 if [ -n "$SAM_PARAM_BUILD_DIR" ]; then
   set -- "$@" --build-dir "$(eval "echo $SAM_PARAM_BUILD_DIR")"
@@ -21,4 +20,6 @@ if [ "$SAM_PARAM_DEBUG" = 1 ]; then
   set -- "$@" --debug
 fi
 
+set -x
 sam build "$@"
+set +x

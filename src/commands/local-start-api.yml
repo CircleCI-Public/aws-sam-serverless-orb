@@ -38,13 +38,15 @@ steps:
   - run:
       name: SAM local start-api
       background: true
-      command: |
-        sam local start-api \
-        <<# parameters.template >>-t << parameters.template >> \
-        <</ parameters.template >>-p << parameters.port >> \
-        <<# parameters.env-vars >>-n << parameters.env-vars >> \
-        <</ parameters.env-vars >>
-        <<# parameters.debug >>--debug<</ parameters.debug >>
+      environment:
+        PARAM_DEBUG: <<parameters.debug>>
+        PARAM_TEMPLATE: <<parameters.template>>
+        PARAM_PORT: <<parameters.port>>
+        PARAM_ENV_VARS: <<parameters.env-vars>>
+      command: <<include(scripts/local-start-api.sh)>>
   - run:
       name: Wait for API
-      command: dockerize -wait http://127.0.0.1:3000/<< parameters.endpoint >> -timeout << parameters.timeout >>m
+      environment:
+        PARAM_ENDPOINT: <<parameters.endpoint>>
+        PARAM_TIMEOUT: <<parameters.timeout>>
+      command: <<include(scripts/dockerize-wait.sh)>>
