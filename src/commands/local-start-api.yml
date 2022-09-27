@@ -32,7 +32,9 @@ parameters:
 steps:
   - run:
       name: install dockerize
-      command: wget https://github.com/jwilder/dockerize/releases/download/v<< parameters.dockerize_version >>/dockerize-linux-amd64-v<< parameters.dockerize_version >>.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v<< parameters.dockerize_version >>.tar.gz && rm dockerize-linux-amd64-v<< parameters.dockerize_version >>.tar.gz
+      environment:
+        PARAM_DOCKERIZE_VERSION: <<parameters.dockerize_version>>
+      command: <<include(scripts/install-dockerize.sh)>>
   - run:
       name: SAM local start-api
       background: true
