@@ -39,6 +39,10 @@ parameters:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
     default: ""
+  resolve-s3:
+    type: boolean
+    description: Automatically create an Amazon S3 bucket to use for packaging and deploying for non-guided deployments. If you specify the --guided option, then the AWS SAM CLI ignores --resolve-s3. If you specify both the --s3-bucket and --resolve-s3 options, then an error occurs.
+    default: false
   image-repositories:
     type: string
     description: Comma separated list of the ECR image repositories to push the Lambda container. If this option is set, the SAM package command will be run automatically.
@@ -101,3 +105,4 @@ steps:
       no-fail-on-empty-changeset: << parameters.no-fail-on-empty-changeset >>
       image-repositories: << parameters.image-repositories >>
       s3-bucket: << parameters.s3-bucket >>
+      resolve-s3: << parameters.resolve-s3 >>

@@ -9,10 +9,6 @@ set -- "$@" --region "${!SAM_PARAM_AWS_REGION}"
 
 
 if [ -n "$SAM_PARAM_IMAGE_REPO" ]; then
-    if [ -n "$SAM_PARAM_S3_BUCKET" ]; then
-        echo " parameters.s3-bucket cannot be set if parameters.image-repository is also configured. Remove one of these options."
-        exit 1
-    fi
     echo "DEBUG: set_image_repos called" "$(eval echo "$SAM_PARAM_IMAGE_REPO")" | tee -a /tmp/sam.log
     IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$(eval echo "$SAM_PARAM_IMAGE_REPO")"
     REPOARRYLEN=${#ARRAY_REPOSITORIES[@]}
@@ -46,6 +42,9 @@ if [ "$SAM_PARAM_DEBUG" = 1 ]; then
 fi
 if [ "$SAM_PARAM_PARAMETER_NOFAIL" = 1 ]; then
     set -- "$@" --no-fail-on-empty-changeset
+fi
+if [ "$SAM_PARAM_RESOLVE_S3" = 1 ]; then
+    set -- "$@" --resolve-s3
 fi
 if [ -n "$SAM_PARAM_PARAMETER_OVERRIDES" ]; then
     set -- "$@" --parameter-overrides "$(eval "echo $SAM_PARAM_PARAMETER_OVERRIDES")"
