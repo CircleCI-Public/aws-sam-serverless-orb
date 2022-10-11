@@ -47,6 +47,9 @@ fi
 if [ "$SAM_PARAM_PARAMETER_NOFAIL" = 1 ]; then
     set -- "$@" --no-fail-on-empty-changeset
 fi
+if [ "$SAM_PARAM_RESOLVE_S3" = 1 ]; then
+    set -- "$@" --resolve-s3
+fi
 if [ -n "$SAM_PARAM_PARAMETER_OVERRIDES" ]; then
     set -- "$@" --parameter-overrides "$(eval "echo $SAM_PARAM_PARAMETER_OVERRIDES")"
 fi
