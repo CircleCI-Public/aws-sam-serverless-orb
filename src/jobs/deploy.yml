@@ -79,6 +79,10 @@ parameters:
     type: string
     description: >
       The CircleCI Linux Machine VM Image for this job. Find other available machine images here: https://circleci.com/docs/2.0/configuration-reference/#available-machine-images
+  additional-args:
+    type: string
+    description: Additional arguments to pass to the deploy command. e.x. (--resolve-image-repos)
+    default: ""
 steps:
   - checkout
   - install:
@@ -106,3 +110,4 @@ steps:
       image-repositories: << parameters.image-repositories >>
       s3-bucket: << parameters.s3-bucket >>
       resolve-s3: << parameters.resolve-s3 >>
+      additional-args: << parameters.additional-args >>
