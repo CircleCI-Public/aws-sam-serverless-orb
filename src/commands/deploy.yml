@@ -46,6 +46,10 @@ parameters:
     type: boolean
     description: Automatically create an Amazon S3 bucket to use for packaging and deploying for non-guided deployments. If you specify the --guided option, then the AWS SAM CLI ignores --resolve-s3. If you specify both the --s3-bucket and --resolve-s3 options, then an error occurs.
     default: false
+  additional-args:
+    type: string
+    description: Additional arguments to pass to the deploy command. e.x. (--resolve-image-repos)
+    default: ""
 steps:
   - run:
       name: Deploy SAM application
@@ -61,4 +65,5 @@ steps:
         SAM_PARAM_IMAGE_REPO: << parameters.image-repositories >>
         SAM_PARAM_S3_BUCKET: << parameters.s3-bucket >>
         SAM_PARAM_RESOLVE_S3: << parameters.resolve-s3 >>
+        SAM_PARAM_ADDITIONAL_ARGS: << parameters.additional-args >>
       command: <<include(scripts/deploy.sh)>>
