@@ -32,7 +32,7 @@ parameters:
     default: ""
   no-fail-on-empty-changeset:
     type: boolean
-    description: Specify if deploy command hould return a zero exit code if there are no changes to be made to the stack.
+    description: Specify if deploy command should return a zero exit code if there are no changes to be made to the stack.
     default: true
   image-repositories:
     type: string
