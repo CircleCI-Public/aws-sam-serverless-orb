@@ -87,7 +87,6 @@ steps:
   - checkout
   - install:
       version: << parameters.version >>
-      profile-name: << parameters.profile-name >>
       python_version: << parameters.python_version >>
   - build:
       validate: << parameters.validate >>
