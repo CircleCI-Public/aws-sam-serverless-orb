@@ -49,7 +49,7 @@ fi
 if [ -n "$SAM_PARAM_PARAMETER_OVERRIDES" ]; then
     set -- "$@" --parameter-overrides "$(eval "echo $SAM_PARAM_PARAMETER_OVERRIDES")"
 fi
-if [ -z "$SAM_PARAM_ADDITIONAL_ARGS" ]; then
+if [ -n "$SAM_PARAM_ADDITIONAL_ARGS" ]; then
     set -- "$@" "$SAM_PARAM_ADDITIONAL_ARGS"
 fi
 
