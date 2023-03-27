@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   sam: circleci/aws-sam-serverless@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.1
+  orb-tools: circleci/orb-tools@11.6
   aws-cli: circleci/aws-cli@3.1.3
 filters: &filters
   tags:
@@ -28,13 +28,14 @@ workflows:
           filters: *filters
       - sam/deploy:
           pre-steps:
-            - aws-cli/setup
+            - aws-cli/setup:
+                role-arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           name: deploy-job-test-app
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test-1"
           s3-bucket: "sam-orb-testing"
-          context: [CPE_ORBS_AWS]
+          context: CPE-OIDC
           filters: *filters
       - sam/deploy:
           pre-steps:
