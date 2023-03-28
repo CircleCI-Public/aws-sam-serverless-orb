@@ -75,6 +75,11 @@ parameters:
     type: string
     description: Additional arguments to pass to the deploy command. e.x. (--resolve-image-repos)
     default: ""
+  auth:
+    description: |
+      The authentication method used to access your AWS account. Import the aws-cli orb in your config and
+      provide the aws-cli/setup command to authenticate with your preferred method. View examples for more information.
+    type: steps
 docker:
   - image: cimg/aws:2023.03    
 steps:
