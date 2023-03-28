@@ -1,6 +1,14 @@
 description: >
   Deploy serverless applications.
+executor:
+  name: default
+  machine-image: <<parameters.machine-image>>
 parameters:
+  machine-image:
+    default: ubuntu-2204:2022.07.1
+    type: string
+    description: >
+      The CircleCI Linux Machine VM Image for this job. Find other available machine images here: https://circle
   version:
     description: 'SAM CLI version to be installed.'
     type: string
@@ -80,13 +88,12 @@ parameters:
       The authentication method used to access your AWS account. Import the aws-cli orb in your config and
       provide the aws-cli/setup command to authenticate with your preferred method. View examples for more information.
     type: steps
-docker:
-  - image: cimg/aws:2023.03    
 steps:
   - checkout
   - install:
       version: << parameters.version >>
       python_version: << parameters.python_version >>
+  - steps: << parameters.auth >>
   - build:
       validate: << parameters.validate >>
       build-dir: << parameters.build-dir >>

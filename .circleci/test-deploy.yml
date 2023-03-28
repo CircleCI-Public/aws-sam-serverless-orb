@@ -15,6 +15,7 @@ jobs:
       - checkout
       - aws-cli/setup:
           role-arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+          profile-name: OIDC-User
       - sam/install:
           version: 1.57.0
       - sam/local-start-api:
@@ -28,25 +29,30 @@ workflows:
           context: CPE-OIDC
           filters: *filters
       - sam/deploy:
-          pre-steps:
+          name: deploy-job-test-app
+          auth:
             - aws-cli/setup:
                 role-arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+                profile-name: OIDC-User
+          profile-name: OIDC-User
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
-          name: deploy-job-test-app
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test-1"
           s3-bucket: "sam-orb-testing"
           context: CPE-OIDC
           filters: *filters
       - sam/deploy:
-          pre-steps:
-            - aws-cli/setup
-          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           name: deploy-job-test-container
+          auth:
+            - aws-cli/setup:
+                role-arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+                profile-name: OIDC-User
+          profile-name: OIDC-User
+          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           template: "./sample_test/sam-container/template.yaml"
           stack-name: "orb-deploy-job-test-2"
           image-repositories: $DEMO_IMG_URI
-          context: [CPE_ORBS_AWS]
+          context: CPE-OIDC
           validate: false
           filters: *filters
       - orb-tools/pack:

@@ -1,13 +1,14 @@
 description: >
-  Install the SAM CLI to interact with the CLI directly.
+  Install the SAM CLI to interact with the CLI directly using.
 usage:
   version: 2.1
   orbs:
-    sam: circleci/aws-sam-serverless@4.0
+    sam: circleci/aws-sam-serverless@5.0
     aws-cli: circleci/aws-cli@3.1
   jobs:
     build_and_package:
-      executor: sam/default
+      docker:
+        - image: cimg/aws:2023.03
       steps:
         - checkout
         - aws-cli/install
