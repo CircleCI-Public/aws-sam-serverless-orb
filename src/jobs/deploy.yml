@@ -1,8 +1,5 @@
 description: >
   Deploy serverless applications.
-executor:
-  name: default
-  machine-image: <<parameters.machine-image>>
 parameters:
   version:
     description: 'SAM CLI version to be installed.'
@@ -74,15 +71,12 @@ parameters:
     type: boolean
     description: Specify if deploy command hould return a zero exit code if there are no changes to be made to the stack.
     default: true
-  machine-image:
-    default: ubuntu-2004:202010-01
-    type: string
-    description: >
-      The CircleCI Linux Machine VM Image for this job. Find other available machine images here: https://circleci.com/docs/2.0/configuration-reference/#available-machine-images
   additional-args:
     type: string
     description: Additional arguments to pass to the deploy command. e.x. (--resolve-image-repos)
     default: ""
+docker:
+  - image: cimg/aws:2023.03    
 steps:
   - checkout
   - install:
