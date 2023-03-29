@@ -1,8 +1,8 @@
 version: 2.1
 orbs:
   sam: circleci/aws-sam-serverless@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.1
-  aws-cli: circleci/aws-cli@3.1.3
+  orb-tools: circleci/orb-tools@11.6
+  aws-cli: circleci/aws-cli@3.1
 filters: &filters
   tags:
     only: /.*/
@@ -13,7 +13,9 @@ jobs:
       image: ubuntu-2004:202101-01
     steps:
       - checkout
-      - aws-cli/setup
+      - aws-cli/setup:
+          role-arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+          profile-name: OIDC-User
       - sam/install:
           version: 1.57.0
       - sam/local-start-api:
@@ -24,27 +26,33 @@ workflows:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       - test_local_invoke:
-          context: [CPE_ORBS_AWS]
+          context: CPE-OIDC
           filters: *filters
       - sam/deploy:
-          pre-steps:
-            - aws-cli/setup
-          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           name: deploy-job-test-app
+          auth:
+            - aws-cli/setup:
+                role-arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+                profile-name: OIDC-User
+          profile-name: OIDC-User
+          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           template: "./sample_test/sam-app/template.yaml"
           stack-name: "orb-deploy-job-test-1"
           s3-bucket: "sam-orb-testing"
-          context: [CPE_ORBS_AWS]
+          context: CPE-OIDC
           filters: *filters
       - sam/deploy:
-          pre-steps:
-            - aws-cli/setup
-          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           name: deploy-job-test-container
+          auth:
+            - aws-cli/setup:
+                role-arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+                profile-name: OIDC-User
+          profile-name: OIDC-User
+          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           template: "./sample_test/sam-container/template.yaml"
           stack-name: "orb-deploy-job-test-2"
           image-repositories: $DEMO_IMG_URI
-          context: [CPE_ORBS_AWS]
+          context: CPE-OIDC
           validate: false
           filters: *filters
       - orb-tools/pack:
