@@ -12,15 +12,15 @@ ORB_EVAL_ARGUMENTS="$(circleci env subst "${ORB_EVAL_ARGUMENTS}")"
 IFS=', ' read -r -a ARRAY_CAPABILITIES <<< "$ORB_EVAL_CAPABILITIES"
 echo "${ARRAY_CAPABILITIES[@]}"
 set -- "$@" --capabilities "${ARRAY_CAPABILITIES[@]}"
-set -- "$@" --stack-name "$(eval echo "$ORB_EVAL_STACK_NAME")"
+set -- "$@" --stack-name "$(circleci env subst "{$ORB_EVAL_STACK_NAME}")"
 
 
 set -- "$@" --region "${ORB_EVAL_REGION}"
 
 
 if [ -n "$ORB_EVAL_IMAGE_REPO" ]; then
-    echo "DEBUG: set_image_repos called" "$(eval echo "$ORB_EVAL_IMAGE_REPO")" | tee -a /tmp/sam.log
-    IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$(eval echo "$ORB_EVAL_IMAGE_REPO")"
+    echo "DEBUG: set_image_repos called" "$(circleci env subst "${ORB_EVAL_IMAGE_REPO}")"| tee -a /tmp/sam.log
+    IFS=', ' read -r -a ARRAY_REPOSITORIES <<< "$(circleci env subst "${ORB_EVAL_IMAGE_REPO}")"
     REPOARRYLEN=${#ARRAY_REPOSITORIES[@]}
     if [ "$REPOARRYLEN" = 1 ]; then
         echo "DEBUG: Single image repo named ${ARRAY_REPOSITORIES[0]}" | tee -a /tmp/sam.log
@@ -39,10 +39,10 @@ if [ -n "$ORB_EVAL_S3_BUCKET" ]; then
     if [ -n "$ORB_EVAL_IMAGE_REPO" ]; then
         echo " parameters.image-repository cannot be set if parameters.s3-bucket is also configured. Remove one of these options."
     fi
-    set -- "$@" --s3-bucket "$(eval "echo $ORB_EVAL_S3_BUCKET")"
+    set -- "$@" --s3-bucket "$(circleci env subst "${ORB_EVAL_S3_BUCKET}")"
 fi
 if [ -n "$ORB_EVAL_TEMPLATE" ]; then
-    set -- "$@" --template-file "$(eval "echo $ORB_EVAL_TEMPLATE")"
+    set -- "$@" --template-file "$(circleci env subst "${ORB_EVAL_TEMPLATE}")"
 fi
 if [ "$ORB_VAL_DEBUG" = 1 ]; then
     set -- "$@" --debug
@@ -54,7 +54,7 @@ if [ "$ORB_VAL_RESOLVE_S3" = 1 ]; then
     set -- "$@" --resolve-s3
 fi
 if [ -n "$ORB_EVAL_OVERRIDES" ]; then
-    set -- "$@" --parameter-overrides "$(eval "echo $SAM_PARAM_PARAMETER_OVERRIDES")"
+    set -- "$@" --parameter-overrides "$(circleci env subst "${ORB_EVAL_OVERRIDES}")"
 fi
 if [ -z "$ORB_EVAL_ARGUMENTS" ]; then
     set -- "$@" "$ORB_EVAL_ARGUMENTS"

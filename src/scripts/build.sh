@@ -1,15 +1,15 @@
 #!/bin/bash
 set -o noglob
 
-set -- "$@" --template-file "$(eval "echo $ORB_EVAL_TEMPLATE")"
+set -- "$@" --template-file "$(circleci env subst "${ORB_EVAL_TEMPLATE}")"
 
 set -- "$@" --region "${ORB_EVAL_REGION}"
 
 if [ -n "$ORB_EVAL_BUILD_DIR" ]; then
-  set -- "$@" --build-dir "$(eval "echo $ORB_EVAL_BUILD_DIR")"
+  set -- "$@" --build-dir "$(circleci env subst "${ORB_EVAL_BUILD_DIR}")"
 fi
 if [ -n "$ORB_EVAL_BASE_DIR" ]; then
-  set -- "$@" --base-dir "$(eval "echo $ORB_EVAL_BASE_DIR")"
+  set -- "$@" --base-dir "$(circleci env subst "${ORB_EVAL_BASE_DIR}")"
 fi
 if [ "$ORB_VAL_USE_CONTAINER" = 1 ]; then
   set -- "$@" --use-container
