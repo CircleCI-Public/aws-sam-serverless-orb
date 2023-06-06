@@ -6,14 +6,14 @@ ORB_EVAL_S3_BUCKET="$(circleci env subst "${ORB_EVAL_S3_BUCKET}")"
 ORB_EVAL_TEMPLATE="$(circleci env subst "${ORB_EVAL_TEMPLATE}")"
 ORB_EVAL_OVERRIDES="$(circleci env subst "${ORB_EVAL_OVERRIDES}")"
 ORB_EVAL_ARGUMENTS="$(circleci env subst "${ORB_EVAL_ARGUMENTS}")"
+ORB_EVAL_REGION="$(circleci env subst "${ORB_EVAL_REGION}")"
+ORB_EVAL_STACK_NAME="$(circleci env subst "${ORB_EVAL_STACK_NAME}")"
 
 
 IFS=', ' read -r -a ARRAY_CAPABILITIES <<< "$ORB_EVAL_CAPABILITIES"
 echo "${ARRAY_CAPABILITIES[@]}"
 set -- "$@" --capabilities "${ARRAY_CAPABILITIES[@]}"
-set -- "$@" --stack-name "$(circleci env subst "{$ORB_EVAL_STACK_NAME}")"
-
-
+set -- "$@" --stack-name "${ORB_EVAL_STACK_NAME}"
 set -- "$@" --region "${ORB_EVAL_REGION}"
 
 
