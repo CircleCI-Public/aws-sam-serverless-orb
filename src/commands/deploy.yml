@@ -16,12 +16,12 @@ parameters:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
     default: "default"
-  aws-region:
+  region:
     description: |
       Env var of AWS region to operate in
       (defaults to AWS_DEFAULT_REGION)
-    type: env_var_name
-    default: AWS_DEFAULT_REGION
+    type: string
+    default: ${AWS_DEFAULT_REGION}
   debug:
     type: boolean
     description: Turns on debug logging.
@@ -46,7 +46,7 @@ parameters:
     type: boolean
     description: Automatically create an Amazon S3 bucket to use for packaging and deploying for non-guided deployments. If you specify the --guided option, then the AWS SAM CLI ignores --resolve-s3. If you specify both the --s3-bucket and --resolve-s3 options, then an error occurs.
     default: false
-  additional-args:
+  arguments:
     type: string
     description: Additional arguments to pass to the deploy command. e.x. (--resolve-image-repos)
     default: ""
@@ -54,16 +54,16 @@ steps:
   - run:
       name: Deploy SAM application
       environment:
-        SAM_PARAM_CAPABILITIES: <<parameters.capabilities>>
-        SAM_PARAM_TEMPLATE: <<parameters.template>>
-        SAM_PARAM_STACK_NAME: <<parameters.stack-name>>
-        SAM_PARAM_PROFILE_NAME: <<parameters.profile-name>>
-        SAM_PARAM_AWS_REGION: <<parameters.aws-region>>
-        SAM_PARAM_DEBUG: <<parameters.debug>>
-        SAM_PARAM_PARAMETER_OVERRIDES: <<parameters.parameter-overrides>>
-        SAM_PARAM_PARAMETER_NOFAIL: <<parameters.no-fail-on-empty-changeset>>
-        SAM_PARAM_IMAGE_REPO: << parameters.image-repositories >>
-        SAM_PARAM_S3_BUCKET: << parameters.s3-bucket >>
-        SAM_PARAM_RESOLVE_S3: << parameters.resolve-s3 >>
-        SAM_PARAM_ADDITIONAL_ARGS: << parameters.additional-args >>
+        ORB_EVAL_CAPABILITIES: <<parameters.capabilities>>
+        ORB_EVAL_TEMPLATE: <<parameters.template>>
+        ORB_EVAL_STACK_NAME: <<parameters.stack-name>>
+        ORB_EVAL_PROFILE_NAME: <<parameters.profile-name>>
+        ORB_EVAL_REGION: <<parameters.aws-region>>
+        ORB_VAL_DEBUG: <<parameters.debug>>
+        ORB_EVAL_OVERRIDES: <<parameters.parameter-overrides>>
+        ORB_VAL_NOFAIL: <<parameters.no-fail-on-empty-changeset>>
+        ORB_EVAL_IMAGE_REPO: << parameters.image-repositories >>
+        ORB_EVAL_S3_BUCKET: << parameters.s3-bucket >>
+        ORB_VAL_RESOLVE_S3: << parameters.resolve-s3 >>
+        ORB_EVAL_ARGUMENTS: << parameters.arguments >>
       command: <<include(scripts/deploy.sh)>>

@@ -28,10 +28,10 @@ parameters:
     type: boolean
     description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
     default: true
-  aws-region:
-    type: env_var_name
+  region:
+    type: string
     description: Sets the AWS Region of the service (for example, us-east-1).
-    default: "AWS_DEFAULT_REGION" # set this to aws install region
+    default: "${AWS_DEFAULT_REGION}" # set this to aws install region
   debug:
     type: boolean
     description: Turns on debug logging.
@@ -52,11 +52,11 @@ steps:
   - run:
       name: "Building SAM application"
       environment:
-        SAM_PARAM_TEMPLATE: << parameters.template >>
-        SAM_PARAM_BUILD_DIR: << parameters.build-dir >>
-        SAM_PARAM_BASE_DIR: << parameters.base-dir >>
-        SAM_PARAM_PROFILE: << parameters.profile-name >>
-        SAM_PARAM_CONTAINER: << parameters.use-container >>
-        SAM_PARAM_AWS_REGION: << parameters.aws-region >>
-        SAM_PARAM_DEBUG: << parameters.debug >>
+        ORB_EVAL_TEMPLATE: << parameters.template >>
+        ORB_EVAL_BUILD_DIR: << parameters.build-dir >>
+        ORB_EVAL_BASE_DIR: << parameters.base-dir >>
+        ORB_EVAL_SAM_PROFILE: << parameters.profile-name >>
+        ORB_VAL_USE_CONTAINER: << parameters.use-container >>
+        ORB_EVAL_REGION: << parameters.region >>
+        ORB_VAL_DEBUG: << parameters.debug >>
       command: <<include(scripts/build.sh)>>

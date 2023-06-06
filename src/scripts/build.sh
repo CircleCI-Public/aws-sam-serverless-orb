@@ -1,25 +1,23 @@
 #!/bin/bash
 set -o noglob
 
-set -- "$@" --profile "$(eval "echo $SAM_PARAM_PROFILE")"
+set -- "$@" --template-file "$(eval "echo $ORB_EVAL_TEMPLATE")"
 
-set -- "$@" --template-file "$(eval "echo $SAM_PARAM_TEMPLATE")"
+set -- "$@" --region "${ORB_EVAL_REGION}"
 
-set -- "$@" --region "${!SAM_PARAM_AWS_REGION}"
-
-if [ -n "$SAM_PARAM_BUILD_DIR" ]; then
-  set -- "$@" --build-dir "$(eval "echo $SAM_PARAM_BUILD_DIR")"
+if [ -n "$ORB_EVAL_BUILD_DIR" ]; then
+  set -- "$@" --build-dir "$(eval "echo $ORB_EVAL_BUILD_DIR")"
 fi
-if [ -n "$SAM_PARAM_BASE_DIR" ]; then
-  set -- "$@" --base-dir "$(eval "echo $SAM_PARAM_BASE_DIR")"
+if [ -n "$ORB_EVAL_BASE_DIR" ]; then
+  set -- "$@" --base-dir "$(eval "echo $ORB_EVAL_BASE_DIR")"
 fi
-if [ "$SAM_PARAM_CONTAINER" = 1 ]; then
+if [ "$ORB_VAL_USE_CONTAINER" = 1 ]; then
   set -- "$@" --use-container
 fi
-if [ "$SAM_PARAM_DEBUG" = 1 ]; then
+if [ "$ORB_VAL_DEBUG" = 1 ]; then
   set -- "$@" --debug
 fi
 
 set -x
-sam build "$@"
+sam build --profile "${ORB_EVAL_PROFILE_NAME}" "$@"
 set +x
