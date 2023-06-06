@@ -31,7 +31,7 @@ parameters:
   region:
     type: string
     description: Sets the AWS Region of the service (for example, us-east-1).
-    default: "${AWS_DEFAULT_REGION}" # set this to aws install region
+    default: ${AWS_DEFAULT_REGION}
   debug:
     type: boolean
     description: Turns on debug logging.
@@ -45,7 +45,7 @@ steps:
             name: "Validating SAM template"
             command: |
               sam validate -t << parameters.template >> \
-              --region $<< parameters.aws-region >> \
+              --region << parameters.region >> \
               --profile << parameters.profile-name >> \
               <<# parameters.debug >>--debug<</ parameters.debug >>
 
@@ -55,7 +55,7 @@ steps:
         ORB_EVAL_TEMPLATE: << parameters.template >>
         ORB_EVAL_BUILD_DIR: << parameters.build-dir >>
         ORB_EVAL_BASE_DIR: << parameters.base-dir >>
-        ORB_EVAL_SAM_PROFILE: << parameters.profile-name >>
+        ORB_EVAL_PROFILE_NAME: << parameters.profile-name >>
         ORB_VAL_USE_CONTAINER: << parameters.use-container >>
         ORB_EVAL_REGION: << parameters.region >>
         ORB_VAL_DEBUG: << parameters.debug >>

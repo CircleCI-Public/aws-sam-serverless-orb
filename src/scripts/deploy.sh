@@ -1,6 +1,5 @@
 #!/bin/bash
 set -o noglob
-ORB_EVAL_REGION="$(circleci env subst "${ORB_EVAL_REGION}")"
 ORB_EVAL_CAPABILITIES="$(circleci env subst "${ORB_EVAL_CAPABILITIES}")"
 ORB_EVAL_IMAGE_REPO="$(circleci env subst "${ORB_EVAL_IMAGE_REPO}")"
 ORB_EVAL_S3_BUCKET="$(circleci env subst "${ORB_EVAL_S3_BUCKET}")"

@@ -1,5 +1,6 @@
 #!/bin/bash
 set -o noglob
+ORB_EVAL_REGION="$(circleci env subst "${ORB_EVAL_REGION}")"
 
 set -- "$@" --template-file "$(circleci env subst "${ORB_EVAL_TEMPLATE}")"
 

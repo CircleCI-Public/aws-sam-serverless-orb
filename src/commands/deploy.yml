@@ -18,7 +18,6 @@ parameters:
     default: "default"
   region:
     description: |
-      Env var of AWS region to operate in
       (defaults to AWS_DEFAULT_REGION)
     type: string
     default: ${AWS_DEFAULT_REGION}
@@ -58,7 +57,7 @@ steps:
         ORB_EVAL_TEMPLATE: <<parameters.template>>
         ORB_EVAL_STACK_NAME: <<parameters.stack-name>>
         ORB_EVAL_PROFILE_NAME: <<parameters.profile-name>>
-        ORB_EVAL_REGION: <<parameters.aws-region>>
+        ORB_EVAL_REGION: <<parameters.region>>
         ORB_VAL_DEBUG: <<parameters.debug>>
         ORB_EVAL_OVERRIDES: <<parameters.parameter-overrides>>
         ORB_VAL_NOFAIL: <<parameters.no-fail-on-empty-changeset>>

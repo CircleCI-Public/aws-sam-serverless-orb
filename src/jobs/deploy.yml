@@ -101,14 +101,14 @@ steps:
       template: << parameters.template >>
       profile-name: << parameters.profile-name >>
       use-container: << parameters.use-container >>
-      aws-region: << parameters.aws-region >>
+      region: << parameters.region >>
       debug: << parameters.debug >>
   - steps: << parameters.pre-deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
       stack-name: << parameters.stack-name >>
       profile-name: << parameters.profile-name >>
-      aws-region: << parameters.aws-region >>
+      region: << parameters.region >>
       debug: << parameters.debug >>
       parameter-overrides: << parameters.parameter-overrides >>
       no-fail-on-empty-changeset: << parameters.no-fail-on-empty-changeset >>
