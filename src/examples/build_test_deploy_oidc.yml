@@ -6,7 +6,7 @@ usage:
   orbs:
     sam: circleci/aws-sam-serverless@5.0
     # Importing aws-cli orb is required for OIDC authentication
-    aws-cli: circleci/aws-cli@3.1
+    aws-cli: circleci/aws-cli@4.0
   jobs:
     test_my_api:
       docker:
@@ -21,12 +21,12 @@ usage:
             auth:
               - aws-cli/setup:
                   profile: OIDC-USER
-                  role-arn: "arn:aws:iam::123456789012:role/VALID_OIDC_SAM_ROLE"
+                  role_arn: "arn:aws:iam::123456789012:role/VALID_OIDC_SAM_ROLE"
             # Must use same profile configured in aws-cli/setup command
             profile: OIDC-USER
             template: ./path/to/template.yml
-            stack-name: staging-stack
-            s3-bucket: my-s3-bucket
+            stack_name: staging-stack
+            s3_bucket: my-s3_bucket
             # Valid CircleCI context
             context: CircleCI_OIDC_Token
         - test_my_api:
@@ -37,11 +37,11 @@ usage:
             auth:
               - aws-cli/setup:
                   profile: OIDC-USER
-                  role-arn: "arn:aws:iam::123456789012:role/VALID_OIDC_SAM_ROLE"
+                  role_arn: "arn:aws:iam::123456789012:role/VALID_OIDC_SAM_ROLE"
             # Must use same profile configured in aws-cli/setup command
             profile: OIDC-USER
             template: "./path/to/template.yml"
-            stack-name: "production-stack"
+            stack_name: "production-stack"
             # Valid CircleCI context
             context: CircleCI_OIDC_Token
             requires:

@@ -2,22 +2,22 @@ description: >
   Deploy serverless applications.
 executor:
   name: default
-  machine-image: <<parameters.machine-image>>
+  machine_image: <<parameters.machine_image>>
 parameters:
-  machine-image:
+  machine_image:
     default: ubuntu-2204:2022.07.1
     type: string
     description: >
-      The CircleCI Linux Machine VM Image for this job. Find other available machine images here: https://circleci.com/docs/2.0/configuration-reference/#available-machine-images
+      The CircleCI Linux Machine VM Image for this job. Find other available machine images here: https://circleci.com/docs/2.0/configuration-reference/#available-machine_images
   version:
     description: 'SAM CLI version to be installed.'
     type: string
     default: latest
   python_version:
-    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use-container is enabled.9'
+    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use_container is enabled.9'
     type: string
     default: ""
-  pre-deploy:
+  pre_deploy:
     type: steps
     default: []
     description: "Run these steps prior to deploying the application, but after the checkout, install, build, and package steps."
@@ -29,34 +29,34 @@ parameters:
     type: boolean
     default: true
     description: "Validate your template file. This will run unless manually set to false."
-  build-dir:
+  build_dir:
     type: string
     description: The path to a folder where the built artifacts are stored.
     default: ""
-  base-dir:
+  base_dir:
     type: string
     description: Resolves relative paths to the function's source code with respect to this folder. Use this if the AWS SAM template and your source code aren't in the same enclosing folder. By default, relative paths are resolved with respect to the template's location.
     default: ""
   template:
     type: string
     description: The AWS SAM template file
-  s3-bucket:
+  s3_bucket:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
     default: ""
-  resolve-s3:
+  resolve_s3:
     type: boolean
-    description: Automatically create an Amazon S3 bucket to use for packaging and deploying for non-guided deployments. If you specify the --guided option, then the AWS SAM CLI ignores --resolve-s3. If you specify both the --s3-bucket and --resolve-s3 options, then an error occurs.
+    description: Automatically create an Amazon S3 bucket to use for packaging and deploying for non-guided deployments. If you specify the --guided option, then the AWS SAM CLI ignores --resolve_s3. If you specify both the --s3_bucket and --resolve_s3 options, then an error occurs.
     default: false
-  image-repositories:
+  image_repositories:
     type: string
     description: Comma separated list of the ECR image repositories to push the Lambda container. If this option is set, the SAM package command will be run automatically.
     default: ""
-  profile-name:
+  profile_name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
     default: "default"
-  use-container:
+  use_container:
     type: boolean
     description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
     default: true
@@ -64,18 +64,18 @@ parameters:
     type: string
     description: Sets the AWS Region of the service (for example, us-east-1).
     default: ${AWS_DEFAULT_REGION} # set this to aws install region
-  stack-name:
+  stack_name:
     type: string
     description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
   debug:
     type: boolean
     description: Turns on debug logging.
     default: false
-  parameter-overrides:
+  parameter_overrides:
     type: string
     description: AWS CloudFormation parameter overrides encoded as key=value pairs. Use the same format as the AWS CLI.
     default: ""
-  no-fail-on-empty-changeset:
+  no_fail_on_empty_changeset:
     type: boolean
     description: Specify if deploy command hould return a zero exit code if there are no changes to be made to the stack.
     default: true
@@ -96,23 +96,23 @@ steps:
   - steps: << parameters.auth >>
   - build:
       validate: << parameters.validate >>
-      build-dir: << parameters.build-dir >>
-      base-dir: << parameters.base-dir >>
+      build_dir: << parameters.build_dir >>
+      base_dir: << parameters.base_dir >>
       template: << parameters.template >>
-      profile-name: << parameters.profile-name >>
-      use-container: << parameters.use-container >>
+      profile_name: << parameters.profile_name >>
+      use_container: << parameters.use_container >>
       region: << parameters.region >>
       debug: << parameters.debug >>
-  - steps: << parameters.pre-deploy >>
+  - steps: << parameters.pre_deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
-      stack-name: << parameters.stack-name >>
-      profile-name: << parameters.profile-name >>
+      stack_name: << parameters.stack_name >>
+      profile_name: << parameters.profile_name >>
       region: << parameters.region >>
       debug: << parameters.debug >>
-      parameter-overrides: << parameters.parameter-overrides >>
-      no-fail-on-empty-changeset: << parameters.no-fail-on-empty-changeset >>
-      image-repositories: << parameters.image-repositories >>
-      s3-bucket: << parameters.s3-bucket >>
-      resolve-s3: << parameters.resolve-s3 >>
+      parameter_overrides: << parameters.parameter_overrides >>
+      no_fail_on_empty_changeset: << parameters.no_fail_on_empty_changeset >>
+      image_repositories: << parameters.image_repositories >>
+      s3_bucket: << parameters.s3_bucket >>
+      resolve_s3: << parameters.resolve_s3 >>
       arguments: << parameters.arguments >>

@@ -4,7 +4,7 @@ usage:
   version: 2.1
   orbs:
     sam: circleci/aws-sam-serverless@5.0
-    aws-cli: circleci/aws-cli@3.1
+    aws-cli: circleci/aws-cli@4.0
   jobs:
     build_and_package:
       executor: sam/default
@@ -12,4 +12,4 @@ usage:
         - checkout
         - aws-cli/install
         - sam/install
-        - sam/local-start-api
+        - sam/local_start_api
