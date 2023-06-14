@@ -60,10 +60,10 @@ parameters:
     type: boolean
     description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
     default: true
-  aws-region:
-    type: env_var_name
+  region:
+    type: string
     description: Sets the AWS Region of the service (for example, us-east-1).
-    default: "AWS_DEFAULT_REGION" # set this to aws install region
+    default: ${AWS_DEFAULT_REGION} # set this to aws install region
   stack-name:
     type: string
     description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
@@ -79,7 +79,7 @@ parameters:
     type: boolean
     description: Specify if deploy command hould return a zero exit code if there are no changes to be made to the stack.
     default: true
-  additional-args:
+  arguments:
     type: string
     description: Additional arguments to pass to the deploy command. e.x. (--resolve-image-repos)
     default: ""
@@ -101,18 +101,18 @@ steps:
       template: << parameters.template >>
       profile-name: << parameters.profile-name >>
       use-container: << parameters.use-container >>
-      aws-region: << parameters.aws-region >>
+      region: << parameters.region >>
       debug: << parameters.debug >>
   - steps: << parameters.pre-deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
       stack-name: << parameters.stack-name >>
       profile-name: << parameters.profile-name >>
-      aws-region: << parameters.aws-region >>
+      region: << parameters.region >>
       debug: << parameters.debug >>
       parameter-overrides: << parameters.parameter-overrides >>
       no-fail-on-empty-changeset: << parameters.no-fail-on-empty-changeset >>
       image-repositories: << parameters.image-repositories >>
       s3-bucket: << parameters.s3-bucket >>
       resolve-s3: << parameters.resolve-s3 >>
-      additional-args: << parameters.additional-args >>
+      arguments: << parameters.arguments >>
