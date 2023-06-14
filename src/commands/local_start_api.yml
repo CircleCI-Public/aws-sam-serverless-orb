@@ -33,20 +33,20 @@ steps:
   - run:
       name: install dockerize
       environment:
-        ORB_EVAL_DOCKERIZE_VERSION: <<parameters.dockerize_version>>
+        ORB_STR_DOCKERIZE_VERSION: <<parameters.dockerize_version>>
       command: <<include(scripts/install_dockerize.sh)>>
   - run:
       name: SAM local start-api
       background: true
       environment:
-        ORB_VAL_DEBUG: <<parameters.debug>>
-        ORB_EVAL_TEMPLATE: <<parameters.template>>
-        ORB_VAL_PORT: <<parameters.port>>
-        ORB_EVAL_ENV_VARS: <<parameters.env_vars>>
+        ORB_BOOL_DEBUG: <<parameters.debug>>
+        ORB_STR_TEMPLATE: <<parameters.template>>
+        ORB_INT_PORT: <<parameters.port>>
+        ORB_STR_ENV_VARS: <<parameters.env_vars>>
       command: <<include(scripts/local_start_api.sh)>>
   - run:
       name: Wait for API
       environment:
-        ORB_EVAL_ENDPOINT: <<parameters.endpoint>>
-        ORB_VAL_TIMEOUT: <<parameters.timeout>>
+        ORB_STR_ENDPOINT: <<parameters.endpoint>>
+        ORB_INT_TIMEOUT: <<parameters.timeout>>
       command: <<include(scripts/dockerize_wait.sh)>>

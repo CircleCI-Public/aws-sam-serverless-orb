@@ -34,12 +34,12 @@ if ! command -v aws &>/dev/null; then
   exit 1
 fi
 
-if [[ $ORB_EVAL_VERSION == "latest" ]]; then
+if [[ $ORB_STR_VERSION == "latest" ]]; then
   echo "Installing latest version of SAM CLI"
   curl -L "https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip" -o aws-sam-cli-linux-x86_64.zip
 else
-  echo "Installing SAM CLI version $ORB_EVAL_VERSION"
-  curl -L "https://github.com/aws/aws-sam-cli/releases/download/v${ORB_EVAL_VERSION}/aws-sam-cli-linux-x86_64.zip" -o aws-sam-cli-linux-x86_64.zip
+  echo "Installing SAM CLI version $ORB_STR_VERSION"
+  curl -L "https://github.com/aws/aws-sam-cli/releases/download/v${ORB_STR_VERSION}/aws-sam-cli-linux-x86_64.zip" -o aws-sam-cli-linux-x86_64.zip
 fi
 unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
 $SUDO ./sam-installation/install

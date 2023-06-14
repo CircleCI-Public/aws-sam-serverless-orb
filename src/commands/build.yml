@@ -52,11 +52,11 @@ steps:
   - run:
       name: "Building SAM application"
       environment:
-        ORB_EVAL_TEMPLATE: << parameters.template >>
+        ORB_STR_TEMPLATE: << parameters.template >>
         ORB_EVAL_BUILD_DIR: << parameters.build_dir >>
         ORB_EVAL_BASE_DIR: << parameters.base_dir >>
-        ORB_EVAL_PROFILE_NAME: << parameters.profile_name >>
-        ORB_VAL_USE_CONTAINER: << parameters.use_container >>
-        ORB_EVAL_REGION: << parameters.region >>
-        ORB_VAL_DEBUG: << parameters.debug >>
+        ORB_STR_PROFILE_NAME: << parameters.profile_name >>
+        ORB_BOOL_USE_CONTAINER: << parameters.use_container >>
+        ORB_STR_REGION: << parameters.region >>
+        ORB_BOOL_DEBUG: << parameters.debug >>
       command: <<include(scripts/build.sh)>>

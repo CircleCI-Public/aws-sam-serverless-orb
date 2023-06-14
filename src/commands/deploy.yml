@@ -53,16 +53,16 @@ steps:
   - run:
       name: Deploy SAM application
       environment:
-        ORB_EVAL_CAPABILITIES: <<parameters.capabilities>>
-        ORB_EVAL_TEMPLATE: <<parameters.template>>
-        ORB_EVAL_STACK_NAME: <<parameters.stack_name>>
-        ORB_EVAL_PROFILE_NAME: <<parameters.profile_name>>
-        ORB_EVAL_REGION: <<parameters.region>>
-        ORB_VAL_DEBUG: <<parameters.debug>>
-        ORB_EVAL_OVERRIDES: <<parameters.parameter_overrides>>
-        ORB_VAL_NOFAIL: <<parameters.no_fail_on_empty_changeset>>
-        ORB_EVAL_IMAGE_REPO: << parameters.image_repositories >>
-        ORB_EVAL_S3_BUCKET: << parameters.s3_bucket >>
-        ORB_VAL_RESOLVE_S3: << parameters.resolve_s3 >>
-        ORB_EVAL_ARGUMENTS: << parameters.arguments >>
+        ORB_STR_CAPABILITIES: <<parameters.capabilities>>
+        ORB_STR_TEMPLATE: <<parameters.template>>
+        ORB_STR_STACK_NAME: <<parameters.stack_name>>
+        ORB_STR_PROFILE_NAME: <<parameters.profile_name>>
+        ORB_STR_REGION: <<parameters.region>>
+        ORB_BOOL_DEBUG: <<parameters.debug>>
+        ORB_STR_OVERRIDES: <<parameters.parameter_overrides>>
+        ORB_BOOL_NOFAIL: <<parameters.no_fail_on_empty_changeset>>
+        ORB_STR_IMAGE_REPO: << parameters.image_repositories >>
+        ORB_STR_S3_BUCKET: << parameters.s3_bucket >>
+        ORB_BOOL_RESOLVE_S3: << parameters.resolve_s3 >>
+        ORB_STR_ARGUMENTS: << parameters.arguments >>
       command: <<include(scripts/deploy.sh)>>

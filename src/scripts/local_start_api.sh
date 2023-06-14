@@ -1,17 +1,17 @@
 #!/bin/bash
-ORB_EVAL_TEMPLATE="$(circleci env subst "${ORB_EVAL_TEMPLATE}")"
-ORB_EVAL_ENV_VARS="$(circleci env subst "${ORB_EVAL_ENV_VARS}")"
-if [ -n "$ORB_EVAL_TEMPLATE" ]; then
-  set -- "$@" -t "$ORB_EVAL_TEMPLATE"
+ORB_STR_TEMPLATE="$(circleci env subst "${ORB_STR_TEMPLATE}")"
+ORB_STR_ENV_VARS="$(circleci env subst "${ORB_STR_ENV_VARS}")"
+if [ -n "$ORB_STR_TEMPLATE" ]; then
+  set -- "$@" -t "$ORB_STR_TEMPLATE"
 fi
 
-set -- "$@" -p "$ORB_VAL_PORT"
+set -- "$@" -p "$ORB_INT_PORT"
 
-if [ -n "$ORB_EVAL_ENV_VARS" ]; then
+if [ -n "$ORB_STR_ENV_VARS" ]; then
   set -- "$@" -n "$PARAM_ENV_VARS"
 fi
 
-if [ "$ORB_VAL_DEBUG" = 1 ]; then
+if [ "$ORB_BOOL_DEBUG" = 1 ]; then
   set -- "$@" --debug
 fi
 
