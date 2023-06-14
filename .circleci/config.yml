@@ -20,7 +20,7 @@ workflows:
       - shellcheck/check:
           filters: *filters
       - orb-tools/continue:
-          orb_name: aws-sam-serverless
+          orb_name: sam
           pipeline_number: << pipeline.number >>
           vcs_type: << pipeline.project.type >>
           requires: [orb-tools/lint, orb-tools/review, orb-tools/pack, shellcheck/check]
