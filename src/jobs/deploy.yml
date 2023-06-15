@@ -14,7 +14,7 @@ parameters:
     type: string
     default: latest
   python_version:
-    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use_container is enabled.9'
+    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use_container is enabled.'
     type: string
     default: ""
   pre_deploy:
