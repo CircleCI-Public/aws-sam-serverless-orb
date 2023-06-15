@@ -5,6 +5,6 @@ parameters:
     default: ubuntu-2204:2022.07.1
     type: string
     description: >
-      The CircleCI Linux Machine VM Image for this job. Find other available machine images here: https://circleci.com/docs/2.0/configuration-reference/#available-machine_images
+      The CircleCI Linux Machine VM Image for this job. Find other available machine images here: https://circleci.com/docs/2.0/configuration-reference/#available-machine-images
 machine:
   image: <<parameters.machine_image>>
