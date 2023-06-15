@@ -26,7 +26,7 @@ usage:
             profile: OIDC-USER
             template: ./path/to/template.yml
             stack_name: staging-stack
-            s3_bucket: my-s3_bucket
+            s3_bucket: my-s3-bucket
             # Valid CircleCI context
             context: CircleCI_OIDC_Token
         - test_my_api:
