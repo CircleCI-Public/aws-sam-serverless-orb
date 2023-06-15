@@ -11,7 +11,7 @@ if [ -n "$ORB_STR_ENV_VARS" ]; then
   set -- "$@" -n "$PARAM_ENV_VARS"
 fi
 
-if [ "$ORB_BOOL_DEBUG" = 1 ]; then
+if [ "$ORB_BOOL_DEBUG" -eq 1 ]; then
   set -- "$@" --debug
 fi
 

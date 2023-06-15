@@ -45,13 +45,13 @@ fi
 if [ -n "$ORB_STR_TEMPLATE" ]; then
     set -- "$@" --template-file "${ORB_STR_TEMPLATE}"
 fi
-if [ "$ORB_BOOL_DEBUG" = 1 ]; then
+if [ "$ORB_BOOL_DEBUG" -eq 1 ]; then
     set -- "$@" --debug
 fi
-if [ "$ORB_BOOL_NOFAIL" = 1 ]; then
+if [ "$ORB_BOOL_NOFAIL" -eq 1 ]; then
     set -- "$@" --no-fail-on-empty-changeset
 fi
-if [ "$ORB_BOOL_RESOLVE_S3" = 1 ]; then
+if [ "$ORB_BOOL_RESOLVE_S3" -eq 1 ]; then
     set -- "$@" --resolve-s3
 fi
 if [ -n "$ORB_STR_OVERRIDES" ]; then
