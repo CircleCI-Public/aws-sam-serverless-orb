@@ -5,14 +5,14 @@ parameters:
     type: string
     description: The path where your AWS SAM template file is located.
     default: ""
-  stack-name:
+  stack_name:
     type: string
     description: The name of the AWS CloudFormation stack you're deploying to. If you specify an existing stack, the command updates the stack. If you specify a new stack, the command creates it.
   capabilities:
     type: string
     description: Comma separated list of capabilities for AWS Cloudformation to create stacks. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.
     default: "CAPABILITY_IAM"
-  profile-name:
+  profile_name:
     type: string
     description: Select a specific profile from your credential file to get AWS credentials.
     default: "default"
@@ -25,23 +25,23 @@ parameters:
     type: boolean
     description: Turns on debug logging.
     default: false
-  parameter-overrides:
+  parameter_overrides:
     type: string
     description: AWS CloudFormation parameter overrides encoded as key=value pairs. Use the same format as the AWS CLI.
     default: ""
-  no-fail-on-empty-changeset:
+  no_fail_on_empty_changeset:
     type: boolean
     description: Specify if deploy command should return a zero exit code if there are no changes to be made to the stack.
     default: true
-  image-repositories:
+  image_repositories:
     type: string
     description: Comma separated list of the ECR image repositories to push the Lambda container. If this option is set, the SAM package command will be run automatically.
     default: ""
-  s3-bucket:
+  s3_bucket:
     type: string
     description: The name of the S3 bucket where this command uploads the artifacts that are referenced in your template. If this option is set, the SAM package command will be run automatically.
     default: ""
-  resolve-s3:
+  resolve_s3:
     type: boolean
     description: Automatically create an Amazon S3 bucket to use for packaging and deploying for non-guided deployments. If you specify the --guided option, then the AWS SAM CLI ignores --resolve-s3. If you specify both the --s3-bucket and --resolve-s3 options, then an error occurs.
     default: false
@@ -53,16 +53,16 @@ steps:
   - run:
       name: Deploy SAM application
       environment:
-        ORB_EVAL_CAPABILITIES: <<parameters.capabilities>>
-        ORB_EVAL_TEMPLATE: <<parameters.template>>
-        ORB_EVAL_STACK_NAME: <<parameters.stack-name>>
-        ORB_EVAL_PROFILE_NAME: <<parameters.profile-name>>
-        ORB_EVAL_REGION: <<parameters.region>>
-        ORB_VAL_DEBUG: <<parameters.debug>>
-        ORB_EVAL_OVERRIDES: <<parameters.parameter-overrides>>
-        ORB_VAL_NOFAIL: <<parameters.no-fail-on-empty-changeset>>
-        ORB_EVAL_IMAGE_REPO: << parameters.image-repositories >>
-        ORB_EVAL_S3_BUCKET: << parameters.s3-bucket >>
-        ORB_VAL_RESOLVE_S3: << parameters.resolve-s3 >>
-        ORB_EVAL_ARGUMENTS: << parameters.arguments >>
+        ORB_STR_CAPABILITIES: <<parameters.capabilities>>
+        ORB_STR_TEMPLATE: <<parameters.template>>
+        ORB_STR_STACK_NAME: <<parameters.stack_name>>
+        ORB_STR_PROFILE_NAME: <<parameters.profile_name>>
+        ORB_STR_REGION: <<parameters.region>>
+        ORB_BOOL_DEBUG: <<parameters.debug>>
+        ORB_STR_OVERRIDES: <<parameters.parameter_overrides>>
+        ORB_BOOL_NOFAIL: <<parameters.no_fail_on_empty_changeset>>
+        ORB_STR_IMAGE_REPO: << parameters.image_repositories >>
+        ORB_STR_S3_BUCKET: << parameters.s3_bucket >>
+        ORB_BOOL_RESOLVE_S3: << parameters.resolve_s3 >>
+        ORB_STR_ARGUMENTS: << parameters.arguments >>
       command: <<include(scripts/deploy.sh)>>

@@ -1,10 +1,10 @@
 description: >
   Machine executor provided by CircleCI. Needed for privileged access to Docker for the SAM CLI.
 parameters:
-  machine-image:
+  machine_image:
     default: ubuntu-2204:2022.07.1
     type: string
     description: >
       The CircleCI Linux Machine VM Image for this job. Find other available machine images here: https://circleci.com/docs/2.0/configuration-reference/#available-machine-images
 machine:
-  image: <<parameters.machine-image>>
+  image: <<parameters.machine_image>>
