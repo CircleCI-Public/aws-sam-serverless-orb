@@ -43,7 +43,7 @@ parameters:
     default: ""
   resolve_s3:
     type: boolean
-    description: Automatically create an Amazon S3 bucket to use for packaging and deploying for non-guided deployments. If you specify the --guided option, then the AWS SAM CLI ignores --resolve_s3. If you specify both the --s3_bucket and --resolve_s3 options, then an error occurs.
+    description: Automatically create an Amazon S3 bucket to use for packaging and deploying for non-guided deployments. If you specify the --guided option, then the AWS SAM CLI ignores --resolve-s3. If you specify both the --s3-bucket and --resolve-s3 options, then an error occurs.
     default: false
   arguments:
     type: string
