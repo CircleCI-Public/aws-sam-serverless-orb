@@ -15,12 +15,14 @@ fi
 if [ -n "$ORB_EVAL_BASE_DIR" ]; then
   set -- "$@" --base-dir "${ORB_EVAL_BASE_DIR}"
 fi
+set -x
 if [ "$ORB_BOOL_USE_CONTAINER" = 1 ]; then
   set -- "$@" --use-container
 fi
 if [ "$ORB_BOOL_DEBUG" = 1 ]; then
   set -- "$@" --debug
 fi
+set +x
 
 set -x
 sam build --profile "${ORB_STR_PROFILE_NAME}" "$@"
