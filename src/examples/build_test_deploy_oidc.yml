@@ -1,0 +1,48 @@
+description: >
+  Test your Lambda functions in a staging environment before deploying to production with the "deploy" job using OIDC authentication.
+  Import the aws-cli orb and authenticate using the aws-cli/setup command with a valid role-arn for OIDC authentication.
+usage:
+  version: 2.1
+  orbs:
+    sam: circleci/aws-sam-serverless@5.0
+    # Importing aws-cli orb is required for OIDC authentication
+    aws-cli: circleci/aws-cli@4.0
+  jobs:
+    test_my_api:
+      docker:
+        - image: cimg/node:lts
+      steps:
+        - run: echo "Run your API tests here"
+  workflows:
+    test_and_deploy:
+      jobs:
+        - sam/deploy:
+            name: deploy-staging
+            auth:
+              - aws-cli/setup:
+                  profile: OIDC-USER
+                  role_arn: "arn:aws:iam::123456789012:role/VALID_OIDC_SAM_ROLE"
+            # Must use same profile configured in aws-cli/setup command
+            profile: OIDC-USER
+            template: ./path/to/template.yml
+            stack_name: staging-stack
+            s3_bucket: my-s3-bucket
+            # Valid CircleCI context
+            context: CircleCI_OIDC_Token
+        - test_my_api:
+            requires:
+              - deploy-staging
+        - sam/deploy:
+            name: deploy-production
+            auth:
+              - aws-cli/setup:
+                  profile: OIDC-USER
+                  role_arn: "arn:aws:iam::123456789012:role/VALID_OIDC_SAM_ROLE"
+            # Must use same profile configured in aws-cli/setup command
+            profile: OIDC-USER
+            template: "./path/to/template.yml"
+            stack_name: "production-stack"
+            # Valid CircleCI context
+            context: CircleCI_OIDC_Token
+            requires:
+              - test_my_api

@@ -1,10 +1,12 @@
 description: >
-  Deploy a Lambda Docker container via SAM
+  Deploy a Lambda Docker container via SAM using static AWS keys for authentication.
+  Import the aws-cli orb and authenticate using the aws-cli/setup command with static AWS keys stored as env_vars (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY).
 usage:
   version: 2.1
   orbs:
-    sam: circleci/aws-sam-serverless@4.0
-    aws-cli: circleci/aws-cli@3.1
+    sam: circleci/aws-sam-serverless@5.0
+    # Importing aws-cli orb is required for authentication
+    aws-cli: circleci/aws-cli@4.0
   jobs:
     test_my_api:
       docker:
@@ -15,8 +17,11 @@ usage:
     deploy_image:
       jobs:
         - sam/deploy:
+            auth:
+              # Configure aws credentials with static keys stored as env_vars (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)
+              - aws-cli/setup
             template: ./path/to/template.yml
-            stack-name: staging-stack
-            image-repositories: $IMG_URI
+            stack_name: staging-stack
+            image_repositories: $IMG_URI
             # Store AWS credentials in context
             context: aws-credentials-context
