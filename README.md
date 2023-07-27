@@ -1,5 +1,5 @@
-# AWS Serverless Orb
-Orb registry: https://circleci.com/orbs/registry/orb/circleci/aws-serverless
+# AWS SAM Serverless Orb
+Orb registry: <https://circleci.com/developer/orbs/orb/circleci/aws-sam-serverless>
 
 **Description:**
 > Easily install and utilize the SAM CLI on CircleCI to build and test your SAM applications.
