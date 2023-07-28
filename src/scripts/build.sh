@@ -1,9 +1,9 @@
 #!/bin/bash
 set -o noglob
-ORB_STR_REGION="$(circleci env subst "${ORB_STR_REGION}")"
-ORB_STR_TEMPLATE="$(circleci env subst "${ORB_STR_TEMPLATE}")"
-ORB_EVAL_BUILD_DIR="$(eval echo "${ORB_EVAL_BUILD_DIR}")"
-ORB_EVAL_BASE_DIR="$(eval echo "${ORB_EVAL_BASE_DIR}")"
+ORB_STR_REGION="$(echo "${ORB_STR_REGION}" | circleci env subst)"
+ORB_STR_TEMPLATE="$(echo "${ORB_STR_TEMPLATE}" | circleci env subst)"
+ORB_EVAL_BUILD_DIR="$(eval echo "${ORB_EVAL_BUILD_DIR}" | circleci env subst)"
+ORB_EVAL_BASE_DIR="$(eval echo "${ORB_EVAL_BASE_DIR}" | circleci env subst)"
 
 set -- "$@" --template-file "${ORB_STR_TEMPLATE}"
 

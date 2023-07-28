@@ -47,6 +47,21 @@ workflows:
           context: CPE-OIDC
           filters: *filters
       - sam/deploy:
+          name: deploy-job-test-app-overrides-and-arguments
+          auth:
+            - aws-cli/setup:
+                role_arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+                profile_name: OIDC-User
+          profile_name: OIDC-User
+          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
+          template: "./sample_test/sam-app/template.yaml"
+          stack_name: "orb-deploy-job-test-1"
+          s3_bucket: "sam-orb-testing"
+          parameter_overrides: ParameterKey=dummy,ParameterValue=dummy
+          arguments:  --disable-rollback
+          context: CPE-OIDC
+          filters: *filters
+      - sam/deploy:
           name: deploy-job-test-container
           auth:
             - aws-cli/setup:

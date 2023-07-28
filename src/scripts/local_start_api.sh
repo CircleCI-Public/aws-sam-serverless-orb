@@ -1,6 +1,6 @@
 #!/bin/bash
-ORB_STR_TEMPLATE="$(circleci env subst "${ORB_STR_TEMPLATE}")"
-ORB_STR_ENV_VARS="$(circleci env subst "${ORB_STR_ENV_VARS}")"
+ORB_STR_TEMPLATE="$(echo "${ORB_STR_TEMPLATE}" | circleci env subst)"
+ORB_STR_ENV_VARS="$(echo "${ORB_STR_ENV_VARS}" | circleci env subst)"
 if [ -n "$ORB_STR_TEMPLATE" ]; then
   set -- "$@" -t "$ORB_STR_TEMPLATE"
 fi
