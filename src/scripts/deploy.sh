@@ -57,7 +57,7 @@ fi
 if [ -n "$ORB_STR_OVERRIDES" ]; then
     set -- "$@" --parameter-overrides "${ORB_STR_OVERRIDES}"
 fi
-if [ -z "$ORB_STR_ARGUMENTS" ]; then
+if [ -n "$ORB_STR_ARGUMENTS" ]; then
     set -- "$@" "$ORB_STR_ARGUMENTS"
 fi
 
