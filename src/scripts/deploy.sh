@@ -1,16 +1,16 @@
 #!/bin/bash
 set -o noglob
 set -x
-ORB_STR_CAPABILITIES="$(circleci env subst "${ORB_STR_CAPABILITIES}")"
-ORB_STR_IMAGE_REPO="$(circleci env subst "${ORB_STR_IMAGE_REPO}")"
-ORB_STR_S3_BUCKET="$(circleci env subst "${ORB_STR_S3_BUCKET}")"
-ORB_STR_TEMPLATE="$(circleci env subst "${ORB_STR_TEMPLATE}")"
-ORB_STR_OVERRIDES="$(circleci env subst "${ORB_STR_OVERRIDES}")"
-ORB_STR_ARGUMENTS="$(circleci env subst "${ORB_STR_ARGUMENTS}")"
-ORB_STR_REGION="$(circleci env subst "${ORB_STR_REGION}")"
-ORB_STR_STACK_NAME="$(circleci env subst "${ORB_STR_STACK_NAME}")"
-ORB_STR_S3_BUCKET="$(circleci env subst "${ORB_STR_S3_BUCKET}")"
-ORB_STR_OVERRIDES="$(circleci env subst "${ORB_STR_OVERRIDES}")"
+ORB_STR_CAPABILITIES="$(echo "${ORB_STR_CAPABILITIES}" | circleci env subst)"
+ORB_STR_IMAGE_REPO="$(echo "${ORB_STR_IMAGE_REPO}" | circleci env subst)"
+ORB_STR_S3_BUCKET="$(echo "${ORB_STR_S3_BUCKET}" | circleci env subst)"
+ORB_STR_TEMPLATE="$(echo "${ORB_STR_TEMPLATE}" | circleci env subst)"
+ORB_STR_OVERRIDES="$(echo "${ORB_STR_OVERRIDES}" | circleci env subst)"
+ORB_STR_ARGUMENTS="$(echo "${ORB_STR_ARGUMENTS}" | circleci env subst)"
+ORB_STR_REGION="$(echo "${ORB_STR_REGION}" | circleci env subst)"
+ORB_STR_STACK_NAME="$(echo "${ORB_STR_STACK_NAME}" | circleci env subst)"
+ORB_STR_S3_BUCKET="$(echo "${ORB_STR_S3_BUCKET}" | circleci env subst)"
+ORB_STR_OVERRIDES="$(echo "${ORB_STR_OVERRIDES}" | circleci env subst)"
 
 
 IFS=', ' read -r -a ARRAY_CAPABILITIES <<< "$ORB_STR_CAPABILITIES"
