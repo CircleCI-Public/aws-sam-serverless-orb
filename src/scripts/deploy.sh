@@ -1,6 +1,5 @@
 #!/bin/bash
 set -o noglob
-set -x
 ORB_STR_CAPABILITIES="$(echo "${ORB_STR_CAPABILITIES}" | circleci env subst)"
 ORB_STR_IMAGE_REPO="$(echo "${ORB_STR_IMAGE_REPO}" | circleci env subst)"
 ORB_STR_S3_BUCKET="$(echo "${ORB_STR_S3_BUCKET}" | circleci env subst)"
@@ -61,6 +60,6 @@ fi
 if [ -n "$ORB_STR_ARGUMENTS" ]; then
     set -- "$@" "$ORB_STR_ARGUMENTS"
 fi
-
+set -x
 sam deploy --profile "${ORB_STR_PROFILE_NAME}" "$@"
 set +x
