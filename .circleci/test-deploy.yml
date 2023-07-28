@@ -58,7 +58,7 @@ workflows:
           stack_name: "orb-deploy-job-test-1"
           s3_bucket: "sam-orb-testing"
           parameter_overrides: ParameterKey=dummy,ParameterValue=dummy
-          arguments: --parallel
+          arguments:  --on-failure DO_NOTHING
           context: CPE-OIDC
           filters: *filters
       - sam/deploy:
