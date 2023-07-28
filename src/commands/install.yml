@@ -6,7 +6,7 @@ parameters:
     type: string
     default: latest
   python_version:
-    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use-container is enabled.'
+    description: 'If set, this version of Python will be installed and set with pyenv globally. ex: "3.7.0" This is only for the local environment and will not have any effect if use_container is enabled.'
     type: string
     default: ""
 steps:
@@ -27,5 +27,5 @@ steps:
   - run:
       name: Install SAM CLI
       environment:
-        SAM_PARAM_VERSION: << parameters.version >>
+        ORB_STR_VERSION: << parameters.version >>
       command: <<include(scripts/install.sh)>>

@@ -9,7 +9,7 @@ parameters:
     type: integer
     description: "The local port number to listen on"
     default: 3000
-  env-vars:
+  env_vars:
     type: string
     description: The JSON file that contains values for the Lambda function's environment variables.
     default: ""
@@ -33,20 +33,20 @@ steps:
   - run:
       name: install dockerize
       environment:
-        PARAM_DOCKERIZE_VERSION: <<parameters.dockerize_version>>
-      command: <<include(scripts/install-dockerize.sh)>>
+        ORB_STR_DOCKERIZE_VERSION: <<parameters.dockerize_version>>
+      command: <<include(scripts/install_dockerize.sh)>>
   - run:
       name: SAM local start-api
       background: true
       environment:
-        PARAM_DEBUG: <<parameters.debug>>
-        PARAM_TEMPLATE: <<parameters.template>>
-        PARAM_PORT: <<parameters.port>>
-        PARAM_ENV_VARS: <<parameters.env-vars>>
-      command: <<include(scripts/local-start-api.sh)>>
+        ORB_BOOL_DEBUG: <<parameters.debug>>
+        ORB_STR_TEMPLATE: <<parameters.template>>
+        ORB_INT_PORT: <<parameters.port>>
+        ORB_STR_ENV_VARS: <<parameters.env_vars>>
+      command: <<include(scripts/local_start_api.sh)>>
   - run:
       name: Wait for API
       environment:
-        PARAM_ENDPOINT: <<parameters.endpoint>>
-        PARAM_TIMEOUT: <<parameters.timeout>>
-      command: <<include(scripts/dockerize-wait.sh)>>
+        ORB_STR_ENDPOINT: <<parameters.endpoint>>
+        ORB_INT_TIMEOUT: <<parameters.timeout>>
+      command: <<include(scripts/dockerize_wait.sh)>>
