@@ -83,9 +83,15 @@ parameters:
     type: string
     description: Additional arguments to pass to the deploy command. e.x. (--resolve-image-repos)
     default: ""
-  additional-build-args:
+  build_parameter_overrides:
     type: string
-    description: Additional arguments to pass to the build command. e.x. (--parallel)
+    description: >-
+      AWS CloudFormation parameter overrides encoded as key=value pairs
+      for the sam build command. Use the same format as the AWS CLI.
+    default: ""
+  build_arguments:
+    type: string
+    description: Additional arguments to pass to the build command. e.g. (--parallel)
     default: ""
   auth:
     description: |
@@ -107,8 +113,8 @@ steps:
       use_container: << parameters.use_container >>
       region: << parameters.region >>
       debug: << parameters.debug >>
-      parameter-overrides: << parameters.parameter-overrides >>
-      additional-args: << parameters.additional-build-args >>
+      build_parameter_overrides: << parameters.build_parameter_overrides >>
+      build_arguments: << parameters.build_arguments >>
   - steps: << parameters.pre-deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
