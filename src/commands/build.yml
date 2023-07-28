@@ -36,13 +36,15 @@ parameters:
     type: boolean
     description: Turns on debug logging.
     default: false
-  parameter-overrides:
+  build_parameter_overrides:
     type: string
-    description: AWS CloudFormation parameter overrides encoded as key=value pairs. Use the same format as the AWS CLI.
+    description: >-
+      AWS CloudFormation parameter overrides encoded as key=value pairs
+      for the sam build command. Use the same format as the AWS CLI.
     default: ""
-  additional-args:
+  build_arguments:
     type: string
-    description: Additional arguments to pass to the build command. e.x. (--parallel)
+    description: Additional arguments to pass to the build command. e.g. (--parallel)
     default: ""
 
 steps:
@@ -67,4 +69,6 @@ steps:
         ORB_BOOL_USE_CONTAINER: << parameters.use_container >>
         ORB_STR_REGION: << parameters.region >>
         ORB_BOOL_DEBUG: << parameters.debug >>
+        ORB_STR_BUILD_PARAMETER_OVERRIDES: << parameter.build_parameter_overrides >>
+        ORB_STR_BUILD_ARGUMENTS: << parameter.build_arguments >>
       command: <<include(scripts/build.sh)>>
