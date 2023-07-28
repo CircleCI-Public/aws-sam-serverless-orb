@@ -83,6 +83,10 @@ parameters:
     type: string
     description: Additional arguments to pass to the deploy command. e.x. (--resolve-image-repos)
     default: ""
+  additional-build-args:
+    type: string
+    description: Additional arguments to pass to the build command. e.x. (--parallel)
+    default: ""
   auth:
     description: |
       The authentication method used to access your AWS account. Import the aws-cli orb in your config and
@@ -103,7 +107,9 @@ steps:
       use_container: << parameters.use_container >>
       region: << parameters.region >>
       debug: << parameters.debug >>
-  - steps: << parameters.pre_deploy >>
+      parameter-overrides: << parameters.parameter-overrides >>
+      additional-args: << parameters.additional-build-args >>
+  - steps: << parameters.pre-deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
       stack_name: << parameters.stack_name >>
