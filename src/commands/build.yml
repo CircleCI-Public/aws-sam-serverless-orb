@@ -69,6 +69,6 @@ steps:
         ORB_BOOL_USE_CONTAINER: << parameters.use_container >>
         ORB_STR_REGION: << parameters.region >>
         ORB_BOOL_DEBUG: << parameters.debug >>
-        ORB_STR_BUILD_PARAMETER_OVERRIDES: << parameter.build_parameter_overrides >>
-        ORB_STR_BUILD_ARGUMENTS: << parameter.build_arguments >>
+        ORB_STR_BUILD_PARAMETER_OVERRIDES: << parameters.build_parameter_overrides >>
+        ORB_STR_BUILD_ARGUMENTS: << parameters.build_arguments >>
       command: <<include(scripts/build.sh)>>
