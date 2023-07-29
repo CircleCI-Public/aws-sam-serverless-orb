@@ -115,7 +115,7 @@ steps:
       debug: << parameters.debug >>
       build_parameter_overrides: << parameters.build_parameter_overrides >>
       build_arguments: << parameters.build_arguments >>
-  - steps: << parameters.pre-deploy >>
+  - steps: << parameters.pre_deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
       stack_name: << parameters.stack_name >>
