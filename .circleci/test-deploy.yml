@@ -59,6 +59,9 @@ workflows:
           s3_bucket: "sam-orb-testing"
           parameter_overrides: ParameterKey=dummy,ParameterValue=dummy
           arguments:  --disable-rollback
+          build_container_vars:  Function1.GITHUB_TOKEN=VAR1, GLOBAL_ENV_VAR=VAR2
+          build_arguments: --parallel
+          build_parameter_overrides: BuildParameterKey=dummy,BuildParameterValue=dummy
           context: CPE-OIDC
           filters: *filters
       - sam/deploy:

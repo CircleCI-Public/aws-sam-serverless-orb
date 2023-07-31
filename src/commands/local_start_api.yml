@@ -29,6 +29,14 @@ parameters:
     description: Dockerize is a utility that will continuously attempt to connect to an endpoint. Used to wait for the API to come online.
     default: "0.6.1"
     type: string
+  warm_containers:
+    description: >-
+      Specifies how AWS SAM CLI manages containers for each function with two available options:
+      EAGER: Containers for all functions are loaded at startup and persist between invocations.
+      LAZY: Containers are only loaded when each function is first invoked. Those containers persist for additional invocations.
+    type: enum
+    enum: ["" , "EAGER", "LAZY"]
+    default: ""
 steps:
   - run:
       name: install dockerize
@@ -43,6 +51,7 @@ steps:
         ORB_STR_TEMPLATE: <<parameters.template>>
         ORB_INT_PORT: <<parameters.port>>
         ORB_STR_ENV_VARS: <<parameters.env_vars>>
+        ORB_ENUM_WARM_CONTAINERS: << parameters.warm_containers >>
       command: <<include(scripts/local_start_api.sh)>>
   - run:
       name: Wait for API

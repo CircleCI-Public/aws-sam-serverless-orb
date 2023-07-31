@@ -28,6 +28,13 @@ parameters:
     type: boolean
     description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
     default: true
+  build_container_vars:
+    type: string
+    description: >-
+      Environment variables to pass into the build container. Each instance of this option takes a key-value pair, where the key is the environment variable, and the value is the environment variable's value.
+      Separate each key value pair with a comma, e.g build_container_vars: Function1.GITHUB_TOKEN=$TOKEN1, GLOBAL_ENV_VAR=$VAR2
+      NOTE: use_container parameter must be set to true in order to use build_container_vars.
+    default: ""
   region:
     type: string
     description: Sets the AWS Region of the service (for example, us-east-1).
@@ -36,6 +43,16 @@ parameters:
     type: boolean
     description: Turns on debug logging.
     default: false
+  build_parameter_overrides:
+    type: string
+    description: >-
+      AWS CloudFormation parameter overrides encoded as key=value pairs
+      for the sam build command. Use the same format as the AWS CLI.
+    default: ""
+  build_arguments:
+    type: string
+    description: Additional arguments to pass to the build command. e.g. (--parallel)
+    default: ""
 
 steps:
   - when:
@@ -59,4 +76,7 @@ steps:
         ORB_BOOL_USE_CONTAINER: << parameters.use_container >>
         ORB_STR_REGION: << parameters.region >>
         ORB_BOOL_DEBUG: << parameters.debug >>
+        ORB_STR_BUILD_PARAMETER_OVERRIDES: << parameters.build_parameter_overrides >>
+        ORB_STR_BUILD_ARGUMENTS: << parameters.build_arguments >>
+        ORB_STR_BUILD_CONTAINER_VARS: << parameters.build_container_vars >>
       command: <<include(scripts/build.sh)>>

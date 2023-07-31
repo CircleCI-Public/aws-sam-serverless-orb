@@ -60,6 +60,13 @@ parameters:
     type: boolean
     description: If your functions depend on packages that have natively compiled dependencies, use this flag to build your function inside an AWS Lambda-like Docker container.
     default: true
+  build_container_vars:
+    type: string
+    description: >-
+      Environment variables to pass into the build container. Each instance of this option takes a key-value pair, where the key is the environment variable, and the value is the environment variable's value.
+      Separate each key value pair with a comma, e.g build_container_vars: Function1.GITHUB_TOKEN=$TOKEN1, GLOBAL_ENV_VAR=$VAR2
+      NOTE: use_container parameter must be set to true in order to use build_container_vars.
+    default: ""
   region:
     type: string
     description: Sets the AWS Region of the service (for example, us-east-1).
@@ -77,11 +84,21 @@ parameters:
     default: ""
   no_fail_on_empty_changeset:
     type: boolean
-    description: Specify if deploy command hould return a zero exit code if there are no changes to be made to the stack.
+    description: Specify if deploy command should return a zero exit code if there are no changes to be made to the stack.
     default: true
   arguments:
     type: string
     description: Additional arguments to pass to the deploy command. e.x. (--resolve-image-repos)
+    default: ""
+  build_parameter_overrides:
+    type: string
+    description: >-
+      AWS CloudFormation parameter overrides encoded as key=value pairs
+      for the sam build command. Use the same format as the AWS CLI.
+    default: ""
+  build_arguments:
+    type: string
+    description: Additional arguments to pass to the build command. e.g. (--parallel)
     default: ""
   auth:
     description: |
@@ -103,6 +120,9 @@ steps:
       use_container: << parameters.use_container >>
       region: << parameters.region >>
       debug: << parameters.debug >>
+      build_parameter_overrides: << parameters.build_parameter_overrides >>
+      build_arguments: << parameters.build_arguments >>
+      build_container_vars: << parameters.build_container_vars >>
   - steps: << parameters.pre_deploy >>
   - deploy:
       capabilities: << parameters.capabilities >>
