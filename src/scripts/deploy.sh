@@ -58,6 +58,7 @@ if [ -n "$ORB_STR_OVERRIDES" ]; then
     set -- "$@" --parameter-overrides "${ORB_STR_OVERRIDES}"
 fi
 if [ -n "$ORB_STR_ARGUMENTS" ]; then
+    # shellcheck disable=SC2086
     set -- "$@" $ORB_STR_ARGUMENTS
 fi
 set -x

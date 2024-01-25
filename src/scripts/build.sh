@@ -38,6 +38,7 @@ if [ -n "$ORB_STR_BUILD_PARAMETER_OVERRIDES" ]; then
     set -- "$@" --parameter-overrides "${ORB_STR_BUILD_PARAMETER_OVERRIDES}"
 fi
 if [ -n "$ORB_STR_BUILD_ARGUMENTS" ]; then
+    # shellcheck disable=SC2086
     set -- "$@" ${ORB_STR_BUILD_ARGUMENTS}
 fi
 
