@@ -1,8 +1,10 @@
 #!/bin/bash
 cd /tmp || true
-if [[ $EUID == 0 ]]; then export SUDO=""; else # Check if we are root
-  export SUDO="sudo"
-fi
+
+eval "${SCRIPT_UTILS}"
+detect_arch
+detect_os
+set_sudo
 
 # Check if the AWS CLI is installed
 if ! command -v aws &>/dev/null; then
