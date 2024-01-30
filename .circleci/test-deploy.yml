@@ -65,6 +65,42 @@ workflows:
           context: CPE-OIDC
           filters: *filters
       - sam/deploy:
+          name: deploy-job-test-app-multiline-arguments
+          auth:
+            - aws-cli/setup:
+                role_arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+                profile_name: OIDC-User
+          profile_name: OIDC-User
+          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
+          template: "./sample_test/sam-app/template.yaml"
+          stack_name: "orb-deploy-job-test-1"
+          s3_bucket: "sam-orb-testing"
+          arguments: >-
+            --disable-rollback
+            --debug
+          build_container_vars:  Function1.GITHUB_TOKEN=VAR1, GLOBAL_ENV_VAR=VAR2
+          build_arguments: >-
+            --parallel
+            --debug
+          context: CPE-OIDC
+          filters: *filters
+      - sam/deploy:
+          name: deploy-job-test-app-same-line-arguments
+          auth:
+            - aws-cli/setup:
+                role_arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+                profile_name: OIDC-User
+          profile_name: OIDC-User
+          capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
+          template: "./sample_test/sam-app/template.yaml"
+          stack_name: "orb-deploy-job-test-1"
+          s3_bucket: "sam-orb-testing"
+          arguments: --disable-rollback --debug
+          build_container_vars:  Function1.GITHUB_TOKEN=VAR1, GLOBAL_ENV_VAR=VAR2
+          build_arguments: --parallel --debug
+          context: CPE-OIDC
+          filters: *filters
+      - sam/deploy:
           name: deploy-job-test-container
           auth:
             - aws-cli/setup:
@@ -85,6 +121,13 @@ workflows:
           vcs_type: << pipeline.project.type >>
           pub_type: production
           enable_pr_comment: true
-          requires: [orb-tools/pack, test_local_invoke, deploy-job-test-app, deploy-job-test-container]
+          requires:
+            - orb-tools/pack
+            - test_local_invoke
+            - deploy-job-test-app
+            - deploy-job-test-app-overrides-and-arguments
+            - deploy-job-test-app-multiline-arguments
+            - deploy-job-test-app-same-line-arguments
+            - deploy-job-test-container
           context: orb-publisher
           filters: *release-filters
