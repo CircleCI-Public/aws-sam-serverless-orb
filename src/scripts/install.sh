@@ -44,5 +44,4 @@ fi
 unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
 $SUDO ./sam-installation/install
 which sam
-echo "export PATH=$PATH:/usr/local/bin/sam" >>"$BASH_ENV"
 sam --version
