@@ -148,7 +148,6 @@ workflows:
           validate: false
           filters: *filters
       - cleanup:
-          name: Delete stacks
           context: CPE-OIDC
           requires:
           - deploy-job-test-container
