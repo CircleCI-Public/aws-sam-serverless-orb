@@ -15,7 +15,7 @@ jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   test_local_invoke:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2004:2024.08.1
     steps:
       - checkout
       - aws-cli/setup:
