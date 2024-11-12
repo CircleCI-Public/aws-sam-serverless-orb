@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   orb-tools: circleci/orb-tools@12.0
-  aws-cli: circleci/aws-cli@4.0
+  aws-cli: circleci/aws-cli@5.1.1
   sam: {}
 filters: &filters
   tags:
@@ -13,9 +13,19 @@ release-filters: &release-filters
     only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
+  cleanup:
+    docker:
+    - image: cimg/base:stable
+    steps:
+      - aws-cli/setup:
+          role_arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+          profile_name: OIDC-User
+      - run: |
+          aws cloudformation delete-stack --stack-name orb-deploy-job-test-1 --profile OIDC-User
+          aws cloudformation delete-stack --stack-name orb-deploy-job-test-2 --profile OIDC-User
   test_local_invoke:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2004:2024.08.1
     steps:
       - checkout
       - aws-cli/setup:
@@ -54,6 +64,8 @@ workflows:
                 profile_name: OIDC-User
           profile_name: OIDC-User
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
+          requires:
+          - deploy-job-test-app
           template: "./sample_test/sam-app/template.yaml"
           stack_name: "orb-deploy-job-test-1"
           s3_bucket: "sam-orb-testing"
@@ -75,6 +87,8 @@ workflows:
           template: "./sample_test/sam-app/template.yaml"
           stack_name: "orb-deploy-job-test-1"
           s3_bucket: "sam-orb-testing"
+          requires:
+          - deploy-job-test-app-overrides-and-arguments
           arguments: >-
             --disable-rollback
             --debug
@@ -94,6 +108,8 @@ workflows:
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           template: "./sample_test/sam-app/template.yaml"
           stack_name: "orb-deploy-job-test-1"
+          requires:
+          - deploy-job-test-app-multiline-arguments
           s3_bucket: "sam-orb-testing"
           arguments: --disable-rollback --debug
           build_container_vars:  Function1.GITHUB_TOKEN=VAR1, GLOBAL_ENV_VAR=VAR2
@@ -114,6 +130,11 @@ workflows:
           context: CPE-OIDC
           validate: false
           filters: *filters
+      - cleanup:
+          context: CPE-OIDC
+          requires:
+          - deploy-job-test-container
+          - deploy-job-test-app-same-line-arguments
       - orb-tools/pack:
           filters: *release-filters
       - orb-tools/publish:
@@ -129,5 +150,6 @@ workflows:
             - deploy-job-test-app-multiline-arguments
             - deploy-job-test-app-same-line-arguments
             - deploy-job-test-container
+            - cleanup
           context: orb-publisher
           filters: *release-filters
