@@ -52,7 +52,8 @@ workflows:
   test-deploy:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
-      - temp-cleanup
+      - temp-cleanup:
+          context: CPE-OIDC
       - test_local_invoke:
           context: CPE-OIDC
           filters: *filters
