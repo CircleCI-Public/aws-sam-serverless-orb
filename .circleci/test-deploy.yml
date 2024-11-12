@@ -22,9 +22,6 @@ jobs:
           profile_name: OIDC-User
       - run: |
           aws cloudformation delete-stack --stack-name orb-deploy-job-test-1 --profile OIDC-User
-          aws cloudformation delete-stack --stack-name orb-deploy-job-test-2 --profile OIDC-User
-          aws cloudformation delete-stack --stack-name orb-deploy-job-test-3 --profile OIDC-User
-          aws cloudformation delete-stack --stack-name orb-deploy-job-test-4 --profile OIDC-User
   cleanup:
     docker:
     - image: cimg/base:stable
@@ -152,7 +149,7 @@ workflows:
           context: CPE-OIDC
           requires:
           - deploy-job-test-container
-          - deploy-job-test-app-multiline-arguments
+          - deploy-job-test-app-same-line-arguments
       - orb-tools/pack:
           filters: *release-filters
       - orb-tools/publish:
