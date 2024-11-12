@@ -56,8 +56,6 @@ workflows:
           s3_bucket: "sam-orb-testing"
           context: CPE-OIDC
           filters: *filters
-          requires:
-          - temp-cleanup
       - sam/deploy:
           name: deploy-job-test-app-overrides-and-arguments
           auth:
@@ -130,8 +128,6 @@ workflows:
           stack_name: "orb-deploy-job-test-2"
           image_repositories: $DEMO_IMG_URI
           context: CPE-OIDC
-          requires:
-          - temp-cleanup
           validate: false
           filters: *filters
       - cleanup:
