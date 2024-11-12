@@ -42,7 +42,7 @@ workflows:
           profile_name: OIDC-User
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           template: "./sample_test/sam-app/template.yaml"
-          stack_name: "orb-deploy-job-test-1"
+          stack_name: "orb-deploy-job-test-3"
           s3_bucket: "sam-orb-testing"
           context: CPE-OIDC
           filters: *filters
@@ -55,7 +55,7 @@ workflows:
           profile_name: OIDC-User
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           template: "./sample_test/sam-app/template.yaml"
-          stack_name: "orb-deploy-job-test-1"
+          stack_name: "orb-deploy-job-test-3"
           s3_bucket: "sam-orb-testing"
           parameter_overrides: ParameterKey=dummy,ParameterValue=dummy
           arguments:  --disable-rollback
@@ -73,7 +73,7 @@ workflows:
           profile_name: OIDC-User
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           template: "./sample_test/sam-app/template.yaml"
-          stack_name: "orb-deploy-job-test-1"
+          stack_name: "orb-deploy-job-test-3"
           s3_bucket: "sam-orb-testing"
           arguments: >-
             --disable-rollback
@@ -93,7 +93,7 @@ workflows:
           profile_name: OIDC-User
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           template: "./sample_test/sam-app/template.yaml"
-          stack_name: "orb-deploy-job-test-1"
+          stack_name: "orb-deploy-job-test-3"
           s3_bucket: "sam-orb-testing"
           arguments: --disable-rollback --debug
           build_container_vars:  Function1.GITHUB_TOKEN=VAR1, GLOBAL_ENV_VAR=VAR2
@@ -109,7 +109,7 @@ workflows:
           profile_name: OIDC-User
           capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
           template: "./sample_test/sam-container/template.yaml"
-          stack_name: "orb-deploy-job-test-2"
+          stack_name: "orb-deploy-job-test-4"
           image_repositories: $DEMO_IMG_URI
           context: CPE-OIDC
           validate: false
