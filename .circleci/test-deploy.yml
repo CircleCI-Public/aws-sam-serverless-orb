@@ -58,6 +58,7 @@ workflows:
           matrix:
             parameters:
               executor: [ "macos", "machine", "arm" ]
+              version: [ "latest", "1.127.0"]
           context: CPE-OIDC
           filters: *filters
       - test_local_invoke:

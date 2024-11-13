@@ -44,7 +44,7 @@ install_sam_cli(){
     echo "Installing SAM CLI version $ORB_STR_VERSION"
     curl -L "https://github.com/aws/aws-sam-cli/releases/download/v${ORB_STR_VERSION}/aws-sam-cli-${PLATFORM}-${ARCH}.${FILE_EXTENSION}" -o aws-sam-cli-"${PLATFORM}"-"${ARCH}"."${FILE_EXTENSION}"
   fi
-
+  ls -la
   if [ "${PLATFORM}" == "linux" ]; then
     unzip aws-sam-cli-linux-"${ARCH}".zip -d sam-installation
     $SUDO ./sam-installation/install

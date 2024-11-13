@@ -27,8 +27,12 @@ detect_arch() {
     detected_arch="$(uname -m)"
     
     case "$detected_arch" in
-        x86_64 | amd64) ARCH=x86_64 ;;
-        arm64 | aarch64) ARCH=arm64 ;;
+        x86_64 | amd64)
+          printf '%s\n' "Detected Arch: x86_64."
+          ARCH=x86_64 ;;
+        arm64 | aarch64)
+          printf '%s\n' "Detected Arch: arm64."
+          ARCH=arm64 ;;
         *) return 1 ;;
     esac
 
