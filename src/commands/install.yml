@@ -28,4 +28,5 @@ steps:
       name: Install SAM CLI
       environment:
         ORB_STR_VERSION: << parameters.version >>
+        SCRIPT_UTILS: <<include(scripts/utils.sh)>>
       command: <<include(scripts/install.sh)>>
