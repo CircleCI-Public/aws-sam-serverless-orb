@@ -49,7 +49,7 @@ install_sam_cli(){
     unzip aws-sam-cli-linux-"${ARCH}".zip -d sam-installation
     $SUDO ./sam-installation/install
   elif [ "${PLATFORM}" == "macos" ]; then
-    $SUDO installer -pkg aws-sam-cli-macos-"${ARCH}".pkg -target /
+    $SUDO installer -pkg aws-sam-cli-macos-arm64.pkg -target /
   fi
   echo
   echo "Verifying AWS SAM CLI installation..."
