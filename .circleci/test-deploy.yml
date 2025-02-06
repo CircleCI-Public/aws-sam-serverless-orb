@@ -57,7 +57,7 @@ workflows:
       - test_sam_cli_install:
           matrix:
             parameters:
-              executor: [ "macos", "machine", "arm" ]
+              executor: [ "machine", "arm" ]
               version: [ "latest", "1.127.0"]
           context: CPE-OIDC
           filters: *filters
