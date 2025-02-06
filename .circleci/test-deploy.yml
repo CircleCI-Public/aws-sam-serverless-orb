@@ -23,9 +23,23 @@ jobs:
       - run: |
           aws cloudformation delete-stack --stack-name orb-deploy-job-test-1 --profile OIDC-User
           aws cloudformation delete-stack --stack-name orb-deploy-job-test-2 --profile OIDC-User
+  test_sam_cli_install:
+    parameters:
+      version:
+        type: string
+        default: "latest"
+      executor:
+        type: executor
+    executor: << parameters.executor>>
+    steps:
+      - aws-cli/setup:
+          role_arn: arn:aws:iam::122211685980:role/CPE_SAM_SEVERLESS_OIDC_TEST
+          profile_name: OIDC-User
+      - sam/install:
+          version: << parameters.version >>
   test_local_invoke:
     machine:
-      image: ubuntu-2004:2024.08.1
+      image: ubuntu-2204:current
     steps:
       - checkout
       - aws-cli/setup:
@@ -40,6 +54,13 @@ workflows:
   test-deploy:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
+      - test_sam_cli_install:
+          matrix:
+            parameters:
+              executor: [ "machine", "arm" ]
+              version: [ "latest", "1.127.0"]
+          context: CPE-OIDC
+          filters: *filters
       - test_local_invoke:
           context: CPE-OIDC
           filters: *filters
@@ -153,3 +174,14 @@ workflows:
             - cleanup
           context: orb-publisher
           filters: *release-filters
+executors:
+  macos:
+    macos:
+      xcode: 14.2.0
+  machine:
+    machine:
+      image: ubuntu-2204:current
+  arm:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: arm.medium

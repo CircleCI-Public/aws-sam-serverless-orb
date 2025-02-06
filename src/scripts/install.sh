@@ -1,8 +1,10 @@
 #!/bin/bash
 cd /tmp || true
-if [[ $EUID == 0 ]]; then export SUDO=""; else # Check if we are root
-  export SUDO="sudo"
-fi
+
+eval "${SCRIPT_UTILS}"
+detect_arch
+detect_os
+set_sudo
 
 # Check if the AWS CLI is installed
 if ! command -v aws &>/dev/null; then
@@ -34,14 +36,26 @@ if ! command -v aws &>/dev/null; then
   exit 1
 fi
 
-if [[ $ORB_STR_VERSION == "latest" ]]; then
-  echo "Installing latest version of SAM CLI"
-  curl -L "https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip" -o aws-sam-cli-linux-x86_64.zip
-else
-  echo "Installing SAM CLI version $ORB_STR_VERSION"
-  curl -L "https://github.com/aws/aws-sam-cli/releases/download/v${ORB_STR_VERSION}/aws-sam-cli-linux-x86_64.zip" -o aws-sam-cli-linux-x86_64.zip
-fi
-unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
-$SUDO ./sam-installation/install
-which sam
-sam --version
+install_sam_cli(){
+  if [[ $ORB_STR_VERSION == "latest" ]]; then
+    echo "Installing latest version of SAM CLI"
+    curl -L "https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-${PLATFORM}-${ARCH}.${FILE_EXTENSION}" -o aws-sam-cli-"${PLATFORM}"-"${ARCH}"."${FILE_EXTENSION}"
+  else
+    echo "Installing SAM CLI version $ORB_STR_VERSION"
+    curl -L "https://github.com/aws/aws-sam-cli/releases/download/v${ORB_STR_VERSION}/aws-sam-cli-${PLATFORM}-${ARCH}.${FILE_EXTENSION}" -o aws-sam-cli-"${PLATFORM}"-"${ARCH}"."${FILE_EXTENSION}"
+  fi
+  ls -la
+  if [ "${PLATFORM}" == "linux" ]; then
+    unzip aws-sam-cli-linux-"${ARCH}".zip -d sam-installation
+    $SUDO ./sam-installation/install
+  elif [ "${PLATFORM}" == "macos" ]; then
+    $SUDO installer -pkg aws-sam-cli-macos-"${ARCH}".pkg -target /
+  fi
+  echo
+  echo "Verifying AWS SAM CLI installation..."
+  set -x
+  which sam
+  sam --version
+  set +x
+}
+install_sam_cli
